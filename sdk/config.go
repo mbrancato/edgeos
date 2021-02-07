@@ -1,8416 +1,8416 @@
 package sdk
 
 type Config struct {
-	ZonePolicy struct {
-		Zone map[string]struct {
-			DefaultAction string `json:"default-action"`
-			Interface     string `json:"interface"`
-			LocalZone     string `json:"local-zone"`
-			From          map[string]struct {
-				ContentInspection struct {
-					Enable     string `json:"enable"`
-					Ipv6Enable string `json:".ipv6-enable"`
-				} `json:".content-inspection"`
-				Firewall struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"firewall"`
-			} `json:"from"`
-			Description string `json:"description"`
-		} `json:"zone"`
-	} `json:"zone-policy"`
-	LoadBalance struct {
-		Group map[string]struct {
-			Interface map[string]struct {
-				Weight    string `json:"weight"`
-				RouteTest struct {
-					Interval string `json:"interval"`
-					Count    struct {
-						Success string `json:"success"`
-						Failure string `json:"failure"`
-					} `json:"count"`
-					InitialDelay string `json:"initial-delay"`
-					Type         struct {
-						Ping struct {
-							Target string `json:"target"`
-						} `json:"ping"`
-						Default string `json:"default"`
-						Script  string `json:"script"`
-					} `json:"type"`
-				} `json:"route-test"`
-				Route struct {
-					Default string `json:"default"`
-					Table   string `json:"table"`
-				} `json:"route"`
-				FailoverOnly     string `json:"failover-only"`
-				FailoverPriority string `json:"failover-priority"`
-			} `json:"interface"`
-			LbLocal               string `json:"lb-local"`
-			GatewayUpdateInterval string `json:"gateway-update-interval"`
-			LbLocalMetricChange   string `json:"lb-local-metric-change"`
-			Sticky                struct {
-				Proto      string `json:"proto"`
-				SourceAddr string `json:"source-addr"`
-				SourcePort string `json:"source-port"`
-				DestPort   string `json:"dest-port"`
-				DestAddr   string `json:"dest-addr"`
-			} `json:"sticky"`
-			FlushOnActive      string `json:"flush-on-active"`
-			TransitionScript   string `json:"transition-script"`
-			ExcludeLocalDns    string `json:"exclude-local-dns"`
-			ReachabilityScript string `json:"reachability-script"`
-		} `json:"group"`
-	} `json:"load-balance"`
-	PortForward struct {
-		LanInterface string `json:"lan-interface"`
-		AutoFirewall string `json:"auto-firewall"`
-		Rule         map[string]struct {
-			ForwardTo struct {
-				Address string `json:"address"`
-				Port    string `json:"port"`
-			} `json:"forward-to"`
-			OriginalPort string `json:"original-port"`
-			Protocol     string `json:"protocol"`
-			Description  string `json:"description"`
-		} `json:"rule"`
-		WanInterface string `json:"wan-interface"`
-		HairpinNat   string `json:"hairpin-nat"`
-	} `json:"port-forward"`
-	Vpn struct {
-		RsaKeys struct {
-			LocalKey struct {
-				File string `json:"file"`
-			} `json:"local-key"`
-			RsaKeyName map[string]struct {
-				RsaKey string `json:"rsa-key"`
-			} `json:"rsa-key-name"`
-		} `json:"rsa-keys"`
-		Ipsec struct {
-			AutoUpdate  string `json:"auto-update"`
-			NatNetworks struct {
-				AllowedNetwork map[string]struct {
-					Exclude string `json:"exclude"`
-				} `json:"allowed-network"`
-			} `json:"nat-networks"`
-			AllowAccessToLocalInterface string `json:"allow-access-to-local-interface"`
-			AutoFirewallNatExclude      string `json:"auto-firewall-nat-exclude"`
-			DisableUniqreqids           string `json:"disable-uniqreqids"`
-			SiteToSite                  struct {
-				Peer map[string]struct {
-					DefaultEspGroup    string `json:"default-esp-group"`
-					ForceEncapsulation string `json:"force-encapsulation"`
-					Vti                struct {
-						EspGroup string `json:"esp-group"`
-						Bind     string `json:"bind"`
-					} `json:"vti"`
-					ConnectionType string `json:"connection-type"`
-					Ikev2Reauth    string `json:"ikev2-reauth"`
-					Tunnel         map[string]struct {
-						Disable             string `json:"disable"`
-						AllowPublicNetworks string `json:"allow-public-networks"`
-						Protocol            string `json:"protocol"`
-						Local               struct {
-							Prefix string `json:"prefix"`
-							Port   string `json:"port"`
-						} `json:"local"`
-						EspGroup         string `json:"esp-group"`
-						AllowNatNetworks string `json:"allow-nat-networks"`
-						Remote           struct {
-							Prefix string `json:"prefix"`
-							Port   string `json:"port"`
-						} `json:"remote"`
-					} `json:"tunnel"`
-					Description    string `json:"description"`
-					LocalAddress   string `json:"local-address"`
-					IkeGroup       string `json:"ike-group"`
-					Authentication struct {
-						Mode string `json:"mode"`
-						X509 struct {
-							CrlFile string `json:"crl-file"`
-							Key     struct {
-								Password string `json:"password"`
-								File     string `json:"file"`
-							} `json:"key"`
-							CaCertFile string `json:"ca-cert-file"`
-							CertFile   string `json:"cert-file"`
-						} `json:"x509"`
-						PreSharedSecret string `json:"pre-shared-secret"`
-						Id              string `json:"id"`
-						RemoteId        string `json:"remote-id"`
-						RsaKeyName      string `json:"rsa-key-name"`
-					} `json:"authentication"`
-					DhcpInterface string `json:"dhcp-interface"`
-				} `json:"peer"`
-			} `json:"site-to-site"`
-			RemoteAccess struct {
-				OutsideAddress string `json:"outside-address"`
-				WinsServers    struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"wins-servers"`
-				UpdownScript string `json:"updown-script"`
-				Inactivity   string `json:"inactivity"`
-				DnsServers   struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"dns-servers"`
-				IkeSettings struct {
-					Proposal map[string]struct {
-						Encryption string `json:"encryption"`
-						Hash       string `json:"hash"`
-						DhGroup    string `json:"dh-group"`
-					} `json:"proposal"`
-					EspGroup       string `json:"esp-group"`
-					IkeLifetime    string `json:"ike-lifetime"`
-					Authentication struct {
-						Mode string `json:"mode"`
-						X509 struct {
-							ServerKeyFile     string `json:"server-key-file"`
-							CrlFile           string `json:"crl-file"`
-							ServerKeyPassword string `json:"server-key-password"`
-							RemoteCaCertFile  string `json:"remote-ca-cert-file"`
-							ServerCertFile    string `json:"server-cert-file"`
-							ServerKeyType     string `json:"server-key-type"`
-							RemoteId          string `json:"remote-id"`
-							LocalId           string `json:"local-id"`
-							CaCertFile        string `json:"ca-cert-file"`
-						} `json:"x509"`
-						PreSharedSecret string `json:"pre-shared-secret"`
-					} `json:"authentication"`
-					OperatingMode string `json:"operating-mode"`
-					Fragmentation string `json:"fragmentation"`
-				} `json:"ike-settings"`
-				ClientIpPool struct {
-					Subnet  string `json:"subnet"`
-					Subnet6 string `json:"subnet6"`
-				} `json:"client-ip-pool"`
-				Description       string `json:"description"`
-				LocalIp           string `json:"local-ip"`
-				CompatibilityMode string `json:"compatibility-mode"`
-				EspSettings       struct {
-					Proposal map[string]struct {
-						Encryption string `json:"encryption"`
-						Hash       string `json:"hash"`
-						DhGroup    string `json:"dh-group"`
-					} `json:"proposal"`
-				} `json:"esp-settings"`
-				Authentication struct {
-					Mode       string `json:"mode"`
-					LocalUsers struct {
-						Username map[string]struct {
-							Disable  string `json:"disable"`
-							Password string `json:"password"`
-						} `json:"username"`
-					} `json:"local-users"`
-					RadiusServer map[string]struct {
-						Key string `json:"key"`
-					} `json:"radius-server"`
-				} `json:"authentication"`
-				DhcpInterface string `json:"dhcp-interface"`
-			} `json:"remote-access"`
-			IpsecInterfaces struct {
-				Interface string `json:"interface"`
-			} `json:"ipsec-interfaces"`
-			GlobalConfig string `json:"global-config"`
-			IkeGroup     map[string]struct {
-				Mode              string `json:"mode"`
-				DeadPeerDetection struct {
-					Interval string `json:"interval"`
-					Timeout  string `json:"timeout"`
-					Action   string `json:"action"`
-				} `json:"dead-peer-detection"`
-				KeyExchange string `json:"key-exchange"`
-				Ikev2Reauth string `json:"ikev2-reauth"`
-				Lifetime    string `json:"lifetime"`
-				Proposal    map[string]struct {
-					Encryption string `json:"encryption"`
-					Hash       string `json:"hash"`
-					DhGroup    string `json:"dh-group"`
-				} `json:"proposal"`
-			} `json:"ike-group"`
-			EspGroup map[string]struct {
-				Mode     string `json:"mode"`
-				Pfs      string `json:"pfs"`
-				Lifetime string `json:"lifetime"`
-				Proposal map[string]struct {
-					Encryption string `json:"encryption"`
-					Hash       string `json:"hash"`
-				} `json:"proposal"`
-				Compression string `json:"compression"`
-			} `json:"esp-group"`
-			IncludeIpsecSecrets string `json:"include-ipsec-secrets"`
-			IncludeIpsecConf    string `json:"include-ipsec-conf"`
-			Logging             struct {
-				LogModes string `json:"log-modes"`
-				LogLevel string `json:"log-level"`
-			} `json:"logging"`
-			NatTraversal string `json:"nat-traversal"`
-		} `json:"ipsec"`
-		Pptp struct {
-			RemoteAccess struct {
-				Accounting struct {
-					RadiusServer map[string]struct {
-						Key  string `json:"key"`
-						Port string `json:"port"`
-					} `json:"radius-server"`
-				} `json:"accounting"`
-				OutsideAddress string `json:"outside-address"`
-				WinsServers    struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"wins-servers"`
-				DnsServers struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"dns-servers"`
-				Mtu          string `json:"mtu"`
-				ClientIpPool struct {
-					Start string `json:"start"`
-					Stop  string `json:"stop"`
-				} `json:"client-ip-pool"`
-				LocalIp        string `json:"local-ip"`
-				Authentication struct {
-					Mode       string `json:"mode"`
-					LocalUsers struct {
-						Username map[string]struct {
-							Disable  string `json:"disable"`
-							Password string `json:"password"`
-							StaticIp string `json:"static-ip"`
-						} `json:"username"`
-					} `json:"local-users"`
-					RadiusServer map[string]struct {
-						Key  string `json:"key"`
-						Port string `json:"port"`
-					} `json:"radius-server"`
-				} `json:"authentication"`
-				DhcpInterface string `json:"dhcp-interface"`
-			} `json:"remote-access"`
-		} `json:"pptp"`
-		L2tp struct {
-			RemoteAccess struct {
-				OutsideNexthop string `json:"outside-nexthop"`
-				Accounting     struct {
-					RadiusServer map[string]struct {
-						Key  string `json:"key"`
-						Port string `json:"port"`
-					} `json:"radius-server"`
-				} `json:"accounting"`
-				OutsideAddress string `json:"outside-address"`
-				Idle           string `json:"idle"`
-				WinsServers    struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"wins-servers"`
-				DnsServers struct {
-					Server2 string `json:"server-2"`
-					Server1 string `json:"server-1"`
-				} `json:"dns-servers"`
-				Mtu          string `json:"mtu"`
-				ClientIpPool struct {
-					Start string `json:"start"`
-					Stop  string `json:"stop"`
-				} `json:"client-ip-pool"`
-				IpsecSettings struct {
-					Lifetime       string `json:"lifetime"`
-					IkeLifetime    string `json:"ike-lifetime"`
-					Authentication struct {
-						Mode string `json:"mode"`
-						X509 struct {
-							ServerKeyFile     string `json:"server-key-file"`
-							CrlFile           string `json:"crl-file"`
-							ServerKeyPassword string `json:"server-key-password"`
-							ServerCertFile    string `json:"server-cert-file"`
-							CaCertFile        string `json:"ca-cert-file"`
-						} `json:"x509"`
-						PreSharedSecret string `json:"pre-shared-secret"`
-					} `json:"authentication"`
-					Fragmentation string `json:"fragmentation"`
-				} `json:"ipsec-settings"`
-				Description                     string `json:"description"`
-				AllowMultipleClientsFromSameNat string `json:"allow-multiple-clients-from-same-nat"`
-				LocalIp                         string `json:"local-ip"`
-				Authentication                  struct {
-					Mode       string `json:"mode"`
-					Require    string `json:"require"`
-					LocalUsers struct {
-						Username map[string]struct {
-							Disable  string `json:"disable"`
-							Password string `json:"password"`
-							StaticIp string `json:"static-ip"`
-						} `json:"username"`
-					} `json:"local-users"`
-					RadiusServer map[string]struct {
-						Key  string `json:"key"`
-						Port string `json:"port"`
-					} `json:"radius-server"`
-				} `json:"authentication"`
-				DhcpInterface string `json:"dhcp-interface"`
-			} `json:"remote-access"`
-		} `json:"l2tp"`
-	} `json:"vpn"`
-	TrafficPolicy struct {
-		NetworkEmulator map[string]struct {
-			PacketCorruption string `json:"packet-corruption"`
-			Bandwidth        string `json:"bandwidth"`
-			Burst            string `json:"burst"`
-			Description      string `json:"description"`
-			QueueLimit       string `json:"queue-limit"`
-			NetworkDelay     string `json:"network-delay"`
-			PacketReordering string `json:"packet-reordering"`
-			PacketLoss       string `json:"packet-loss"`
-		} `json:"network-emulator"`
-		DropTail map[string]struct {
-			Description string `json:"description"`
-			QueueLimit  string `json:"queue-limit"`
-		} `json:"drop-tail"`
-		RoundRobin map[string]struct {
-			Default struct {
-				QueueType  string `json:"queue-type"`
-				QueueLimit string `json:"queue-limit"`
-				Quantum    string `json:"quantum"`
-			} `json:"default"`
-			Description string `json:"description"`
-			Class       map[string]struct {
-				Match map[string]struct {
-					Interface string `json:"interface"`
-					Mark      string `json:"mark"`
-					Ether     struct {
-						Source      string `json:"source"`
-						Destination string `json:"destination"`
-						Protocol    string `json:"protocol"`
-					} `json:"ether"`
-					Description string `json:"description"`
-					Vif         string `json:"vif"`
-					Ip          struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ipv6"`
-				} `json:"match"`
-				QueueType   string `json:"queue-type"`
-				Description string `json:"description"`
-				QueueLimit  string `json:"queue-limit"`
-				Quantum     string `json:"quantum"`
-			} `json:"class"`
-		} `json:"round-robin"`
-		Limiter map[string]struct {
-			Default struct {
-				Bandwidth string `json:"bandwidth"`
-				Burst     string `json:"burst"`
-			} `json:"default"`
-			Description string `json:"description"`
-			Class       map[string]struct {
-				Bandwidth string `json:"bandwidth"`
-				Match     map[string]struct {
-					Ether struct {
-						Source      string `json:"source"`
-						Destination string `json:"destination"`
-						Protocol    string `json:"protocol"`
-					} `json:"ether"`
-					Description string `json:"description"`
-					Vif         string `json:"vif"`
-					Ip          struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ipv6"`
-				} `json:"match"`
-				Burst       string `json:"burst"`
-				Description string `json:"description"`
-				Priority    string `json:"priority"`
-			} `json:"class"`
-		} `json:"limiter"`
-		FairQueue map[string]struct {
-			HashInterval string `json:"hash-interval"`
-			Description  string `json:"description"`
-			QueueLimit   string `json:"queue-limit"`
-		} `json:"fair-queue"`
-		RateControl map[string]struct {
-			Bandwidth   string `json:"bandwidth"`
-			Burst       string `json:"burst"`
-			Latency     string `json:"latency"`
-			Description string `json:"description"`
-		} `json:"rate-control"`
-		Shaper map[string]struct {
-			Bandwidth string `json:"bandwidth"`
-			Default   struct {
-				Bandwidth  string `json:"bandwidth"`
-				Burst      string `json:"burst"`
-				Ceiling    string `json:"ceiling"`
-				QueueType  string `json:"queue-type"`
-				Priority   string `json:"priority"`
-				QueueLimit string `json:"queue-limit"`
-				SetDscp    string `json:".set-dscp"`
-			} `json:"default"`
-			Description string `json:"description"`
-			Class       map[string]struct {
-				Bandwidth string `json:"bandwidth"`
-				Match     map[string]struct {
-					Interface string `json:"interface"`
-					Mark      string `json:"mark"`
-					Ether     struct {
-						Source      string `json:"source"`
-						Destination string `json:"destination"`
-						Protocol    string `json:"protocol"`
-					} `json:"ether"`
-					Description string `json:"description"`
-					Vif         string `json:"vif"`
-					Ip          struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ipv6"`
-				} `json:"match"`
-				Burst       string `json:"burst"`
-				Ceiling     string `json:"ceiling"`
-				QueueType   string `json:"queue-type"`
-				Description string `json:"description"`
-				Priority    string `json:"priority"`
-				QueueLimit  string `json:"queue-limit"`
-				SetDscp     string `json:".set-dscp"`
-			} `json:"class"`
-		} `json:"shaper"`
-		PriorityQueue map[string]struct {
-			Default struct {
-				QueueType  string `json:"queue-type"`
-				QueueLimit string `json:"queue-limit"`
-			} `json:"default"`
-			Description string `json:"description"`
-			Class       map[string]struct {
-				Match map[string]struct {
-					Interface string `json:"interface"`
-					Mark      string `json:"mark"`
-					Ether     struct {
-						Source      string `json:"source"`
-						Destination string `json:"destination"`
-						Protocol    string `json:"protocol"`
-					} `json:"ether"`
-					Description string `json:"description"`
-					Vif         string `json:"vif"`
-					Ip          struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ipv6"`
-				} `json:"match"`
-				QueueType   string `json:"queue-type"`
-				Description string `json:"description"`
-				QueueLimit  string `json:"queue-limit"`
-			} `json:"class"`
-		} `json:"priority-queue"`
-		RandomDetect map[string]struct {
-			Bandwidth   string `json:"bandwidth"`
-			Description string `json:"description"`
-			Precedence  map[string]struct {
-				MarkProbability  string `json:"mark-probability"`
-				MinimumThreshold string `json:"minimum-threshold"`
-				AveragePacket    string `json:"average-packet"`
-				QueueLimit       string `json:"queue-limit"`
-				MaximumThreshold string `json:"maximum-threshold"`
-			} `json:"precedence"`
-		} `json:"random-detect"`
-	} `json:"traffic-policy"`
-	Firewall struct {
-		Options struct {
-			MssClamp struct {
-				Mss           string `json:"mss"`
-				InterfaceType string `json:"interface-type"`
-			} `json:"mss-clamp"`
-			MssClamp6 struct {
-				Mss           string `json:"mss"`
-				InterfaceType string `json:"interface-type"`
-			} `json:"mss-clamp6"`
-		} `json:"options"`
-		IpSrcRoute    string `json:"ip-src-route"`
-		SendRedirects string `json:"send-redirects"`
-		Group         struct {
-			AddressGroup map[string]struct {
-				Description string `json:"description"`
-				Address     string `json:"address"`
-			} `json:"address-group"`
-			PortGroup map[string]struct {
-				Description string `json:"description"`
-				Port        string `json:"port"`
-			} `json:"port-group"`
-			NetworkGroup map[string]struct {
-				Network     string `json:"network"`
-				Description string `json:"description"`
-			} `json:"network-group"`
-			Ipv6AddressGroup map[string]struct {
-				Ipv6Address string `json:"ipv6-address"`
-				Description string `json:"description"`
-			} `json:"ipv6-address-group"`
-			Ipv6NetworkGroup map[string]struct {
-				Description string `json:"description"`
-				Ipv6Network string `json:"ipv6-network"`
-			} `json:"ipv6-network-group"`
-		} `json:"group"`
-		Ipv6ReceiveRedirects string `json:"ipv6-receive-redirects"`
-		AllPing              string `json:"all-ping"`
-		SynCookies           string `json:"syn-cookies"`
-		Modify               map[string]struct {
-			Rule map[string]struct {
-				Disable string `json:"disable"`
-				Limit   struct {
-					Rate  string `json:"rate"`
-					Burst string `json:"burst"`
-				} `json:"limit"`
-				Source struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					MacAddress string `json:"mac-address"`
-					Address    string `json:"address"`
-					Port       string `json:"port"`
-				} `json:"source"`
-				Mark   string `json:"mark"`
-				Modify struct {
-					TcpMss   string `json:"tcp-mss"`
-					Mark     string `json:"mark"`
-					Table    string `json:"table"`
-					Connmark struct {
-						SaveMark    string `json:"save-mark"`
-						RestoreMark string `json:"restore-mark"`
-						SetMark     string `json:"set-mark"`
-					} `json:"connmark"`
-					Dscp    string `json:"dscp"`
-					LbGroup string `json:"lb-group"`
-				} `json:"modify"`
-				Destination struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"destination"`
-				Protocol string `json:"protocol"`
-				State    struct {
-					Related     string `json:"related"`
-					Invalid     string `json:"invalid"`
-					Established string `json:"established"`
-					New         string `json:"new"`
-				} `json:"state"`
-				Time struct {
-					Stopdate   string `json:"stopdate"`
-					Contiguous string `json:"contiguous"`
-					Starttime  string `json:"starttime"`
-					Stoptime   string `json:"stoptime"`
-					Weekdays   string `json:"weekdays"`
-					Utc        string `json:"utc"`
-					Startdate  string `json:"startdate"`
-					Monthdays  string `json:"monthdays"`
-				} `json:"time"`
-				Ipsec struct {
-					MatchNone  string `json:"match-none"`
-					MatchIpsec string `json:"match-ipsec"`
-				} `json:"ipsec"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Tcp         struct {
-					Flags string `json:"flags"`
-				} `json:"tcp"`
-				Fragment struct {
-					MatchNonFrag string `json:"match-non-frag"`
-					MatchFrag    string `json:"match-frag"`
-				} `json:"fragment"`
-				Icmp struct {
-					Code     string `json:"code"`
-					TypeName string `json:"type-name"`
-					Type     string `json:"type"`
-				} `json:"icmp"`
-				P2p struct {
-					Bittorrent    string `json:"bittorrent"`
-					Gnutella      string `json:"gnutella"`
-					All           string `json:"all"`
-					Applejuice    string `json:"applejuice"`
-					Edonkey       string `json:"edonkey"`
-					Kazaa         string `json:"kazaa"`
-					Directconnect string `json:"directconnect"`
-				} `json:"p2p"`
-				Connmark    string `json:"connmark"`
-				Log         string `json:"log"`
-				Application struct {
-					Category       string `json:"category"`
-					CustomCategory string `json:"custom-category"`
-				} `json:"application"`
-				Dscp      string `json:"dscp"`
-				Statistic struct {
-					Probability string `json:"probability"`
-				} `json:"statistic"`
-				Recent struct {
-					Count string `json:"count"`
-					Time  string `json:"time"`
-				} `json:"recent"`
-			} `json:"rule"`
-			Description      string `json:"description"`
-			EnableDefaultLog string `json:"enable-default-log"`
-		} `json:"modify"`
-		BroadcastPing string `json:"broadcast-ping"`
-		LogMartians   string `json:"log-martians"`
-		Ipv6Modify    map[string]struct {
-			Rule map[string]struct {
-				Disable string `json:"disable"`
-				Icmpv6  struct {
-					Type string `json:"type"`
-				} `json:"icmpv6"`
-				Limit struct {
-					Rate  string `json:"rate"`
-					Burst string `json:"burst"`
-				} `json:"limit"`
-				Source struct {
-					Group struct {
-						PortGroup        string `json:"port-group"`
-						Ipv6AddressGroup string `json:"ipv6-address-group"`
-						Ipv6NetworkGroup string `json:"ipv6-network-group"`
-					} `json:"group"`
-					MacAddress string `json:"mac-address"`
-					Address    string `json:"address"`
-					Port       string `json:"port"`
-				} `json:"source"`
-				Mark   string `json:"mark"`
-				Modify struct {
-					TcpMss   string `json:"tcp-mss"`
-					Mark     string `json:"mark"`
-					Table    string `json:"table"`
-					Connmark struct {
-						SaveMark    string `json:"save-mark"`
-						RestoreMark string `json:"restore-mark"`
-						SetMark     string `json:"set-mark"`
-					} `json:"connmark"`
-					Dscp string `json:"dscp"`
-				} `json:"modify"`
-				Destination struct {
-					Group struct {
-						PortGroup        string `json:"port-group"`
-						Ipv6AddressGroup string `json:"ipv6-address-group"`
-						Ipv6NetworkGroup string `json:"ipv6-network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"destination"`
-				Protocol string `json:"protocol"`
-				State    struct {
-					Related     string `json:"related"`
-					Invalid     string `json:"invalid"`
-					Established string `json:"established"`
-					New         string `json:"new"`
-				} `json:"state"`
-				Time struct {
-					Stopdate   string `json:"stopdate"`
-					Contiguous string `json:"contiguous"`
-					Starttime  string `json:"starttime"`
-					Stoptime   string `json:"stoptime"`
-					Weekdays   string `json:"weekdays"`
-					Utc        string `json:"utc"`
-					Startdate  string `json:"startdate"`
-					Monthdays  string `json:"monthdays"`
-				} `json:"time"`
-				Ipsec struct {
-					MatchNone  string `json:"match-none"`
-					MatchIpsec string `json:"match-ipsec"`
-				} `json:"ipsec"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Tcp         struct {
-					Flags string `json:"flags"`
-				} `json:"tcp"`
-				P2p struct {
-					Bittorrent    string `json:"bittorrent"`
-					Gnutella      string `json:"gnutella"`
-					All           string `json:"all"`
-					Applejuice    string `json:"applejuice"`
-					Edonkey       string `json:"edonkey"`
-					Kazaa         string `json:"kazaa"`
-					Directconnect string `json:"directconnect"`
-				} `json:"p2p"`
-				Connmark string `json:"connmark"`
-				Log      string `json:"log"`
-				Dscp     string `json:"dscp"`
-				Recent   struct {
-					Count string `json:"count"`
-					Time  string `json:"time"`
-				} `json:"recent"`
-			} `json:"rule"`
-			Description      string `json:"description"`
-			EnableDefaultLog string `json:"enable-default-log"`
-		} `json:"ipv6-modify"`
-		SourceValidation string `json:"source-validation"`
-		Name             map[string]struct {
-			DefaultAction string `json:"default-action"`
-			Rule          map[string]struct {
-				Disable string `json:"disable"`
-				Limit   struct {
-					Rate  string `json:"rate"`
-					Burst string `json:"burst"`
-				} `json:"limit"`
-				Source struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					MacAddress string `json:"mac-address"`
-					Address    string `json:"address"`
-					Port       string `json:"port"`
-				} `json:"source"`
-				Mark        string `json:"mark"`
-				Destination struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"destination"`
-				Protocol string `json:"protocol"`
-				State    struct {
-					Related     string `json:"related"`
-					Invalid     string `json:"invalid"`
-					Established string `json:"established"`
-					New         string `json:"new"`
-				} `json:"state"`
-				Time struct {
-					Stopdate   string `json:"stopdate"`
-					Contiguous string `json:"contiguous"`
-					Starttime  string `json:"starttime"`
-					Stoptime   string `json:"stoptime"`
-					Weekdays   string `json:"weekdays"`
-					Utc        string `json:"utc"`
-					Startdate  string `json:"startdate"`
-					Monthdays  string `json:"monthdays"`
-				} `json:"time"`
-				Ipsec struct {
-					MatchNone  string `json:"match-none"`
-					MatchIpsec string `json:"match-ipsec"`
-				} `json:"ipsec"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Tcp         struct {
-					Flags string `json:"flags"`
-				} `json:"tcp"`
-				Fragment struct {
-					MatchNonFrag string `json:"match-non-frag"`
-					MatchFrag    string `json:"match-frag"`
-				} `json:"fragment"`
-				Icmp struct {
-					Code     string `json:"code"`
-					TypeName string `json:"type-name"`
-					Type     string `json:"type"`
-				} `json:"icmp"`
-				P2p struct {
-					Bittorrent    string `json:"bittorrent"`
-					Gnutella      string `json:"gnutella"`
-					All           string `json:"all"`
-					Applejuice    string `json:"applejuice"`
-					Edonkey       string `json:"edonkey"`
-					Kazaa         string `json:"kazaa"`
-					Directconnect string `json:"directconnect"`
-				} `json:"p2p"`
-				Log         string `json:"log"`
-				Application struct {
-					Category       string `json:"category"`
-					CustomCategory string `json:"custom-category"`
-				} `json:"application"`
-				Dscp   string `json:"dscp"`
-				Recent struct {
-					Count string `json:"count"`
-					Time  string `json:"time"`
-				} `json:"recent"`
-			} `json:"rule"`
-			Description      string `json:"description"`
-			EnableDefaultLog string `json:"enable-default-log"`
-		} `json:"name"`
-		Ipv6SrcRoute     string `json:"ipv6-src-route"`
-		ReceiveRedirects string `json:"receive-redirects"`
-		Ipv6Name         map[string]struct {
-			DefaultAction string `json:"default-action"`
-			Rule          map[string]struct {
-				Disable string `json:"disable"`
-				Icmpv6  struct {
-					Type string `json:"type"`
-				} `json:"icmpv6"`
-				Limit struct {
-					Rate  string `json:"rate"`
-					Burst string `json:"burst"`
-				} `json:"limit"`
-				Source struct {
-					Group struct {
-						PortGroup        string `json:"port-group"`
-						Ipv6AddressGroup string `json:"ipv6-address-group"`
-						Ipv6NetworkGroup string `json:"ipv6-network-group"`
-					} `json:"group"`
-					MacAddress string `json:"mac-address"`
-					Address    string `json:"address"`
-					Port       string `json:"port"`
-				} `json:"source"`
-				Mark        string `json:"mark"`
-				Destination struct {
-					Group struct {
-						PortGroup        string `json:"port-group"`
-						Ipv6AddressGroup string `json:"ipv6-address-group"`
-						Ipv6NetworkGroup string `json:"ipv6-network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"destination"`
-				Protocol string `json:"protocol"`
-				State    struct {
-					Related     string `json:"related"`
-					Invalid     string `json:"invalid"`
-					Established string `json:"established"`
-					New         string `json:"new"`
-				} `json:"state"`
-				Time struct {
-					Stopdate   string `json:"stopdate"`
-					Contiguous string `json:"contiguous"`
-					Starttime  string `json:"starttime"`
-					Stoptime   string `json:"stoptime"`
-					Weekdays   string `json:"weekdays"`
-					Utc        string `json:"utc"`
-					Startdate  string `json:"startdate"`
-					Monthdays  string `json:"monthdays"`
-				} `json:"time"`
-				Ipsec struct {
-					MatchNone  string `json:"match-none"`
-					MatchIpsec string `json:"match-ipsec"`
-				} `json:"ipsec"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Tcp         struct {
-					Flags string `json:"flags"`
-				} `json:"tcp"`
-				P2p struct {
-					Bittorrent    string `json:"bittorrent"`
-					Gnutella      string `json:"gnutella"`
-					All           string `json:"all"`
-					Applejuice    string `json:"applejuice"`
-					Edonkey       string `json:"edonkey"`
-					Kazaa         string `json:"kazaa"`
-					Directconnect string `json:"directconnect"`
-				} `json:"p2p"`
-				Log    string `json:"log"`
-				Dscp   string `json:"dscp"`
-				Recent struct {
-					Count string `json:"count"`
-					Time  string `json:"time"`
-				} `json:"recent"`
-			} `json:"rule"`
-			Description      string `json:"description"`
-			EnableDefaultLog string `json:"enable-default-log"`
-		} `json:"ipv6-name"`
-	} `json:"firewall"`
-	System struct {
-		Options struct {
-			RebootOnPanic string `json:"reboot-on-panic"`
-		} `json:"options"`
-		Syslog struct {
-			Host map[string]struct {
-				Facility map[string]struct {
-					Level string `json:"level"`
-				} `json:"facility"`
-			} `json:"host"`
-			File map[string]struct {
-				Archive struct {
-					Files string `json:"files"`
-					Size  string `json:"size"`
-				} `json:"archive"`
-				Facility map[string]struct {
-					Level string `json:"level"`
-				} `json:"facility"`
-			} `json:"file"`
-			User map[string]struct {
-				Facility map[string]struct {
-					Level string `json:"level"`
-				} `json:"facility"`
-			} `json:"user"`
-			Global struct {
-				Archive struct {
-					Files string `json:"files"`
-					Size  string `json:"size"`
-				} `json:"archive"`
-				Facility map[string]struct {
-					Level string `json:"level"`
-				} `json:"facility"`
-			} `json:"global"`
-			Console struct {
-				Facility map[string]struct {
-					Level string `json:"level"`
-				} `json:"facility"`
-			} `json:"console"`
-		} `json:"syslog"`
-		FlowAccounting struct {
-			Netflow struct {
-				EngineId     string `json:"engine-id"`
-				SamplingRate string `json:"sampling-rate"`
-				Mode         string `json:"mode"`
-				Timeout      struct {
-					TcpFin         string `json:"tcp-fin"`
-					Udp            string `json:"udp"`
-					FlowGeneric    string `json:"flow-generic"`
-					MaxActiveLife  string `json:"max-active-life"`
-					TcpRst         string `json:"tcp-rst"`
-					Icmp           string `json:"icmp"`
-					TcpGeneric     string `json:"tcp-generic"`
-					ExpiryInterval string `json:"expiry-interval"`
-				} `json:"timeout"`
-				Server map[string]struct {
-					Port string `json:"port"`
-				} `json:"server"`
-				Version      string `json:"version"`
-				EnableEgress struct {
-					EngineId string `json:"engine-id"`
-				} `json:"enable-egress"`
-			} `json:"netflow"`
-			Interface string `json:"interface"`
-			Sflow     struct {
-				SamplingRate string `json:"sampling-rate"`
-				AgentAddress string `json:"agent-address"`
-				Agentid      string `json:".agentid"`
-				Server       map[string]struct {
-					Port string `json:"port"`
-				} `json:"server"`
-			} `json:"sflow"`
-			Aggregate struct {
-				Egress  string `json:"egress"`
-				Ingress string `json:"ingress"`
-			} `json:"aggregate"`
-			Unms struct {
-				Exclude string `json:"exclude"`
-				Subnets string `json:"subnets"`
-			} `json:"unms"`
-			IngressCapture     string `json:"ingress-capture"`
-			SyslogFacility     string `json:"syslog-facility"`
-			DisableMemoryTable string `json:"disable-memory-table"`
-		} `json:"flow-accounting"`
-		GatewayAddress string `json:"gateway-address"`
-		TaskScheduler  struct {
-			Task map[string]struct {
-				Executable struct {
-					Path      string `json:"path"`
-					Arguments string `json:"arguments"`
-				} `json:"executable"`
-				CrontabSpec string `json:"crontab-spec"`
-				Interval    string `json:"interval"`
-			} `json:"task"`
-		} `json:"task-scheduler"`
-		AnalyticsHandler struct {
-			SendAnalyticsReport string `json:"send-analytics-report"`
-		} `json:"analytics-handler"`
-		TimeZone string `json:"time-zone"`
-		Systemd  struct {
-			Journal struct {
-				RateLimitBurst    string `json:"rate-limit-burst"`
-				MaxRetention      string `json:"max-retention"`
-				RuntimeMaxUse     string `json:"runtime-max-use"`
-				Storage           string `json:"storage"`
-				RateLimitInterval string `json:"rate-limit-interval"`
-			} `json:"journal"`
-		} `json:"systemd"`
-		Conntrack struct {
-			Ignore struct {
-				Rule map[string]struct {
-					InboundInterface string `json:"inbound-interface"`
-					Source           struct {
-						Address string `json:"address"`
-						Port    string `json:"port"`
-					} `json:"source"`
-					Destination struct {
-						Address string `json:"address"`
-						Port    string `json:"port"`
-					} `json:"destination"`
-					Protocol    string `json:"protocol"`
-					Description string `json:"description"`
-				} `json:"rule"`
-			} `json:"ignore"`
-			Timeout struct {
-				Udp struct {
-					Stream string `json:"stream"`
-					Other  string `json:"other"`
-				} `json:"udp"`
-				Other string `json:"other"`
-				Tcp   struct {
-					FinWait     string `json:"fin-wait"`
-					TimeWait    string `json:"time-wait"`
-					Close       string `json:"close"`
-					SynSent     string `json:"syn-sent"`
-					Established string `json:"established"`
-					SynRecv     string `json:"syn-recv"`
-					LastAck     string `json:"last-ack"`
-					CloseWait   string `json:"close-wait"`
-				} `json:"tcp"`
-				Icmp   string `json:"icmp"`
-				Custom struct {
-					Rule map[string]struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol struct {
-							Udp struct {
-								Stream string `json:"stream"`
-								Other  string `json:"other"`
-							} `json:"udp"`
-							Other string `json:"other"`
-							Tcp   struct {
-								FinWait     string `json:"fin-wait"`
-								TimeWait    string `json:"time-wait"`
-								Close       string `json:"close"`
-								SynSent     string `json:"syn-sent"`
-								Established string `json:"established"`
-								SynRecv     string `json:"syn-recv"`
-								LastAck     string `json:"last-ack"`
-								CloseWait   string `json:"close-wait"`
-							} `json:"tcp"`
-							Icmp string `json:"icmp"`
-						} `json:"protocol"`
-						Description string `json:"description"`
-					} `json:"rule"`
-				} `json:".custom"`
-			} `json:"timeout"`
-			Tcp struct {
-				Loose               string `json:"loose"`
-				HalfOpenConnections string `json:"half-open-connections"`
-				MaxRetrans          string `json:"max-retrans"`
-			} `json:"tcp"`
-			Log struct {
-				Udp struct {
-					Destroy string `json:"destroy"`
-					Update  string `json:"update"`
-					New     string `json:"new"`
-				} `json:"udp"`
-				Other struct {
-					Destroy string `json:"destroy"`
-					Update  string `json:"update"`
-					New     string `json:"new"`
-				} `json:"other"`
-				Tcp struct {
-					Destroy string `json:"destroy"`
-					Update  struct {
-						FinWait     string `json:"fin-wait"`
-						TimeWait    string `json:"time-wait"`
-						Established string `json:"established"`
-						SynReceived string `json:"syn-received"`
-						LastAck     string `json:"last-ack"`
-						CloseWait   string `json:"close-wait"`
-					} `json:"update"`
-					New string `json:"new"`
-				} `json:"tcp"`
-				Icmp struct {
-					Destroy string `json:"destroy"`
-					Update  string `json:"update"`
-					New     string `json:"new"`
-				} `json:"icmp"`
-			} `json:"log"`
-			Modules struct {
-				Ftp struct {
-					Disable string `json:"disable"`
-				} `json:"ftp"`
-				Nfs struct {
-					Disable string `json:"disable"`
-				} `json:".nfs"`
-				Rtsp struct {
-					Enable string `json:"enable"`
-				} `json:"rtsp"`
-				Gre struct {
-					Disable string `json:"disable"`
-				} `json:"gre"`
-				Tftp struct {
-					Disable string `json:"disable"`
-				} `json:"tftp"`
-				Pptp struct {
-					Disable string `json:"disable"`
-				} `json:"pptp"`
-				Sqlnet struct {
-					Disable string `json:"disable"`
-				} `json:".sqlnet"`
-				Sip struct {
-					Disable                  string `json:"disable"`
-					EnableIndirectSignalling string `json:"enable-indirect-signalling"`
-					EnableIndirectMedia      string `json:"enable-indirect-media"`
-					Port                     string `json:"port"`
-				} `json:"sip"`
-				H323 struct {
-					Disable string `json:"disable"`
-				} `json:"h323"`
-			} `json:"modules"`
-			HashSize        string `json:"hash-size"`
-			TableSize       string `json:"table-size"`
-			ExpectTableSize string `json:"expect-table-size"`
-		} `json:"conntrack"`
-		NameServer        string `json:"name-server"`
-		DomainName        string `json:"domain-name"`
-		StaticHostMapping struct {
-			HostName map[string]struct {
-				Alias string `json:"alias"`
-				Inet  string `json:"inet"`
-			} `json:"host-name"`
-		} `json:"static-host-mapping"`
-		HostName string `json:"host-name"`
-		Ntp      struct {
-			Server map[string]struct {
-				Prefer   string `json:"prefer"`
-				Preempt  string `json:"preempt"`
-				Noselect string `json:"noselect"`
-			} `json:"server"`
-		} `json:"ntp"`
-		Coredump struct {
-			Enabled string `json:"enabled"`
-		} `json:"coredump"`
-		DomainSearch struct {
-			Domain string `json:"domain"`
-		} `json:"domain-search"`
-		ConfigManagement struct {
-			CommitRevisions string `json:"commit-revisions"`
-			CommitArchive   struct {
-				Location string `json:"location"`
-			} `json:"commit-archive"`
-		} `json:"config-management"`
-		TrafficAnalysis struct {
-			SignatureUpdate struct {
-				Disable    string `json:"disable"`
-				UpdateHour string `json:"update-hour"`
-			} `json:"signature-update"`
-			Dpi            string `json:"dpi"`
-			CustomCategory map[string]struct {
-				Name string `json:"name"`
-			} `json:"custom-category"`
-			Export string `json:"export"`
-		} `json:"traffic-analysis"`
-		CrashHandler struct {
-			SaveCoreFile    string `json:"save-core-file"`
-			SendCrashReport string `json:"send-crash-report"`
-		} `json:"crash-handler"`
-		Ip struct {
-			DisableForwarding  string `json:"disable-forwarding"`
-			OverrideHostnameIp string `json:"override-hostname-ip"`
-			Arp                struct {
-				StaleTime         string `json:"stale-time"`
-				BaseReachableTime string `json:"base-reachable-time"`
-				TableSize         string `json:"table-size"`
-			} `json:"arp"`
-		} `json:"ip"`
-		Ipv6 struct {
-			Disable  string `json:"disable"`
-			Neighbor struct {
-				StaleTime         string `json:"stale-time"`
-				BaseReachableTime string `json:"base-reachable-time"`
-				TableSize         string `json:"table-size"`
-			} `json:"neighbor"`
-			DisableForwarding string `json:"disable-forwarding"`
-			Blacklist         string `json:"blacklist"`
-			StrictDad         string `json:"strict-dad"`
-		} `json:"ipv6"`
-		Login struct {
-			RadiusServer map[string]struct {
-				Timeout string `json:"timeout"`
-				Secret  string `json:"secret"`
-				Port    string `json:"port"`
-			} `json:"radius-server"`
-			User map[string]struct {
-				Group          string `json:"group"`
-				HomeDirectory  string `json:"home-directory"`
-				Level          string `json:"level"`
-				FullName       string `json:"full-name"`
-				Authentication struct {
-					EncryptedPassword string `json:"encrypted-password"`
-					PublicKeys        map[string]struct {
-						Options string `json:"options"`
-						Key     string `json:"key"`
-						Type    string `json:"type"`
-					} `json:"public-keys"`
-					PlaintextPassword string `json:"plaintext-password"`
-				} `json:"authentication"`
-			} `json:"user"`
-			Banner struct {
-				PostLogin string `json:"post-login"`
-				PreLogin  string `json:"pre-login"`
-			} `json:"banner"`
-		} `json:"login"`
-		PacketRxCoreNum string `json:"packet-rx-core-num"`
-		Package         struct {
-			Repository map[string]struct {
-				Password     string `json:"password"`
-				Distribution string `json:"distribution"`
-				Url          string `json:"url"`
-				Components   string `json:"components"`
-				Description  string `json:"description"`
-				Username     string `json:"username"`
-			} `json:"repository"`
-			AutoSync string `json:".auto-sync"`
-		} `json:"package"`
-		Offload struct {
-			Hwnat string `json:"hwnat"`
-			Ipv4  struct {
-				DisableFlowFlushingUponFibChanges string `json:"disable-flow-flushing-upon-fib-changes"`
-				Bonding                           string `json:"bonding"`
-				Pppoe                             string `json:"pppoe"`
-				Forwarding                        string `json:"forwarding"`
-				Gre                               string `json:"gre"`
-				Vlan                              string `json:"vlan"`
-				TableSize                         string `json:"table-size"`
-			} `json:"ipv4"`
-			Ipsec        string `json:"ipsec"`
-			FlowLifetime string `json:"flow-lifetime"`
-			Ipv6         struct {
-				DisableFlowFlushingUponFibChanges string `json:"disable-flow-flushing-upon-fib-changes"`
-				Bonding                           string `json:"bonding"`
-				Pppoe                             string `json:"pppoe"`
-				Forwarding                        string `json:"forwarding"`
-				Vlan                              string `json:"vlan"`
-				TableSize                         string `json:"table-size"`
-			} `json:"ipv6"`
-		} `json:"offload"`
-	} `json:"system"`
-	TrafficControl struct {
-		OptimizedQueue struct {
-			Policy string `json:"policy"`
-		} `json:"optimized-queue"`
-		SmartQueue map[string]struct {
-			WanInterface string `json:"wan-interface"`
-			Download     struct {
-				Rate       string `json:"rate"`
-				HtbQuantum string `json:"htb-quantum"`
-				Limit      string `json:"limit"`
-				Target     string `json:"target"`
-				Interval   string `json:"interval"`
-				Burst      string `json:"burst"`
-				Ecn        string `json:"ecn"`
-				FqQuantum  string `json:"fq-quantum"`
-				Flows      string `json:"flows"`
-			} `json:"download"`
-			Upload struct {
-				Rate       string `json:"rate"`
-				HtbQuantum string `json:"htb-quantum"`
-				Limit      string `json:"limit"`
-				Target     string `json:"target"`
-				Interval   string `json:"interval"`
-				Burst      string `json:"burst"`
-				Ecn        string `json:"ecn"`
-				FqQuantum  string `json:"fq-quantum"`
-				Flows      string `json:"flows"`
-			} `json:"upload"`
-		} `json:"smart-queue"`
-		AdvancedQueue struct {
-			Filters struct {
-				Match map[string]struct {
-					Interface string `json:"interface"`
-					Target    string `json:"target"`
-					Mark      string `json:"mark"`
-					Ether     struct {
-						Source      string `json:"source"`
-						Destination string `json:"destination"`
-						Protocol    string `json:"protocol"`
-					} `json:"ether"`
-					Description string `json:"description"`
-					Application struct {
-						Category       string `json:"category"`
-						CustomCategory string `json:"custom-category"`
-					} `json:"application"`
-					AttachTo string `json:"attach-to"`
-					Ip       struct {
-						Source struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"source"`
-						Destination struct {
-							Address string `json:"address"`
-							Port    string `json:"port"`
-						} `json:"destination"`
-						Protocol string `json:"protocol"`
-						Dscp     string `json:"dscp"`
-					} `json:"ip"`
-				} `json:"match"`
-			} `json:"filters"`
-			Leaf struct {
-				Queue map[string]struct {
-					Bandwidth string `json:"bandwidth"`
-					Burst     struct {
-						BurstRate string `json:"burst-rate"`
-						BurstSize string `json:"burst-size"`
-					} `json:"burst"`
-					Ceiling     string `json:"ceiling"`
-					QueueType   string `json:"queue-type"`
-					Description string `json:"description"`
-					Parent      string `json:"parent"`
-					Priority    string `json:"priority"`
-				} `json:"queue"`
-			} `json:"leaf"`
-			Branch struct {
-				Queue map[string]struct {
-					Bandwidth   string `json:"bandwidth"`
-					Description string `json:"description"`
-					Parent      string `json:"parent"`
-					Priority    string `json:"priority"`
-				} `json:"queue"`
-			} `json:"branch"`
-			QueueType struct {
-				Pfifo map[string]struct {
-					Limit string `json:"limit"`
-				} `json:"pfifo"`
-				Hfq map[string]struct {
-					Burst struct {
-						BurstRate string `json:"burst-rate"`
-						BurstSize string `json:"burst-size"`
-					} `json:"burst"`
-					Description    string `json:"description"`
-					HostIdentifier string `json:"host-identifier"`
-					Subnet         string `json:"subnet"`
-					MaxRate        string `json:"max-rate"`
-				} `json:"hfq"`
-				FqCodel map[string]struct {
-					Limit    string `json:"limit"`
-					Target   string `json:"target"`
-					Interval string `json:"interval"`
-					Ecn      string `json:"ecn"`
-					Flows    string `json:"flows"`
-					Quantum  string `json:"quantum"`
-				} `json:"fq-codel"`
-				Sfq map[string]struct {
-					HashInterval string `json:"hash-interval"`
-					Description  string `json:"description"`
-					QueueLimit   string `json:"queue-limit"`
-				} `json:"sfq"`
-			} `json:"queue-type"`
-			Root struct {
-				Queue map[string]struct {
-					Bandwidth   string `json:"bandwidth"`
-					Default     string `json:"default"`
-					Description string `json:"description"`
-					AttachTo    string `json:"attach-to"`
-				} `json:"queue"`
-			} `json:"root"`
-		} `json:"advanced-queue"`
-	} `json:"traffic-control"`
-	Service struct {
-		UbntDiscover struct {
-			Disable   string `json:"disable"`
-			Interface map[string]struct {
-				Disable string `json:"disable"`
-			} `json:"interface"`
-		} `json:"ubnt-discover"`
-		UdapiServer string `json:"udapi-server"`
-		Snmp        struct {
-			Contact       string `json:"contact"`
-			Location      string `json:"location"`
-			ListenAddress map[string]struct {
-				Interface string `json:"interface"`
-				Port      string `json:"port"`
-			} `json:"listen-address"`
-			Description string `json:"description"`
-			V3          struct {
-				Group map[string]struct {
-					Mode     string `json:"mode"`
-					View     string `json:"view"`
-					Seclevel string `json:"seclevel"`
-				} `json:"group"`
-				Tsm struct {
-					LocalKey string `json:"local-key"`
-					Port     string `json:"port"`
-				} `json:"tsm"`
-				User map[string]struct {
-					TsmKey  string `json:"tsm-key"`
-					Privacy struct {
-						PlaintextKey string `json:"plaintext-key"`
-						EncryptedKey string `json:"encrypted-key"`
-						Type         string `json:"type"`
-					} `json:"privacy"`
-					Mode string `json:"mode"`
-					Auth struct {
-						PlaintextKey string `json:"plaintext-key"`
-						EncryptedKey string `json:"encrypted-key"`
-						Type         string `json:"type"`
-					} `json:"auth"`
-					Group    string `json:"group"`
-					Engineid string `json:"engineid"`
-				} `json:"user"`
-				View map[string]struct {
-					Oid map[string]struct {
-						Exclude string `json:"exclude"`
-						Mask    string `json:"mask"`
-					} `json:"oid"`
-				} `json:"view"`
-				TrapTarget map[string]struct {
-					Privacy struct {
-						PlaintextKey string `json:"plaintext-key"`
-						EncryptedKey string `json:"encrypted-key"`
-						Type         string `json:"type"`
-					} `json:"privacy"`
-					Auth struct {
-						PlaintextKey string `json:"plaintext-key"`
-						EncryptedKey string `json:"encrypted-key"`
-						Type         string `json:"type"`
-					} `json:"auth"`
-					User     string `json:"user"`
-					Protocol string `json:"protocol"`
-					Type     string `json:"type"`
-					Port     string `json:"port"`
-					Engineid string `json:"engineid"`
-				} `json:"trap-target"`
-				Engineid string `json:"engineid"`
-			} `json:"v3"`
-			TrapSource string `json:"trap-source"`
-			TrapTarget map[string]struct {
-				Port      string `json:"port"`
-				Community string `json:"community"`
-			} `json:"trap-target"`
-			Community map[string]struct {
-				Network       string `json:"network"`
-				Authorization string `json:"authorization"`
-				Client        string `json:"client"`
-			} `json:"community"`
-			IgnoreInterface string `json:"ignore-interface"`
-		} `json:"snmp"`
-		Dhcpv6Server struct {
-			Preference        string `json:"preference"`
-			SharedNetworkName map[string]struct {
-				NameServer string `json:"name-server"`
-				Subnet     map[string]struct {
-					NisServer     string `json:"nis-server"`
-					StaticMapping map[string]struct {
-						Ipv6Address string `json:"ipv6-address"`
-						Identifier  string `json:"identifier"`
-					} `json:"static-mapping"`
-					SntpServer       string `json:"sntp-server"`
-					PrefixDelegation struct {
-						Start map[string]struct {
-							Stop map[string]struct {
-								PrefixLength string `json:"prefix-length"`
-							} `json:"stop"`
-						} `json:"start"`
-					} `json:"prefix-delegation"`
-					NisplusDomain    string `json:"nisplus-domain"`
-					SipServerAddress string `json:"sip-server-address"`
-					SipServerName    string `json:"sip-server-name"`
-					NameServer       string `json:"name-server"`
-					NisDomain        string `json:"nis-domain"`
-					DomainSearch     string `json:"domain-search"`
-					LeaseTime        struct {
-						Maximum string `json:"maximum"`
-						Default string `json:"default"`
-						Minimum string `json:"minimum"`
-					} `json:"lease-time"`
-					NisplusServer string `json:"nisplus-server"`
-					AddressRange  struct {
-						Prefix map[string]struct {
-							Temporary string `json:"temporary"`
-						} `json:"prefix"`
-						Start map[string]struct {
-							Stop string `json:"stop"`
-						} `json:"start"`
-					} `json:"address-range"`
-				} `json:"subnet"`
-			} `json:"shared-network-name"`
-		} `json:"dhcpv6-server"`
-		Upnp struct {
-			ListenOn map[string]struct {
-				OutboundInterface string `json:"outbound-interface"`
-			} `json:"listen-on"`
-		} `json:"upnp"`
-		Lldp struct {
-			LegacyProtocols struct {
-				Cdp   string `json:"cdp"`
-				Sonmp string `json:"sonmp"`
-				Edp   string `json:"edp"`
-				Fdp   string `json:"fdp"`
-			} `json:"legacy-protocols"`
-			Interface map[string]struct {
-				Disable  string `json:"disable"`
-				Location struct {
-					CivicBased struct {
-						CountryCode string `json:"country-code"`
-						CaType      map[string]struct {
-							CaValue string `json:"ca-value"`
-						} `json:"ca-type"`
-					} `json:"civic-based"`
-					Elin            string `json:"elin"`
-					CoordinateBased struct {
-						Datum     string `json:"datum"`
-						Longitude string `json:"longitude"`
-						Altitude  string `json:"altitude"`
-						Latitude  string `json:"latitude"`
-					} `json:"coordinate-based"`
-				} `json:"location"`
-			} `json:"interface"`
-			ManagementAddress string `json:"management-address"`
-			ListenVlan        string `json:".listen-vlan"`
-		} `json:"lldp"`
-		Nat struct {
-			Rule map[string]struct {
-				OutsideAddress struct {
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"outside-address"`
-				Disable          string `json:"disable"`
-				InboundInterface string `json:"inbound-interface"`
-				Exclude          string `json:"exclude"`
-				Source           struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"source"`
-				OutboundInterface string `json:"outbound-interface"`
-				Destination       struct {
-					Group struct {
-						AddressGroup string `json:"address-group"`
-						PortGroup    string `json:"port-group"`
-						NetworkGroup string `json:"network-group"`
-					} `json:"group"`
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"destination"`
-				Protocol      string `json:"protocol"`
-				Type          string `json:"type"`
-				Description   string `json:"description"`
-				Log           string `json:"log"`
-				InsideAddress struct {
-					Address string `json:"address"`
-					Port    string `json:"port"`
-				} `json:"inside-address"`
-			} `json:"rule"`
-		} `json:"nat"`
-		Webproxy struct {
-			DomainBlock       string `json:"domain-block"`
-			MinimumObjectSize string `json:"minimum-object-size"`
-			ProxyBypass       string `json:"proxy-bypass"`
-			ProxyBypassSource string `json:"proxy-bypass-source"`
-			ListenAddress     map[string]struct {
-				DisableTransparent string `json:"disable-transparent"`
-				Port               string `json:"port"`
-			} `json:"listen-address"`
-			DomainNoncache    string `json:"domain-noncache"`
-			MemCacheSize      string `json:"mem-cache-size"`
-			MaximumObjectSize string `json:"maximum-object-size"`
-			DefaultPort       string `json:"default-port"`
-			AppendDomain      string `json:"append-domain"`
-			UrlFiltering      struct {
-				Disable    string `json:"disable"`
-				Squidguard struct {
-					AutoUpdate struct {
-						UpdateHour string `json:"update-hour"`
-					} `json:"auto-update"`
-					DefaultAction    string `json:"default-action"`
-					EnableSafeSearch string `json:"enable-safe-search"`
-					SourceGroup      map[string]struct {
-						Description string `json:"description"`
-						Address     string `json:"address"`
-						Domain      string `json:"domain"`
-					} `json:"source-group"`
-					RedirectUrl   string `json:"redirect-url"`
-					LocalBlock    string `json:"local-block"`
-					BlockCategory string `json:"block-category"`
-					LocalOk       string `json:"local-ok"`
-					TimePeriod    map[string]struct {
-						Description string `json:"description"`
-						Days        map[string]struct {
-							Time string `json:"time"`
-						} `json:"days"`
-					} `json:"time-period"`
-					LocalOkUrl     string `json:"local-ok-url"`
-					AllowIpaddrUrl string `json:"allow-ipaddr-url"`
-					Rule           map[string]struct {
-						DefaultAction     string `json:"default-action"`
-						EnableSafeSearch  string `json:"enable-safe-search"`
-						SourceGroup       string `json:"source-group"`
-						RedirectUrl       string `json:"redirect-url"`
-						LocalBlock        string `json:"local-block"`
-						BlockCategory     string `json:"block-category"`
-						LocalOk           string `json:"local-ok"`
-						TimePeriod        string `json:"time-period"`
-						LocalOkUrl        string `json:"local-ok-url"`
-						AllowIpaddrUrl    string `json:"allow-ipaddr-url"`
-						Description       string `json:"description"`
-						LocalBlockKeyword string `json:"local-block-keyword"`
-						AllowCategory     string `json:"allow-category"`
-						Log               string `json:"log"`
-						LocalBlockUrl     string `json:"local-block-url"`
-					} `json:"rule"`
-					LocalBlockKeyword string `json:"local-block-keyword"`
-					AllowCategory     string `json:"allow-category"`
-					Log               string `json:"log"`
-					LocalBlockUrl     string `json:"local-block-url"`
-				} `json:"squidguard"`
-			} `json:"url-filtering"`
-			EnableAccessLog  string `json:"enable-access-log"`
-			Administrator    string `json:"administrator"`
-			CacheSize        string `json:"cache-size"`
-			ReplyBlockMime   string `json:"reply-block-mime"`
-			ReplyBodyMaxSize string `json:"reply-body-max-size"`
-		} `json:"webproxy"`
-		Suspend struct {
-			ForwardTo struct {
-				HttpPort  string `json:"http-port"`
-				Address   string `json:"address"`
-				HttpsPort string `json:"https-port"`
-			} `json:"forward-to"`
-			AllowDomain string `json:"allow-domain"`
-			UserIp      string `json:"user-ip"`
-			Redirect    struct {
-				HttpPort  string `json:"http-port"`
-				Url       string `json:"url"`
-				HttpsPort string `json:"https-port"`
-			} `json:"redirect"`
-			AllowIp string `json:"allow-ip"`
-		} `json:"suspend"`
-		Unms struct {
-			Disable    string `json:"disable"`
-			Connection string `json:"connection"`
-			Lldp       struct {
-				Disable string `json:"disable"`
-			} `json:"lldp"`
-			RestApi struct {
-				Interface string `json:"interface"`
-				Port      string `json:"port"`
-			} `json:"rest-api"`
-		} `json:"unms"`
-		Mdns struct {
-			Reflector string `json:"reflector"`
-			Repeater  struct {
-				Interface string `json:"interface"`
-			} `json:"repeater"`
-		} `json:"mdns"`
-		UbntDiscoverServer struct {
-			Disable  string `json:"disable"`
-			Protocol string `json:"protocol"`
-		} `json:"ubnt-discover-server"`
-		DhcpServer struct {
-			UseDnsmasq        string `json:"use-dnsmasq"`
-			StaticArp         string `json:"static-arp"`
-			HostfileUpdate    string `json:"hostfile-update"`
-			SharedNetworkName map[string]struct {
-				Disable                 string `json:"disable"`
-				SharedNetworkParameters string `json:"shared-network-parameters"`
-				Authoritative           string `json:"authoritative"`
-				Description             string `json:"description"`
-				Subnet                  map[string]struct {
-					StaticMapping map[string]struct {
-						Disable                 string `json:"disable"`
-						IpAddress               string `json:"ip-address"`
-						StaticMappingParameters string `json:"static-mapping-parameters"`
-						MacAddress              string `json:"mac-address"`
-					} `json:"static-mapping"`
-					BootfileName   string `json:"bootfile-name"`
-					BootfileServer string `json:"bootfile-server"`
-					PopServer      string `json:"pop-server"`
-					Exclude        string `json:"exclude"`
-					DomainName     string `json:"domain-name"`
-					StaticRoute    struct {
-						DestinationSubnet string `json:"destination-subnet"`
-						Router            string `json:"router"`
-					} `json:"static-route"`
-					SubnetParameters string `json:"subnet-parameters"`
-					Start            map[string]struct {
-						Stop string `json:"stop"`
-					} `json:"start"`
-					TimeServer      string `json:"time-server"`
-					WpadUrl         string `json:"wpad-url"`
-					UnifiController string `json:"unifi-controller"`
-					Lease           string `json:"lease"`
-					DefaultRouter   string `json:"default-router"`
-					TftpServerName  string `json:"tftp-server-name"`
-					IpForwarding    struct {
-						Enable string `json:"enable"`
-					} `json:"ip-forwarding"`
-					DnsServer          string `json:"dns-server"`
-					NtpServer          string `json:"ntp-server"`
-					TimeOffset         string `json:"time-offset"`
-					SmtpServer         string `json:"smtp-server"`
-					WinsServer         string `json:"wins-server"`
-					ClientPrefixLength string `json:"client-prefix-length"`
-					Failover           struct {
-						PeerAddress  string `json:"peer-address"`
-						Status       string `json:"status"`
-						LocalAddress string `json:"local-address"`
-						Name         string `json:"name"`
-					} `json:"failover"`
-					ServerIdentifier string `json:"server-identifier"`
-				} `json:"subnet"`
-			} `json:"shared-network-name"`
-			Disabled         string `json:"disabled"`
-			DynamicDnsUpdate struct {
-				Enable string `json:"enable"`
-			} `json:"dynamic-dns-update"`
-			GlobalParameters string `json:"global-parameters"`
-		} `json:"dhcp-server"`
-		Ssh struct {
-			DisablePasswordAuthentication string `json:"disable-password-authentication"`
-			ListenAddress                 string `json:"listen-address"`
-			AllowRoot                     string `json:"allow-root"`
-			ProtocolVersion               string `json:"protocol-version"`
-			DisableHostValidation         string `json:"disable-host-validation"`
-			Port                          string `json:"port"`
-		} `json:"ssh"`
-		Gui struct {
-			CaFile        string `json:"ca-file"`
-			HttpPort      string `json:"http-port"`
-			ListenAddress string `json:"listen-address"`
-			HttpsPort     string `json:"https-port"`
-			DhFile        string `json:"dh-file"`
-			CertFile      string `json:"cert-file"`
-			OlderCiphers  string `json:"older-ciphers"`
-			Debug         string `json:"debug"`
-		} `json:"gui"`
-		PppoeServer struct {
-			Encryption  string `json:"encryption"`
-			ServiceName string `json:"service-name"`
-			WinsServers struct {
-				Server2 string `json:"server-2"`
-				Server1 string `json:"server-1"`
-			} `json:"wins-servers"`
-			Interface  string `json:"interface"`
-			DnsServers struct {
-				Server2 string `json:"server-2"`
-				Server1 string `json:"server-1"`
-			} `json:"dns-servers"`
-			Mtu          string `json:"mtu"`
-			ClientIpPool struct {
-				Start string `json:"start"`
-				Stop  string `json:"stop"`
-			} `json:"client-ip-pool"`
-			Radius struct {
-				DefaultInterimInterval string `json:"default-interim-interval"`
-			} `json:"radius"`
-			LocalIp        string `json:"local-ip"`
-			Authentication struct {
-				Mode       string `json:"mode"`
-				LocalUsers struct {
-					Username map[string]struct {
-						Disable  string `json:"disable"`
-						Password string `json:"password"`
-						StaticIp string `json:"static-ip"`
-					} `json:"username"`
-				} `json:"local-users"`
-				RadiusServer map[string]struct {
-					Key string `json:"key"`
-				} `json:"radius-server"`
-			} `json:"authentication"`
-			AccessConcentrator string `json:"access-concentrator"`
-		} `json:"pppoe-server"`
-		SshRecovery struct {
-			ListenOn string `json:"listen-on"`
-			Lifetime string `json:"lifetime"`
-			Disabled string `json:"disabled"`
-			Port     string `json:"port"`
-		} `json:"ssh-recovery"`
-		Dns struct {
-			Dynamic struct {
-				Interface map[string]struct {
-					Web     string `json:"web"`
-					WebSkip string `json:"web-skip"`
-					Service map[string]struct {
-						Options  string `json:"options"`
-						Password string `json:"password"`
-						Server   string `json:"server"`
-						HostName string `json:"host-name"`
-						Protocol string `json:"protocol"`
-						Login    string `json:"login"`
-					} `json:"service"`
-				} `json:"interface"`
-			} `json:"dynamic"`
-			Forwarding struct {
-				Options             string `json:"options"`
-				ExceptInterface     string `json:"except-interface"`
-				ForcePublicDnsBoost string `json:"force-public-dns-boost"`
-				ListenOn            string `json:"listen-on"`
-				NameServer          string `json:"name-server"`
-				System              string `json:"system"`
-				Dhcp                string `json:"dhcp"`
-				CacheSize           string `json:"cache-size"`
-			} `json:"forwarding"`
-		} `json:"dns"`
-		DhcpRelay struct {
-			Interface    string `json:"interface"`
-			RelayOptions struct {
-				HopCount           string `json:"hop-count"`
-				MaxSize            string `json:"max-size"`
-				Port               string `json:"port"`
-				RelayAgentsPackets string `json:"relay-agents-packets"`
-			} `json:"relay-options"`
-			Server string `json:"server"`
-		} `json:"dhcp-relay"`
-		Upnp2 struct {
-			ListenOn string `json:"listen-on"`
-			NatPmp   string `json:"nat-pmp"`
-			BitRate  struct {
-				Up   string `json:"up"`
-				Down string `json:"down"`
-			} `json:"bit-rate"`
-			Wan        string `json:"wan"`
-			Port       string `json:"port"`
-			SecureMode string `json:"secure-mode"`
-			Acl        struct {
-				Rule map[string]struct {
-					Action       string `json:"action"`
-					Description  string `json:"description"`
-					ExternalPort string `json:"external-port"`
-					LocalPort    string `json:"local-port"`
-					Subnet       string `json:"subnet"`
-				} `json:"rule"`
-			} `json:"acl"`
-		} `json:"upnp2"`
-		Telnet struct {
-			ListenAddress string `json:"listen-address"`
-			AllowRoot     string `json:"allow-root"`
-			Port          string `json:"port"`
-		} `json:"telnet"`
-		Dhcpv6Relay struct {
-			ListenInterface map[string]struct {
-				Address string `json:"address"`
-			} `json:"listen-interface"`
-			MaxHopCount          string `json:"max-hop-count"`
-			UseInterfaceIdOption string `json:"use-interface-id-option"`
-			UpstreamInterface    map[string]struct {
-				Address string `json:"address"`
-			} `json:"upstream-interface"`
-			ListenPort string `json:"listen-port"`
-		} `json:"dhcpv6-relay"`
-	} `json:"service"`
-	Protocols struct {
-		Rip struct {
-			Interface string `json:"interface"`
-			Neighbor  string `json:"neighbor"`
-			Route     string `json:"route"`
-			Bfd       struct {
-				Neighbor map[string]struct {
-					FallOver string `json:"fall-over"`
-				} `json:"neighbor"`
-				AllInterfaces string `json:"all-interfaces"`
-			} `json:"bfd"`
-			DefaultDistance string `json:"default-distance"`
-			Timers          struct {
-				Update            string `json:"update"`
-				Timeout           string `json:"timeout"`
-				GarbageCollection string `json:"garbage-collection"`
-			} `json:"timers"`
-			Network       string `json:"network"`
-			DefaultMetric string `json:"default-metric"`
-			Vrf           map[string]struct {
-				Interface string `json:"interface"`
-				Bfd       struct {
-					Neighbor map[string]struct {
-						FallOver string `json:"fall-over"`
-					} `json:"neighbor"`
-					AllInterfaces string `json:"all-interfaces"`
-				} `json:"bfd"`
-				DefaultDistance string `json:"default-distance"`
-				Network         string `json:"network"`
-				DefaultMetric   string `json:"default-metric"`
-				NetworkDistance map[string]struct {
-					Distance   string `json:"distance"`
-					AccessList string `json:"access-list"`
-				} `json:"network-distance"`
-				Redistribute struct {
-					Connected struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"connected"`
-					Static struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"static"`
-					Bgp struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"bgp"`
-					Ospf struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"ospf"`
-				} `json:"redistribute"`
-				DistributeList struct {
-					Interface map[string]struct {
-						AccessList struct {
-							Out string `json:"out"`
-							In  string `json:"in"`
-						} `json:"access-list"`
-						PrefixList struct {
-							Out string `json:"out"`
-							In  string `json:"in"`
-						} `json:"prefix-list"`
-					} `json:"interface"`
-					AccessList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"access-list"`
-					PrefixList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"prefix-list"`
-				} `json:"distribute-list"`
-				DefaultInformation struct {
-					Originate string `json:"originate"`
-				} `json:"default-information"`
-			} `json:".vrf"`
-			NetworkDistance map[string]struct {
-				Distance   string `json:"distance"`
-				AccessList string `json:"access-list"`
-			} `json:"network-distance"`
-			PassiveInterface string `json:"passive-interface"`
-			Redistribute     struct {
-				Connected struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"connected"`
-				Static struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"static"`
-				Bgp struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"bgp"`
-				Kernel struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"kernel"`
-				Ospf struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"ospf"`
-			} `json:"redistribute"`
-			DistributeList struct {
-				Interface map[string]struct {
-					AccessList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"access-list"`
-					PrefixList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"prefix-list"`
-				} `json:"interface"`
-				AccessList struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"access-list"`
-				PrefixList struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"prefix-list"`
-			} `json:"distribute-list"`
-			DefaultInformation struct {
-				Originate string `json:"originate"`
-			} `json:"default-information"`
-		} `json:"rip"`
-		Mpls struct {
-			LspTunneling struct {
-				Interface map[string]struct {
-					InLabel map[string]struct {
-						OutLabel map[string]struct {
-							NetworkFec string `json:"network-fec"`
-						} `json:"out-label"`
-					} `json:"in-label"`
-				} `json:"interface"`
-			} `json:"lsp-tunneling"`
-			AcGroup map[string]struct {
-				GroupId string `json:"group-id"`
-			} `json:"ac-group"`
-			LocalPacketHandling string `json:"local-packet-handling"`
-			Interface           map[string]struct {
-				MulticastHellos  string `json:"multicast-hellos"`
-				KeepaliveTimeout string `json:"keepalive-timeout"`
-				VcMode           struct {
-					Standby   string `json:"standby"`
-					Revertive string `json:"revertive"`
-				} `json:"vc-mode"`
-				LdpIgp struct {
-					Sync struct {
-						Ospf struct {
-							HolddownTimer string `json:"holddown-timer"`
-						} `json:"ospf"`
-					} `json:"sync"`
-					SyncDelay string `json:"sync-delay"`
-				} `json:"ldp-igp"`
-				MaxPduLength       string `json:"max-pdu-length"`
-				LabelRetentionMode struct {
-					Liberal      string `json:"liberal"`
-					Conservative string `json:"conservative"`
-				} `json:"label-retention-mode"`
-				AdminGroup string `json:"admin-group"`
-				L2Circuit  map[string]struct {
-					Hdlc struct {
-						Primary   string `json:"primary"`
-						Secondary string `json:"secondary"`
-					} `json:".hdlc"`
-					Ppp struct {
-						Primary   string `json:"primary"`
-						Secondary string `json:"secondary"`
-					} `json:".ppp"`
-					Ethernet struct {
-						Primary   string `json:"primary"`
-						Secondary string `json:"secondary"`
-					} `json:".ethernet"`
-				} `json:"l2-circuit"`
-				LabelSwitching    string `json:"label-switching"`
-				HoldTime          string `json:"hold-time"`
-				KeepaliveInterval string `json:"keepalive-interval"`
-				AdvertisementMode struct {
-					DownstreamOnDemand    string `json:"downstream-on-demand"`
-					DownstreamUnsolicited string `json:"downstream-unsolicited"`
-				} `json:"advertisement-mode"`
-				HelloInterval string `json:"hello-interval"`
-			} `json:"interface"`
-			L2CircuitFibEntry map[string]struct {
-				InLabel map[string]struct {
-					OutLabel map[string]struct {
-						Ipv4 map[string]struct {
-							Int map[string]struct {
-								Int string `json:"int"`
-							} `json:"int"`
-						} `json:"ipv4"`
-						Ipv6 map[string]struct {
-							Int map[string]struct {
-								Int string `json:"int"`
-							} `json:"int"`
-						} `json:"ipv6"`
-					} `json:"out-label"`
-				} `json:"in-label"`
-			} `json:".l2-circuit-fib-entry"`
-			EnableAllInterfaces string `json:"enable-all-interfaces"`
-			MsPw                map[string]struct {
-				Description string `json:"description"`
-			} `json:"ms-pw"`
-			IngressTtl string `json:"ingress-ttl"`
-			TeClass    map[string]struct {
-				Name map[string]struct {
-					Priority string `json:"priority"`
-				} `json:"name"`
-			} `json:"te-class"`
-			LspModel struct {
-				Pipe string `json:"pipe"`
-			} `json:"lsp-model"`
-			FtnEntry struct {
-				TunnelId map[string]struct {
-					Ip map[string]struct {
-						Mask map[string]struct {
-							OutLabel map[string]struct {
-								Nexthop map[string]struct {
-									Interface map[string]struct {
-										Primary   string `json:"primary"`
-										Secondary string `json:"secondary"`
-									} `json:"interface"`
-								} `json:"nexthop"`
-							} `json:"out-label"`
-						} `json:"mask"`
-					} `json:"ip"`
-					Ipv6mask map[string]struct {
-						OutLabel map[string]struct {
-							Nexthop map[string]struct {
-								Interface map[string]struct {
-									Primary   string `json:"primary"`
-									Secondary string `json:"secondary"`
-								} `json:"interface"`
-							} `json:"nexthop"`
-						} `json:"out-label"`
-					} `json:"ipv6mask"`
-					Ipv4mask map[string]struct {
-						OutLabel map[string]struct {
-							Nexthop map[string]struct {
-								Interface map[string]struct {
-									Primary   string `json:"primary"`
-									Secondary string `json:"secondary"`
-								} `json:"interface"`
-							} `json:"nexthop"`
-						} `json:"out-label"`
-					} `json:"ipv4mask"`
-				} `json:"tunnel-id"`
-			} `json:"ftn-entry"`
-			ClassToExp map[string]struct {
-				Bit string `json:"bit"`
-			} `json:"class-to-exp"`
-			L2Circuit map[string]struct {
-				Ipv4 map[string]struct {
-					Agi map[string]struct {
-						Saii map[string]struct {
-							Taii map[string]struct {
-								Manual    string `json:"manual"`
-								Groupname map[string]struct {
-									GroupId string `json:"group-id"`
-								} `json:"groupname"`
-								ControlWord struct {
-									Manual   string `json:"manual"`
-									TunnelId map[string]struct {
-										Passive string `json:"passive"`
-										Reverse struct {
-											Passive string `json:"passive"`
-											Manual  string `json:"manual"`
-										} `json:"reverse"`
-										Manual  string `json:"manual"`
-										Forward struct {
-											Passive string `json:"passive"`
-											Manual  string `json:"manual"`
-										} `json:"forward"`
-									} `json:"tunnel-id"`
-								} `json:"control-word"`
-								TunnelId map[string]struct {
-									Passive string `json:"passive"`
-									Reverse struct {
-										Passive string `json:"passive"`
-										Manual  string `json:"manual"`
-									} `json:"reverse"`
-									Manual  string `json:"manual"`
-									Forward struct {
-										Passive string `json:"passive"`
-										Manual  string `json:"manual"`
-									} `json:"forward"`
-								} `json:"tunnel-id"`
-							} `json:"taii"`
-						} `json:"saii"`
-					} `json:"agi"`
-				} `json:"ipv4"`
-				Id map[string]struct {
-					Ipv4 map[string]struct {
-						Passive   string `json:"passive"`
-						Manual    string `json:"manual"`
-						Groupname map[string]struct {
-							ControlWord struct {
-								Manual string `json:"manual"`
-							} `json:"control-word"`
-						} `json:"groupname"`
-						ControlWord struct {
-							Passive  string `json:"passive"`
-							Manual   string `json:"manual"`
-							TunnelId map[string]struct {
-								Passive string `json:"passive"`
-								Reverse struct {
-									Passive string `json:"passive"`
-									Manual  string `json:"manual"`
-								} `json:"reverse"`
-								Manual  string `json:"manual"`
-								Forward struct {
-									Passive string `json:"passive"`
-									Manual  string `json:"manual"`
-								} `json:"forward"`
-							} `json:"tunnel-id"`
-						} `json:"control-word"`
-						TunnelId map[string]struct {
-							Passive string `json:"passive"`
-							Reverse struct {
-								Passive string `json:"passive"`
-								Manual  string `json:"manual"`
-							} `json:"reverse"`
-							Manual  string `json:"manual"`
-							Forward struct {
-								Passive string `json:"passive"`
-								Manual  string `json:"manual"`
-							} `json:"forward"`
-						} `json:"tunnel-id"`
-					} `json:"ipv4"`
-					Ipv6 map[string]struct {
-						Manual string `json:"manual"`
-					} `json:"ipv6"`
-				} `json:"id"`
-			} `json:".l2-circuit"`
-			EgressTtl     string `json:"egress-ttl"`
-			MinLabelValue map[string]struct {
-				LabelSpace string `json:"label-space"`
-			} `json:"min-label-value"`
-			AdminGroup map[string]struct {
-				Value string `json:"value"`
-			} `json:"admin-group"`
-			MsPwStitch map[string]struct {
-				Vc1 map[string]struct {
-					Vc2 map[string]struct {
-						Mtu map[string]struct {
-							Ethernet string `json:"ethernet"`
-							Vlan     string `json:"vlan"`
-						} `json:"mtu"`
-					} `json:"vc2"`
-				} `json:"vc1"`
-			} `json:"ms-pw-stitch"`
-			ClassType map[string]struct {
-				Name string `json:"name"`
-			} `json:"class-type"`
-			IlmEntry map[string]struct {
-				Interface map[string]struct {
-					Pop  string `json:"pop"`
-					Swap map[string]struct {
-						Interface map[string]struct {
-							Ip map[string]struct {
-								Fec map[string]struct {
-									Mask string `json:"mask"`
-								} `json:"fec"`
-							} `json:"ip"`
-						} `json:"interface"`
-					} `json:"swap"`
-				} `json:"interface"`
-			} `json:"ilm-entry"`
-			SupportDiffservClass string `json:"support-diffserv-class"`
-			MapRoute             map[string]struct {
-				Fec string `json:"fec"`
-			} `json:"map-route"`
-			Rsvp struct {
-				MinLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"min-label-value"`
-				MaxLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"max-label-value"`
-			} `json:"rsvp"`
-			Ldp struct {
-				MinLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"min-label-value"`
-				MaxLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"max-label-value"`
-			} `json:"ldp"`
-			Bgp struct {
-				MinLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"min-label-value"`
-				MaxLabelValue map[string]struct {
-					LabelSpace string `json:"label-space"`
-				} `json:"max-label-value"`
-			} `json:"bgp"`
-			MaxLabelValue map[string]struct {
-				LabelSpace string `json:"label-space"`
-			} `json:"max-label-value"`
-			PropagateTtl         string `json:"propagate-ttl"`
-			DisableAllInterfaces string `json:"disable-all-interfaces"`
-		} `json:"mpls"`
-		Bfd struct {
-			Interface map[string]struct {
-				Enable string `json:"enable"`
-				Echo   struct {
-					Interval string `json:"interval"`
-				} `json:"echo"`
-				Auth struct {
-					Key  string `json:"key"`
-					Type string `json:"type"`
-				} `json:"auth"`
-				Interval map[string]struct {
-					Minrx map[string]struct {
-						Multiplier string `json:"multiplier"`
-					} `json:"minrx"`
-				} `json:"interval"`
-				Session struct {
-					Source map[string]struct {
-						Dest map[string]struct {
-							Multihop struct {
-								AdminDown  string `json:"admin-down"`
-								DemandMode struct {
-									AdminDown     string `json:"admin-down"`
-									NonPersistent struct {
-										AdminDown string `json:"admin-down"`
-									} `json:"non-persistent"`
-								} `json:"demand-mode"`
-							} `json:"multihop"`
-							AdminDown  string `json:"admin-down"`
-							DemandMode struct {
-								AdminDown     string `json:"admin-down"`
-								NonPersistent struct {
-									AdminDown string `json:"admin-down"`
-								} `json:"non-persistent"`
-							} `json:"demand-mode"`
-							NonPersistent struct {
-								AdminDown string `json:"admin-down"`
-							} `json:"non-persistent"`
-						} `json:"dest"`
-					} `json:"source"`
-				} `json:"session"`
-			} `json:"interface"`
-			Echo         string `json:"echo"`
-			Notification struct {
-				Enable string `json:"enable"`
-			} `json:"notification"`
-			SlowTimer string `json:"slow-timer"`
-			Gtsm      struct {
-				Enable string `json:"enable"`
-				Ttl    string `json:"ttl"`
-			} `json:"gtsm"`
-			MultihopPeer map[string]struct {
-				Auth struct {
-					Key  string `json:"key"`
-					Type string `json:"type"`
-				} `json:"auth"`
-				Interval map[string]struct {
-					Minrx map[string]struct {
-						Multiplier string `json:"multiplier"`
-					} `json:"minrx"`
-				} `json:"interval"`
-			} `json:"multihop-peer"`
-		} `json:"bfd"`
-		Ripng struct {
-			Interface string `json:"interface"`
-			Route     string `json:"route"`
-			Timers    struct {
-				Update            string `json:"update"`
-				Timeout           string `json:"timeout"`
-				GarbageCollection string `json:"garbage-collection"`
-			} `json:"timers"`
-			Network          string `json:"network"`
-			DefaultMetric    string `json:"default-metric"`
-			AggregateAddress string `json:"aggregate-address"`
-			Vrf              map[string]struct {
-				Interface string `json:"interface"`
-				Route     string `json:"route"`
-				Timers    struct {
-					Update            string `json:"update"`
-					Timeout           string `json:"timeout"`
-					GarbageCollection string `json:"garbage-collection"`
-				} `json:"timers"`
-				Network          string `json:"network"`
-				DefaultMetric    string `json:"default-metric"`
-				AggregateAddress string `json:"aggregate-address"`
-				PassiveInterface string `json:"passive-interface"`
-				Redistribute     struct {
-					Connected struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"connected"`
-					Static struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"static"`
-					Bgp struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"bgp"`
-					Ospfv3 struct {
-						RouteMap string `json:"route-map"`
-						Metric   string `json:"metric"`
-					} `json:"ospfv3"`
-				} `json:"redistribute"`
-				DistributeList struct {
-					Interface map[string]struct {
-						AccessList struct {
-							Out string `json:"out"`
-							In  string `json:"in"`
-						} `json:"access-list"`
-						PrefixList struct {
-							Out string `json:"out"`
-							In  string `json:"in"`
-						} `json:"prefix-list"`
-					} `json:"interface"`
-					AccessList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"access-list"`
-					PrefixList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"prefix-list"`
-				} `json:"distribute-list"`
-				DefaultInformation struct {
-					Originate string `json:"originate"`
-				} `json:"default-information"`
-			} `json:".vrf"`
-			PassiveInterface string `json:"passive-interface"`
-			Redistribute     struct {
-				Connected struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"connected"`
-				Static struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"static"`
-				Bgp struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"bgp"`
-				Ospfv3 struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"ospfv3"`
-				Kernel struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"kernel"`
-			} `json:"redistribute"`
-			DistributeList struct {
-				Interface map[string]struct {
-					AccessList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"access-list"`
-					PrefixList struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"prefix-list"`
-				} `json:"interface"`
-				AccessList struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"access-list"`
-				PrefixList struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"prefix-list"`
-			} `json:"distribute-list"`
-			DefaultInformation struct {
-				Originate string `json:"originate"`
-			} `json:"default-information"`
-		} `json:"ripng"`
-		Vrf map[string]struct {
-			Interface   string `json:"interface"`
-			RouterId    string `json:"router-id"`
-			RouteTarget struct {
-				Both   string `json:"both"`
-				Export string `json:"export"`
-				Import string `json:"import"`
-			} `json:"route-target"`
-			Description string `json:"description"`
-			Import      struct {
-				Map string `json:"map"`
-			} `json:"import"`
-			Rd struct {
-				Int string `json:"int"`
-				Ip  string `json:"ip"`
-			} `json:"rd"`
-		} `json:".vrf"`
-		Static struct {
-			InterfaceRoute6 map[string]struct {
-				NextHopInterface map[string]struct {
-					Disable     string `json:"disable"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"next-hop-interface"`
-			} `json:"interface-route6"`
-			Route map[string]struct {
-				NextHop map[string]struct {
-					Disable     string `json:"disable"`
-					Bfd         string `json:"bfd"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"next-hop"`
-				Blackhole struct {
-					Disable     string `json:"disable"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"blackhole"`
-			} `json:"route"`
-			Bfd struct {
-				Interface map[string]struct {
-					Ipv4 string `json:"ipv4"`
-					Ipv6 string `json:"ipv6"`
-				} `json:"interface"`
-				AllInterfaces struct {
-					Ipv4 string `json:"ipv4"`
-					Ipv6 string `json:"ipv6"`
-				} `json:"all-interfaces"`
-			} `json:"bfd"`
-			Vrf map[string]struct {
-				InterfaceRoute6 map[string]struct {
-					NextHopInterface map[string]struct {
-						Gw map[string]struct {
-							Disable string `json:"disable"`
-						} `json:"gw"`
-					} `json:"next-hop-interface"`
-				} `json:"interface-route6"`
-				Route map[string]struct {
-					NextHop map[string]struct {
-						Disable   string `json:"disable"`
-						Interface string `json:"interface"`
-					} `json:"next-hop"`
-					Blackhole struct {
-						Disable   string `json:"disable"`
-						Interface string `json:"interface"`
-					} `json:"blackhole"`
-				} `json:"route"`
-				InterfaceRoute map[string]struct {
-					NextHopInterface map[string]struct {
-						Disable string `json:"disable"`
-					} `json:"next-hop-interface"`
-				} `json:"interface-route"`
-				Ip struct {
-					Forwarding string `json:"forwarding"`
-				} `json:"ip"`
-				Route6 map[string]struct {
-					NextHop map[string]struct {
-						Disable   string `json:"disable"`
-						Interface string `json:"interface"`
-					} `json:"next-hop"`
-				} `json:"route6"`
-			} `json:".vrf"`
-			Table map[string]struct {
-				InterfaceRoute6 map[string]struct {
-					NextHopInterface map[string]struct {
-						Disable     string `json:"disable"`
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"next-hop-interface"`
-				} `json:"interface-route6"`
-				Route map[string]struct {
-					NextHop map[string]struct {
-						Disable     string `json:"disable"`
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"next-hop"`
-					Blackhole struct {
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"blackhole"`
-				} `json:"route"`
-				Mark           string `json:"mark"`
-				Description    string `json:"description"`
-				InterfaceRoute map[string]struct {
-					NextHopInterface map[string]struct {
-						Disable     string `json:"disable"`
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"next-hop-interface"`
-				} `json:"interface-route"`
-				Route6 map[string]struct {
-					NextHop map[string]struct {
-						Disable     string `json:"disable"`
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"next-hop"`
-					Blackhole struct {
-						Distance    string `json:"distance"`
-						Description string `json:"description"`
-					} `json:"blackhole"`
-				} `json:"route6"`
-			} `json:"table"`
-			InterfaceRoute map[string]struct {
-				NextHopInterface map[string]struct {
-					Disable     string `json:"disable"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"next-hop-interface"`
-			} `json:"interface-route"`
-			Arp map[string]struct {
-				Hwaddr string `json:"hwaddr"`
-			} `json:"arp"`
-			Route6 map[string]struct {
-				NextHop map[string]struct {
-					Disable     string `json:"disable"`
-					Interface   string `json:"interface"`
-					Bfd         string `json:"bfd"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"next-hop"`
-				Blackhole struct {
-					Disable     string `json:"disable"`
-					Distance    string `json:"distance"`
-					Description string `json:"description"`
-				} `json:"blackhole"`
-			} `json:"route6"`
-		} `json:"static"`
-		Rsvp struct {
-			HelloTimeout string `json:"hello-timeout"`
-			Interface    map[string]struct {
-				HelloTimeout     string `json:"hello-timeout"`
-				Disable          string `json:"disable"`
-				AckWaitTimeout   string `json:"ack-wait-timeout"`
-				MessageAck       string `json:"message-ack"`
-				RefreshReduction string `json:"refresh-reduction"`
-				RefreshTime      string `json:"refresh-time"`
-				HelloReceipt     string `json:"hello-receipt"`
-				KeepMultiplier   string `json:"keep-multiplier"`
-				NonIANAHello     string `json:"non-IANA-hello"`
-				HelloInterval    string `json:"hello-interval"`
-			} `json:"interface"`
-			Neighbor                 string `json:"neighbor"`
-			BundleSend               string `json:"bundle-send"`
-			ExplicitNull             string `json:"explicit-null"`
-			OverrideDiffserv         string `json:"override-diffserv"`
-			PreprogramSuggestedLabel string `json:"preprogram-suggested-label"`
-			Notification             string `json:"notification"`
-			Path                     map[string]struct {
-				Mpls struct {
-					Loose      string `json:"loose"`
-					Unnumbered map[string]struct {
-						LinkId string `json:"link-id"`
-					} `json:".unnumbered"`
-					Strict    string `json:"strict"`
-					StrictHop string `json:".strict-hop"`
-				} `json:"mpls"`
-				Gmpls struct {
-					StrictHop  string `json:"strict-hop"`
-					Unnumbered map[string]struct {
-						LinkId string `json:"link-id"`
-					} `json:"unnumbered"`
-					Strict string `json:".strict"`
-					Loose  string `json:".loose"`
-				} `json:".gmpls"`
-			} `json:"path"`
-			From               string `json:"from"`
-			AckWaitTimeout     string `json:"ack-wait-timeout"`
-			RefreshPathParsing string `json:"refresh-path-parsing"`
-			Cspf               string `json:"cspf"`
-			GracefulRestart    struct {
-				Enable       string `json:"enable"`
-				RestartTime  string `json:"restart-time"`
-				RecoveryTime string `json:"recovery-time"`
-			} `json:"graceful-restart"`
-			RefreshResvParsing string `json:"refresh-resv-parsing"`
-			MessageAck         string `json:"message-ack"`
-			RefreshReduction   string `json:"refresh-reduction"`
-			LocalProtection    string `json:"local-protection"`
-			RefreshTime        string `json:"refresh-time"`
-			NoPhp              string `json:"no-php"`
-			HelloReceipt       string `json:"hello-receipt"`
-			KeepMultiplier     string `json:"keep-multiplier"`
-			LoopDetection      string `json:"loop-detection"`
-			HelloInterval      string `json:"hello-interval"`
-			Trunk              map[string]struct {
-				Gmpls struct {
-					ExtTunnelId string `json:"ext-tunnel-id"`
-					LspMetric   struct {
-						Relative string `json:"relative"`
-						Absolute string `json:"absolute"`
-					} `json:"lsp-metric"`
-					EnableIgpShortcut string `json:".enable-igp-shortcut"`
-					Capability        struct {
-						Psc1  string `json:"psc-1"`
-						PbbTe string `json:"pbb-te"`
-						Psc4  string `json:"psc-4"`
-						Psc3  string `json:"psc-3"`
-						Psc2  string `json:"psc-2"`
-					} `json:"capability"`
-					From string `json:"from"`
-					Gpid struct {
-						Ethernet string `json:"ethernet"`
-						Ipv4     string `json:"ipv4"`
-					} `json:"gpid"`
-					RsvpTrunkRestart string `json:"rsvp-trunk-restart"`
-					GmplsLabelSet    struct {
-						Range struct {
-							StartRange map[string]struct {
-								EndRange string `json:"end_range"`
-							} `json:"start_range"`
-						} `json:"range"`
-						Packet struct {
-							Range struct {
-								StartRange map[string]struct {
-									EndRange string `json:"end_range"`
-								} `json:"start_range"`
-							} `json:"range"`
-						} `json:"packet"`
-					} `json:"gmpls-label-set"`
-					Direction struct {
-						Bidirectional  string `json:"bidirectional"`
-						Unidirectional string `json:"unidirectional"`
-					} `json:"direction"`
-					UpdateType struct {
-						MakeBeforeBreak string `json:"make-before-break"`
-						BreakBeforeMake string `json:"break-before-make"`
-					} `json:"update-type"`
-					DisableIgpShortcut string `json:".disable-igp-shortcut"`
-					Primary            struct {
-						Traffic struct {
-							ControlledLoad string `json:"controlled-load"`
-							Guaranteed     string `json:"guaranteed"`
-						} `json:"traffic"`
-						Bandwidth         string `json:"bandwidth"`
-						SetupPriority     string `json:"setup-priority"`
-						Record            string `json:"record"`
-						IncludeAny        string `json:"include-any"`
-						Affinity          string `json:"affinity"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						HoldPriority      string `json:"hold-priority"`
-						HopLimit          string `json:"hop-limit"`
-						Cspf              string `json:"cspf"`
-						LabelRecord       string `json:"label-record"`
-						NoAffinity        string `json:"no-affinity"`
-						Protection        struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:"protection"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						LocalProtection string `json:"local-protection"`
-						ClassToExpBit   map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp-bit"`
-						Filter struct {
-							SharedExplicit string `json:"shared-explicit"`
-							Fixed          string `json:"fixed"`
-						} `json:"filter"`
-						ExplicitLabel map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:"explicit-label"`
-						CspfRetryLimit string `json:"cspf-retry-limit"`
-						ExcludeAny     string `json:"exclude-any"`
-						RetryTimer     string `json:"retry-timer"`
-						NoRecord       string `json:"no-record"`
-						Llsp           string `json:"llsp"`
-					} `json:"primary"`
-					To        string `json:"to"`
-					Secondary struct {
-						Traffic struct {
-							ControlledLoad string `json:"controlled-load"`
-							Guaranteed     string `json:"guaranteed"`
-						} `json:"traffic"`
-						Bandwidth         string `json:"bandwidth"`
-						SetupPriority     string `json:"setup-priority"`
-						Record            string `json:"record"`
-						IncludeAny        string `json:"include-any"`
-						Affinity          string `json:"affinity"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						HoldPriority      string `json:"hold-priority"`
-						HopLimit          string `json:"hop-limit"`
-						Cspf              string `json:"cspf"`
-						LabelRecord       string `json:"label-record"`
-						NoAffinity        string `json:"no-affinity"`
-						Protection        struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:"protection"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						LocalProtection string `json:"local-protection"`
-						ClassToExpBit   map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp-bit"`
-						Filter struct {
-							SharedExplicit string `json:"shared-explicit"`
-							Fixed          string `json:"fixed"`
-						} `json:"filter"`
-						ExplicitLabel map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:"explicit-label"`
-						CspfRetryLimit string `json:"cspf-retry-limit"`
-						ExcludeAny     string `json:"exclude-any"`
-						RetryTimer     string `json:"retry-timer"`
-						NoRecord       string `json:"no-record"`
-						Llsp           string `json:"llsp"`
-					} `json:"secondary"`
-				} `json:".gmpls"`
-				Ipv4 struct {
-					ExtTunnelId string `json:"ext-tunnel-id"`
-					LspMetric   struct {
-						Relative string `json:"relative"`
-						Absolute string `json:"absolute"`
-					} `json:"lsp-metric"`
-					From             string `json:"from"`
-					RsvpTrunkRestart string `json:".rsvp-trunk-restart"`
-					Capability       struct {
-						Psc1 string `json:"psc-1"`
-						Psc4 string `json:"psc-4"`
-						Psc3 string `json:"psc-3"`
-						Psc2 string `json:"psc-2"`
-					} `json:".capability"`
-					Direction struct {
-						Bidirectional  string `json:"bidirectional"`
-						Unidirectional string `json:"unidirectional"`
-					} `json:".direction"`
-					MapRoute map[string]struct {
-						Class string `json:"class"`
-					} `json:"map-route"`
-					UpdateType string `json:"update-type"`
-					Primary    struct {
-						Traffic       string `json:"traffic"`
-						Bandwidth     string `json:"bandwidth"`
-						SetupPriority string `json:"setup-priority"`
-						Record        string `json:"record"`
-						IncludeAny    string `json:"include-any"`
-						Protection    struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:".protection"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						ExplicitLabel     map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:".explicit-label"`
-						ClassToExp map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp"`
-						HoldPriority    string `json:"hold-priority"`
-						HopLimit        string `json:"hop-limit"`
-						Cspf            string `json:"cspf"`
-						LabelRecord     string `json:"label-record"`
-						NoAffinity      string `json:"no-affinity"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						NoRecord        string `json:".no-record"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						LocalProtection string `json:"local-protection"`
-						Filter          string `json:"filter"`
-						CspfRetryLimit  string `json:"cspf-retry-limit"`
-						ExcludeAny      string `json:"exclude-any"`
-						RetryTimer      string `json:"retry-timer"`
-						Llsp            string `json:"llsp"`
-					} `json:"primary"`
-					To                string `json:"to"`
-					EnableIgpShortcut string `json:"enable-igp-shortcut"`
-					Secondary         struct {
-						Traffic       string `json:"traffic"`
-						Bandwidth     string `json:"bandwidth"`
-						SetupPriority string `json:"setup-priority"`
-						Record        string `json:"record"`
-						IncludeAny    string `json:"include-any"`
-						Protection    struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:".protection"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						ExplicitLabel     map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:".explicit-label"`
-						ClassToExp map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp"`
-						HoldPriority    string `json:"hold-priority"`
-						HopLimit        string `json:"hop-limit"`
-						Cspf            string `json:"cspf"`
-						LabelRecord     string `json:"label-record"`
-						NoAffinity      string `json:"no-affinity"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						NoRecord        string `json:".no-record"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						LocalProtection string `json:"local-protection"`
-						Filter          string `json:"filter"`
-						CspfRetryLimit  string `json:"cspf-retry-limit"`
-						ExcludeAny      string `json:"exclude-any"`
-						RetryTimer      string `json:"retry-timer"`
-						Llsp            string `json:"llsp"`
-					} `json:"secondary"`
-					GmplsLabelSet struct {
-						Range struct {
-							StartRange map[string]struct {
-								EndRange string `json:"end_range"`
-							} `json:"start_range"`
-						} `json:"range"`
-						Packet struct {
-							Range struct {
-								StartRange map[string]struct {
-									EndRange string `json:"end_range"`
-								} `json:"start_range"`
-							} `json:"range"`
-						} `json:"packet"`
-					} `json:".gmpls-label-set"`
-				} `json:"ipv4"`
-				Ipv6 struct {
-					ExtTunnelId string `json:"ext-tunnel-id"`
-					LspMetric   struct {
-						Relative string `json:"relative"`
-						Absolute string `json:"absolute"`
-					} `json:"lsp-metric"`
-					From             string `json:"from"`
-					Ethernet         string `json:"ethernet"`
-					RsvpTrunkRestart string `json:"rsvp-trunk-restart"`
-					Capability       struct {
-						Psc1 string `json:"psc-1"`
-						Psc4 string `json:"psc-4"`
-						Psc3 string `json:"psc-3"`
-						Psc2 string `json:"psc-2"`
-					} `json:".capability"`
-					Direction struct {
-						Bidirectional  string `json:"bidirectional"`
-						Unidirectional string `json:"unidirectional"`
-					} `json:".direction"`
-					MapRoute struct {
-						Prefix map[string]struct {
-							Mask map[string]struct {
-								Class string `json:"class"`
-							} `json:"mask"`
-						} `json:"prefix"`
-						Mask map[string]struct {
-							Class string `json:"class"`
-						} `json:"mask"`
-					} `json:"map-route"`
-					DisableIgpShortcut string `json:"disable-igp-shortcut"`
-					UpdateType         struct {
-						MakeBeforeBreak string `json:"make-before-break"`
-						BreakBeforeMake string `json:"break-before-make"`
-					} `json:"update-type"`
-					Primary struct {
-						Traffic struct {
-							ControlledLoad string `json:"controlled-load"`
-							Guaranteed     string `json:"guaranteed"`
-						} `json:"traffic"`
-						Bandwidth     string `json:"bandwidth"`
-						SetupPriority string `json:"setup-priority"`
-						Record        string `json:"record"`
-						IncludeAny    string `json:"include-any"`
-						Protection    struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:".protection"`
-						Affinity          string `json:"affinity"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						ExplicitLabel     map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:".explicit-label"`
-						HoldPriority    string `json:"hold-priority"`
-						HopLimit        string `json:"hop-limit"`
-						Cspf            string `json:"cspf"`
-						LabelRecord     string `json:"label-record"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						NoRecord        string `json:".no-record"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						NoAffinity      string `json:".no-affinity"`
-						LocalProtection string `json:"local-protection"`
-						ClassToExpBit   map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp-bit"`
-						Filter struct {
-							SharedExplicit string `json:"shared-explicit"`
-							Fixed          string `json:"fixed"`
-						} `json:"filter"`
-						CspfRetryLimit string `json:"cspf-retry-limit"`
-						ExcludeAny     string `json:"exclude-any"`
-						RetryTimer     string `json:"retry-timer"`
-						Llsp           string `json:"llsp"`
-					} `json:"primary"`
-					To                string `json:"to"`
-					EnableIgpShortcut string `json:"enable-igp-shortcut"`
-					Secondary         struct {
-						Traffic struct {
-							ControlledLoad string `json:"controlled-load"`
-							Guaranteed     string `json:"guaranteed"`
-						} `json:"traffic"`
-						Bandwidth     string `json:"bandwidth"`
-						SetupPriority string `json:"setup-priority"`
-						Record        string `json:"record"`
-						IncludeAny    string `json:"include-any"`
-						Protection    struct {
-							Unprotected         string `json:"unprotected"`
-							DedicatedOneToOne   string `json:"dedicated-one-to-one"`
-							Shared              string `json:"shared"`
-							ExtraTraffic        string `json:"extra-traffic"`
-							DedicatedOnePlusOne string `json:"dedicated-one-plus-one"`
-							Ehanced             string `json:"ehanced"`
-						} `json:".protection"`
-						Affinity          string `json:"affinity"`
-						ReuseRouteRecord  string `json:"reuse-route-record"`
-						ElspPreconfigured string `json:"elsp-preconfigured"`
-						Path              string `json:"path"`
-						ExplicitLabel     map[string]struct {
-							Reverse string `json:"reverse"`
-							Packet  struct {
-								Reverse string `json:"reverse"`
-								Forward string `json:"forward"`
-							} `json:"packet"`
-							Forward string `json:"forward"`
-						} `json:".explicit-label"`
-						HoldPriority    string `json:"hold-priority"`
-						HopLimit        string `json:"hop-limit"`
-						Cspf            string `json:"cspf"`
-						LabelRecord     string `json:"label-record"`
-						RetryLimit      string `json:"retry-limit"`
-						CspfRetryTimer  string `json:"cspf-retry-timer"`
-						ClassType       string `json:"class-type"`
-						NoRecord        string `json:".no-record"`
-						ElspSignaled    string `json:"elsp-signaled"`
-						NoAffinity      string `json:".no-affinity"`
-						LocalProtection string `json:"local-protection"`
-						ClassToExpBit   map[string]struct {
-							Bit string `json:"bit"`
-						} `json:"class-to-exp-bit"`
-						Filter struct {
-							SharedExplicit string `json:"shared-explicit"`
-							Fixed          string `json:"fixed"`
-						} `json:"filter"`
-						CspfRetryLimit string `json:"cspf-retry-limit"`
-						ExcludeAny     string `json:"exclude-any"`
-						RetryTimer     string `json:"retry-timer"`
-						Llsp           string `json:"llsp"`
-					} `json:"secondary"`
-					GmplsLabelSet struct {
-						Range struct {
-							StartRange map[string]struct {
-								EndRange string `json:"end_range"`
-							} `json:"start_range"`
-						} `json:"range"`
-						Packet struct {
-							Range struct {
-								StartRange map[string]struct {
-									EndRange string `json:"end_range"`
-								} `json:"start_range"`
-							} `json:"range"`
-						} `json:"packet"`
-					} `json:".gmpls-label-set"`
-				} `json:".ipv6"`
-			} `json:"trunk"`
-		} `json:"rsvp"`
-		Vpls struct {
-			Interface map[string]struct {
-				VlanInstance map[string]struct {
-					Vlan map[string]struct {
-					} `json:"vlan"`
-				} `json:"vlan-instance"`
-				Instance string `json:"instance"`
-			} `json:"interface"`
-			FibEntry map[string]struct {
-				Peer map[string]struct {
-					InLabel map[string]struct {
-						OutInterface map[string]struct {
-							OutLabel string `json:"out-label"`
-						} `json:"out-interface"`
-					} `json:"in-label"`
-				} `json:"peer"`
-				SpokeVc map[string]struct {
-					InLabel map[string]struct {
-						OutInterface map[string]struct {
-							OutLabel string `json:"out-label"`
-						} `json:"out-interface"`
-					} `json:"in-label"`
-				} `json:".spoke-vc"`
-			} `json:"fib-entry"`
-			Instance map[string]struct {
-				Id map[string]struct {
-					VplsAcGroup string `json:"vpls-ac-group"`
-					VplsPeer    map[string]struct {
-						Manual   string `json:"manual"`
-						TunnelId map[string]struct {
-							Reverse struct {
-								Manual string `json:"manual"`
-							} `json:"reverse"`
-							Manual  string `json:"manual"`
-							Forward struct {
-								Manual string `json:"manual"`
-							} `json:"forward"`
-						} `json:"tunnel-id"`
-					} `json:"vpls-peer"`
-					Learning struct {
-						Disable string `json:"disable"`
-						Limit   string `json:"limit"`
-					} `json:"learning"`
-					VplsVc map[string]struct {
-						Ethernet string `json:"ethernet"`
-						Vlan     string `json:"vlan"`
-						Normal   string `json:"normal"`
-					} `json:"vpls-vc"`
-					VplsDescription string `json:"vpls-description"`
-					Signaling       struct {
-						Ldp struct {
-							VplsPeer map[string]struct {
-								Agi map[string]struct {
-									Saii map[string]struct {
-										Taii map[string]struct {
-											Normal   string `json:"normal"`
-											TunnelId map[string]struct {
-												Reverse string `json:"reverse"`
-												Normal  string `json:"normal"`
-												Forward string `json:"forward"`
-											} `json:"tunnel-id"`
-										} `json:"taii"`
-									} `json:"saii"`
-								} `json:"agi"`
-								TunnelId map[string]struct {
-									Reverse string `json:"reverse"`
-									Forward string `json:"forward"`
-								} `json:"tunnel-id"`
-							} `json:"vpls-peer"`
-						} `json:"ldp"`
-						Bgp struct {
-							VeRange     string `json:"ve-range"`
-							VeId        string `json:"ve-id"`
-							RouteTarget string `json:"route-target"`
-							Rd          string `json:"rd"`
-						} `json:"bgp"`
-					} `json:"signaling"`
-					VplsType string `json:"vpls-type"`
-					VplsMtu  string `json:"vpls-mtu"`
-				} `json:"id"`
-			} `json:"instance"`
-		} `json:"vpls"`
-		Ldp struct {
-			LdpOptimization           string `json:"ldp-optimization"`
-			TargetedPeerHelloInterval string `json:"targeted-peer-hello-interval"`
-			Interface                 map[string]struct {
-				Enable struct {
-					Both string `json:"both"`
-					Ipv4 string `json:"ipv4"`
-					Ipv6 string `json:"ipv6"`
-				} `json:"enable"`
-				KeepaliveTimeout   string `json:"keepalive-timeout"`
-				LabelRetentionMode struct {
-					Liberal      string `json:"liberal"`
-					Conservative string `json:"conservative"`
-				} `json:"label-retention-mode"`
-				HoldTime          string `json:"hold-time"`
-				KeepaliveInterval string `json:"keepalive-interval"`
-				AdvertisementMode struct {
-					DownstreamOnDemand    string `json:"downstream-on-demand"`
-					DownstreamUnsolicited string `json:"downstream-unsolicited"`
-				} `json:"advertisement-mode"`
-				HelloInterval string `json:"hello-interval"`
-			} `json:"interface"`
-			Neighbor map[string]struct {
-				Auth struct {
-					Md5 struct {
-						Password map[string]struct {
-							Type string `json:"type"`
-						} `json:"password"`
-					} `json:"md5"`
-				} `json:"auth"`
-			} `json:"neighbor"`
-			MulticastHellos string `json:"multicast-hellos"`
-			ExplicitNull    string `json:"explicit-null"`
-			ImportBgpRoutes string `json:"import-bgp-routes"`
-			AdvertiseLabels struct {
-				ForAcl map[string]struct {
-					To struct {
-						Any string `json:"any"`
-					} `json:"to"`
-				} `json:"for-acl"`
-				For struct {
-					PeerAcl map[string]struct {
-						To struct {
-							PeerAcl string `json:"peer-acl"`
-							Any     string `json:"any"`
-						} `json:"to"`
-					} `json:"peer-acl"`
-					Any struct {
-						To struct {
-							None string `json:"none"`
-						} `json:"to"`
-					} `json:"any"`
-				} `json:"for"`
-			} `json:"advertise-labels"`
-			KeepaliveTimeout string `json:"keepalive-timeout"`
-			PropagateRelease string `json:"propagate-release"`
-			TransportAddress struct {
-				Ipv4 map[string]struct {
-					Labelspace string `json:"labelspace"`
-				} `json:"ipv4"`
-				Ipv6 map[string]struct {
-					Labelspace string `json:"labelspace"`
-				} `json:".ipv6"`
-			} `json:"transport-address"`
-			RouterId    string `json:"router-id"`
-			ControlMode struct {
-				Independent string `json:"independent"`
-				Ordered     string `json:"ordered"`
-			} `json:"control-mode"`
-			LabelRetentionMode struct {
-				Liberal      string `json:"liberal"`
-				Conservative string `json:"conservative"`
-			} `json:"label-retention-mode"`
-			RequestRetryTimeout string `json:"request-retry-timeout"`
-			GracefulRestart     struct {
-				Enable  string `json:"enable"`
-				Disable string `json:"disable"`
-				Timers  struct {
-					MaxRecovery      string `json:"max-recovery"`
-					NeighborLiveness string `json:"neighbor-liveness"`
-				} `json:"timers"`
-			} `json:"graceful-restart"`
-			TargetedPeerHoldTime      string `json:"targeted-peer-hold-time"`
-			LoopDetectionPathVecCount string `json:"loop-detection-path-vec-count"`
-			HoldTime                  string `json:"hold-time"`
-			RequestRetry              string `json:"request-retry"`
-			LoopDetection             string `json:"loop-detection"`
-			TargetedPeer              struct {
-				Ipv4 map[string]struct {
-				} `json:"ipv4"`
-				Ipv6 string `json:".ipv6"`
-			} `json:"targeted-peer"`
-			GlobalMergeCapability struct {
-				NonMergeCapable string `json:"non-merge-capable"`
-				MergeCapable    string `json:"merge-capable"`
-			} `json:"global-merge-capability"`
-			KeepaliveInterval string `json:"keepalive-interval"`
-			AdvertisementMode struct {
-				DownstreamOnDemand    string `json:"downstream-on-demand"`
-				DownstreamUnsolicited string `json:"downstream-unsolicited"`
-			} `json:"advertisement-mode"`
-			LoopDetectionHopCount string `json:"loop-detection-hop-count"`
-			HelloInterval         string `json:"hello-interval"`
-			PwStatusTlv           string `json:"pw-status-tlv"`
-		} `json:"ldp"`
-		IgmpProxy struct {
-			Disable   string `json:"disable"`
-			Interface map[string]struct {
-				Whitelist string `json:"whitelist"`
-				Role      string `json:"role"`
-				AltSubnet string `json:"alt-subnet"`
-				Threshold string `json:"threshold"`
-			} `json:"interface"`
-			DisableQuickleave string `json:"disable-quickleave"`
-		} `json:"igmp-proxy"`
-		Bgp map[string]struct {
-			Neighbor map[string]struct {
-				Weight        string `json:"weight"`
-				NoActivate    string `json:"no-activate"`
-				EbgpMultihop  string `json:"ebgp-multihop"`
-				Password      string `json:"password"`
-				MaximumPrefix string `json:"maximum-prefix"`
-				FilterList    struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"filter-list"`
-				AllowasIn struct {
-					Number string `json:"number"`
-				} `json:"allowas-in"`
-				RouteReflectorClient  string `json:"route-reflector-client"`
-				OverrideCapability    string `json:"override-capability"`
-				Shutdown              string `json:"shutdown"`
-				StrictCapabilityMatch string `json:"strict-capability-match"`
-				DisableSendCommunity  struct {
-					Standard string `json:"standard"`
-					Extended string `json:"extended"`
-				} `json:"disable-send-community"`
-				Timers struct {
-					Holdtime  string `json:"holdtime"`
-					Keepalive string `json:"keepalive"`
-					Connect   string `json:"connect"`
-				} `json:"timers"`
-				DefaultOriginate struct {
-					RouteMap string `json:"route-map"`
-				} `json:"default-originate"`
-				RouteServerClient string `json:"route-server-client"`
-				Capability        struct {
-					Dynamic string `json:"dynamic"`
-					Orf     struct {
-						PrefixList struct {
-							Both    string `json:"both"`
-							Receive string `json:"receive"`
-							Send    string `json:"send"`
-						} `json:"prefix-list"`
-					} `json:"orf"`
-					GracefulRestart string `json:"graceful-restart"`
-				} `json:"capability"`
-				UpdateSource string `json:"update-source"`
-				TtlSecurity  struct {
-					Hops string `json:"hops"`
-				} `json:"ttl-security"`
-				UnsuppressMap string `json:"unsuppress-map"`
-				FallOver      struct {
-					Bfd struct {
-						Multihop string `json:"multihop"`
-					} `json:"bfd"`
-				} `json:"fall-over"`
-				Passive       string `json:"passive"`
-				AddressFamily struct {
-					Ipv6Unicast struct {
-						MaximumPrefix string `json:"maximum-prefix"`
-						FilterList    struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"filter-list"`
-						AllowasIn struct {
-							Number string `json:"number"`
-						} `json:"allowas-in"`
-						RouteReflectorClient string `json:"route-reflector-client"`
-						NexthopLocal         struct {
-							Unchanged string `json:"unchanged"`
-						} `json:"nexthop-local"`
-						DisableSendCommunity struct {
-							Standard string `json:"standard"`
-							Extended string `json:"extended"`
-						} `json:"disable-send-community"`
-						DefaultOriginate struct {
-							RouteMap string `json:"route-map"`
-						} `json:"default-originate"`
-						RouteServerClient string `json:"route-server-client"`
-						Capability        struct {
-							Orf struct {
-								PrefixList struct {
-									Receive string `json:"receive"`
-									Send    string `json:"send"`
-								} `json:"prefix-list"`
-							} `json:"orf"`
-							GracefulRestart string `json:"graceful-restart"`
-						} `json:"capability"`
-						UnsuppressMap       string `json:"unsuppress-map"`
-						SoftReconfiguration struct {
-							Inbound string `json:"inbound"`
-						} `json:"soft-reconfiguration"`
-						AttributeUnchanged struct {
-							AsPath  string `json:"as-path"`
-							NextHop string `json:"next-hop"`
-							Med     string `json:"med"`
-						} `json:"attribute-unchanged"`
-						RouteMap struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"route-map"`
-						NexthopSelf     string `json:"nexthop-self"`
-						RemovePrivateAs string `json:"remove-private-as"`
-						PrefixList      struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"prefix-list"`
-						DistributeList struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"distribute-list"`
-						PeerGroup string `json:"peer-group"`
-					} `json:"ipv6-unicast"`
-				} `json:"address-family"`
-				Description         string `json:"description"`
-				SoftReconfiguration struct {
-					Inbound string `json:"inbound"`
-				} `json:"soft-reconfiguration"`
-				LocalAs map[string]struct {
-					NoPrepend string `json:"no-prepend"`
-				} `json:"local-as"`
-				AttributeUnchanged struct {
-					AsPath  string `json:"as-path"`
-					NextHop string `json:"next-hop"`
-					Med     string `json:"med"`
-				} `json:"attribute-unchanged"`
-				RouteMap struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"route-map"`
-				RemoteAs                     string `json:"remote-as"`
-				NexthopSelf                  string `json:"nexthop-self"`
-				DisableConnectedCheck        string `json:"disable-connected-check"`
-				DisableCapabilityNegotiation string `json:"disable-capability-negotiation"`
-				Port                         string `json:"port"`
-				AdvertisementInterval        string `json:"advertisement-interval"`
-				RemovePrivateAs              string `json:"remove-private-as"`
-				PrefixList                   struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"prefix-list"`
-				DistributeList struct {
-					Word map[string]struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"word"`
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"distribute-list"`
-				PeerGroup string `json:"peer-group"`
-			} `json:"neighbor"`
-			Timers struct {
-				Holdtime  string `json:"holdtime"`
-				Keepalive string `json:"keepalive"`
-			} `json:"timers"`
-			MaximumPaths struct {
-				Ibgp string `json:"ibgp"`
-				Ebgp string `json:"ebgp"`
-			} `json:"maximum-paths"`
-			Network map[string]struct {
-				Backdoor string `json:"backdoor"`
-				RouteMap string `json:"route-map"`
-			} `json:"network"`
-			AggregateAddress map[string]struct {
-				SummaryOnly string `json:"summary-only"`
-				AsSet       string `json:"as-set"`
-			} `json:"aggregate-address"`
-			AddressFamily struct {
-				L2vpn struct {
-					Vpls struct {
-						Neighbor struct {
-							Ipv4 map[string]struct {
-								Activate string `json:"activate"`
-							} `json:"ipv4"`
-							Ipv6 map[string]struct {
-								Activate string `json:"activate"`
-							} `json:"ipv6"`
-							Tag map[string]struct {
-								Activate string `json:"activate"`
-							} `json:"tag"`
-						} `json:"neighbor"`
-					} `json:"vpls"`
-				} `json:"l2vpn"`
-				Ipv4Unicast struct {
-					Vrf map[string]struct {
-						Neighbor map[string]struct {
-							Weight        string `json:"weight"`
-							EbgpMultihop  string `json:"ebgp-multihop"`
-							MaximumPrefix string `json:"maximum-prefix"`
-							FilterList    struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"filter-list"`
-							AllowasIn struct {
-								Number string `json:"number"`
-							} `json:"allowas-in"`
-							RouteReflectorClient string `json:"route-reflector-client"`
-							Shutdown             string `json:"shutdown"`
-							Timers               struct {
-								Holdtime  string `json:"holdtime"`
-								Keepalive string `json:"keepalive"`
-								Connect   string `json:"connect"`
-							} `json:"timers"`
-							DefaultOriginate struct {
-								RouteMap string `json:"route-map"`
-							} `json:"default-originate"`
-							Capability struct {
-								Dynamic string `json:"dynamic"`
-								Orf     struct {
-									PrefixList struct {
-										Both    string `json:"both"`
-										Receive string `json:"receive"`
-										Send    string `json:"send"`
-									} `json:"prefix-list"`
-								} `json:"orf"`
-								GracefulRestart string `json:"graceful-restart"`
-							} `json:"capability"`
-							UpdateSource        string `json:"update-source"`
-							UnsuppressMap       string `json:"unsuppress-map"`
-							Passive             string `json:"passive"`
-							Description         string `json:"description"`
-							SoftReconfiguration struct {
-								Inbound string `json:"inbound"`
-							} `json:"soft-reconfiguration"`
-							LocalAs map[string]struct {
-								NoPrepend string `json:"no-prepend"`
-							} `json:"local-as"`
-							AttributeUnchanged struct {
-								AsPath  string `json:"as-path"`
-								NextHop string `json:"next-hop"`
-								Med     string `json:"med"`
-							} `json:"attribute-unchanged"`
-							RouteMap struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"route-map"`
-							RemoteAs              string `json:"remote-as"`
-							Activate              string `json:"activate"`
-							Port                  string `json:"port"`
-							AdvertisementInterval string `json:"advertisement-interval"`
-							RemovePrivateAs       string `json:"remove-private-as"`
-							PrefixList            struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"prefix-list"`
-							DistributeList struct {
-								Word map[string]struct {
-									Out string `json:"out"`
-									In  string `json:"in"`
-								} `json:"word"`
-							} `json:"distribute-list"`
-							PeerGroup string `json:"peer-group"`
-						} `json:"neighbor"`
-						Network map[string]struct {
-							RouteMap string `json:"route-map"`
-						} `json:"network"`
-						Parameters struct {
-							Dampening struct {
-								MaxSuppressTime   string `json:"max-suppress-time"`
-								StartSuppressTime string `json:"start-suppress-time"`
-								ReUse             string `json:"re-use"`
-								HalfLife          string `json:"half-life"`
-							} `json:"dampening"`
-							Confederation struct {
-								Identifier string `json:"identifier"`
-								Peers      string `json:"peers"`
-							} `json:"confederation"`
-						} `json:"parameters"`
-						Redistribute struct {
-							Rip struct {
-								RouteMap string `json:"route-map"`
-								Metric   string `json:"metric"`
-							} `json:"rip"`
-							Connected struct {
-								RouteMap string `json:"route-map"`
-								Metric   string `json:"metric"`
-							} `json:"connected"`
-							Static struct {
-								RouteMap string `json:"route-map"`
-								Metric   string `json:"metric"`
-							} `json:"static"`
-							Kernel struct {
-								RouteMap string `json:"route-map"`
-								Metric   string `json:"metric"`
-							} `json:"kernel"`
-							Ospf struct {
-								RouteMap string `json:"route-map"`
-								Metric   string `json:"metric"`
-							} `json:"ospf"`
-						} `json:"redistribute"`
-						PeerGroup map[string]struct {
-							Weight        string `json:"weight"`
-							EbgpMultihop  string `json:"ebgp-multihop"`
-							MaximumPrefix string `json:"maximum-prefix"`
-							FilterList    struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"filter-list"`
-							AllowasIn struct {
-								Number string `json:"number"`
-							} `json:"allowas-in"`
-							RouteReflectorClient string `json:"route-reflector-client"`
-							OverrideCapability   string `json:"override-capability"`
-							Shutdown             string `json:"shutdown"`
-							DisableSendCommunity struct {
-								Standard string `json:"standard"`
-								Extended string `json:"extended"`
-							} `json:"disable-send-community"`
-							DefaultOriginate struct {
-								RouteMap string `json:"route-map"`
-							} `json:"default-originate"`
-							Capability struct {
-								Dynamic string `json:"dynamic"`
-								Orf     struct {
-									PrefixList struct {
-										Receive string `json:"receive"`
-										Send    string `json:"send"`
-									} `json:"prefix-list"`
-								} `json:"orf"`
-							} `json:"capability"`
-							UpdateSource  string `json:"update-source"`
-							UnsuppressMap string `json:"unsuppress-map"`
-							Passive       string `json:"passive"`
-							Timers        struct {
-								Holdtime  string `json:"holdtime"`
-								Keepalive string `json:"keepalive"`
-							} `json:".timers"`
-							Description         string `json:"description"`
-							SoftReconfiguration struct {
-								Inbound string `json:"inbound"`
-							} `json:"soft-reconfiguration"`
-							LocalAs map[string]struct {
-								NoPrepend string `json:"no-prepend"`
-							} `json:"local-as"`
-							AttributeUnchanged struct {
-								AsPath  string `json:"as-path"`
-								NextHop string `json:"next-hop"`
-								Med     string `json:"med"`
-							} `json:"attribute-unchanged"`
-							RouteMap struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"route-map"`
-							RemoteAs                     string `json:"remote-as"`
-							DisableConnectedCheck        string `json:"disable-connected-check"`
-							DisableCapabilityNegotiation string `json:"disable-capability-negotiation"`
-							RemovePrivateAs              string `json:"remove-private-as"`
-							PrefixList                   struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"prefix-list"`
-							DistributeList struct {
-								Export string `json:"export"`
-								Import string `json:"import"`
-							} `json:"distribute-list"`
-						} `json:"peer-group"`
-					} `json:"vrf"`
-				} `json:".ipv4-unicast"`
-				Ipv6Unicast struct {
-					Network map[string]struct {
-						RouteMap  string `json:"route-map"`
-						PathLimit string `json:"path-limit"`
-					} `json:"network"`
-					AggregateAddress map[string]struct {
-						SummaryOnly string `json:"summary-only"`
-					} `json:"aggregate-address"`
-					Redistribute struct {
-						Connected struct {
-							RouteMap string `json:"route-map"`
-							Metric   string `json:"metric"`
-						} `json:"connected"`
-						Ripng struct {
-							RouteMap string `json:"route-map"`
-							Metric   string `json:"metric"`
-						} `json:"ripng"`
-						Static struct {
-							RouteMap string `json:"route-map"`
-							Metric   string `json:"metric"`
-						} `json:"static"`
-						Ospfv3 struct {
-							RouteMap string `json:"route-map"`
-							Metric   string `json:"metric"`
-						} `json:"ospfv3"`
-						Kernel struct {
-							RouteMap string `json:"route-map"`
-							Metric   string `json:"metric"`
-						} `json:"kernel"`
-					} `json:"redistribute"`
-				} `json:"ipv6-unicast"`
-			} `json:"address-family"`
-			Dampening struct {
-				RouteMap string `json:"route-map"`
-				HalfLife map[string]struct {
-					ReuseRoute map[string]struct {
-						SupRoute map[string]struct {
-							Time map[string]struct {
-								HalfTime string `json:"half-time"`
-							} `json:"time"`
-						} `json:"sup-route"`
-					} `json:"reuse-route"`
-				} `json:"half-life"`
-			} `json:"dampening"`
-			Parameters struct {
-				ClusterId                  string `json:"cluster-id"`
-				DisableNetworkImportCheck  string `json:"disable-network-import-check"`
-				NoClientToClientReflection string `json:"no-client-to-client-reflection"`
-				EnforceFirstAs             string `json:"enforce-first-as"`
-				RouterId                   string `json:"router-id"`
-				Distance                   struct {
-					Prefix map[string]struct {
-						Distance string `json:"distance"`
-					} `json:"prefix"`
-					Global struct {
-						Internal string `json:"internal"`
-						Local    string `json:"local"`
-						External string `json:"external"`
-					} `json:"global"`
-				} `json:"distance"`
-				Default struct {
-					NoIpv4Unicast string `json:"no-ipv4-unicast"`
-					LocalPref     string `json:"local-pref"`
-				} `json:"default"`
-				AlwaysCompareMed string `json:"always-compare-med"`
-				GracefulRestart  struct {
-					StalepathTime string `json:"stalepath-time"`
-				} `json:"graceful-restart"`
-				Dampening struct {
-					MaxSuppressTime   string `json:"max-suppress-time"`
-					StartSuppressTime string `json:"start-suppress-time"`
-					ReUse             string `json:"re-use"`
-					HalfLife          string `json:"half-life"`
-				} `json:"dampening"`
-				DeterministicMed string `json:"deterministic-med"`
-				Bestpath         struct {
-					AsPath struct {
-						Confed string `json:"confed"`
-						Ignore string `json:"ignore"`
-					} `json:"as-path"`
-					CompareRouterid string `json:"compare-routerid"`
-					Med             struct {
-						Confed         string `json:"confed"`
-						MissingAsWorst string `json:"missing-as-worst"`
-					} `json:"med"`
-				} `json:"bestpath"`
-				LogNeighborChanges string `json:"log-neighbor-changes"`
-				ScanTime           string `json:"scan-time"`
-				Confederation      struct {
-					Identifier string `json:"identifier"`
-					Peers      string `json:"peers"`
-				} `json:"confederation"`
-				NoFastExternalFailover string `json:"no-fast-external-failover"`
-			} `json:"parameters"`
-			Redistribute struct {
-				Rip struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"rip"`
-				Connected struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"connected"`
-				Static struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"static"`
-				Kernel struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"kernel"`
-				Ospf struct {
-					RouteMap string `json:"route-map"`
-					Metric   string `json:"metric"`
-				} `json:"ospf"`
-			} `json:"redistribute"`
-			PeerGroup map[string]struct {
-				Weight        string `json:"weight"`
-				EbgpMultihop  string `json:"ebgp-multihop"`
-				Password      string `json:"password"`
-				MaximumPrefix string `json:"maximum-prefix"`
-				FilterList    struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"filter-list"`
-				AllowasIn struct {
-					Number string `json:"number"`
-				} `json:"allowas-in"`
-				RouteReflectorClient string `json:"route-reflector-client"`
-				OverrideCapability   string `json:"override-capability"`
-				Shutdown             string `json:"shutdown"`
-				DisableSendCommunity struct {
-					Standard string `json:"standard"`
-					Extended string `json:"extended"`
-				} `json:"disable-send-community"`
-				DefaultOriginate struct {
-					RouteMap string `json:"route-map"`
-				} `json:"default-originate"`
-				RouteServerClient string `json:"route-server-client"`
-				Capability        struct {
-					Dynamic string `json:"dynamic"`
-					Orf     struct {
-						PrefixList struct {
-							Receive string `json:"receive"`
-							Send    string `json:"send"`
-						} `json:"prefix-list"`
-					} `json:"orf"`
-					GracefulRestart string `json:"graceful-restart"`
-				} `json:"capability"`
-				UpdateSource string `json:"update-source"`
-				TtlSecurity  struct {
-					Hops string `json:"hops"`
-				} `json:"ttl-security"`
-				UnsuppressMap string `json:"unsuppress-map"`
-				Passive       string `json:"passive"`
-				Timers        struct {
-					Holdtime  string `json:"holdtime"`
-					Keepalive string `json:"keepalive"`
-				} `json:".timers"`
-				AddressFamily struct {
-					Ipv6Unicast struct {
-						MaximumPrefix string `json:"maximum-prefix"`
-						FilterList    struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"filter-list"`
-						AllowasIn struct {
-							Number string `json:"number"`
-						} `json:"allowas-in"`
-						RouteReflectorClient string `json:"route-reflector-client"`
-						NexthopLocal         struct {
-							Unchanged string `json:"unchanged"`
-						} `json:"nexthop-local"`
-						DisableSendCommunity struct {
-							Standard string `json:"standard"`
-							Extended string `json:"extended"`
-						} `json:"disable-send-community"`
-						DefaultOriginate struct {
-							RouteMap string `json:"route-map"`
-						} `json:"default-originate"`
-						RouteServerClient string `json:"route-server-client"`
-						Capability        struct {
-							Orf struct {
-								PrefixList struct {
-									Receive string `json:"receive"`
-									Send    string `json:"send"`
-								} `json:"prefix-list"`
-							} `json:"orf"`
-							GracefulRestart string `json:"graceful-restart"`
-						} `json:"capability"`
-						UnsuppressMap       string `json:"unsuppress-map"`
-						SoftReconfiguration struct {
-							Inbound string `json:"inbound"`
-						} `json:"soft-reconfiguration"`
-						AttributeUnchanged struct {
-							AsPath  string `json:"as-path"`
-							NextHop string `json:"next-hop"`
-							Med     string `json:"med"`
-						} `json:"attribute-unchanged"`
-						RouteMap struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"route-map"`
-						NexthopSelf     string `json:"nexthop-self"`
-						RemovePrivateAs string `json:"remove-private-as"`
-						PrefixList      struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"prefix-list"`
-						DistributeList struct {
-							Export string `json:"export"`
-							Import string `json:"import"`
-						} `json:"distribute-list"`
-					} `json:"ipv6-unicast"`
-				} `json:"address-family"`
-				Description         string `json:"description"`
-				SoftReconfiguration struct {
-					Inbound string `json:"inbound"`
-				} `json:"soft-reconfiguration"`
-				LocalAs map[string]struct {
-					NoPrepend string `json:"no-prepend"`
-				} `json:"local-as"`
-				AttributeUnchanged struct {
-					AsPath  string `json:"as-path"`
-					NextHop string `json:"next-hop"`
-					Med     string `json:"med"`
-				} `json:"attribute-unchanged"`
-				RouteMap struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"route-map"`
-				RemoteAs                     string `json:"remote-as"`
-				NexthopSelf                  string `json:"nexthop-self"`
-				DisableConnectedCheck        string `json:"disable-connected-check"`
-				DisableCapabilityNegotiation string `json:"disable-capability-negotiation"`
-				RemovePrivateAs              string `json:"remove-private-as"`
-				PrefixList                   struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"prefix-list"`
-				DistributeList struct {
-					Export string `json:"export"`
-					Import string `json:"import"`
-				} `json:"distribute-list"`
-			} `json:"peer-group"`
-		} `json:"bgp"`
-		Ospfv3 struct {
-			Bfd struct {
-				Interface     string `json:"interface"`
-				AllInterfaces string `json:"all-interfaces"`
-			} `json:"bfd"`
-			Area map[string]struct {
-				ExportList string `json:"export-list"`
-				Interface  string `json:"interface"`
-				FilterList map[string]struct {
-				} `json:".filter-list"`
-				ImportList string `json:"import-list"`
-				AreaType   struct {
-					Stub struct {
-						DefaultCost string `json:"default-cost"`
-						NoSummary   string `json:"no-summary"`
-					} `json:"stub"`
-					Normal string `json:"normal"`
-					Nssa   struct {
-						DefaultCost                 string `json:"default-cost"`
-						Translate                   string `json:"translate"`
-						NoSummary                   string `json:"no-summary"`
-						StabilityInterval           string `json:"stability-interval"`
-						DefaultInformationOriginate struct {
-							RouteMap string `json:"route-map"`
-							Metric   map[string]struct {
-								Type string `json:"type"`
-							} `json:"metric"`
-						} `json:"default-information-originate"`
-						NoRedistribution string `json:"no-redistribution"`
-					} `json:"nssa"`
-				} `json:"area-type"`
-				VirtualLink map[string]struct {
-					Bfd string `json:"bfd"`
-				} `json:"virtual-link"`
-				Range map[string]struct {
-					NotAdvertise string `json:"not-advertise"`
-				} `json:"range"`
-			} `json:"area"`
-			Timers struct {
-				SfpExpDelay struct {
-					Min map[string]struct {
-						Max string `json:"max"`
-					} `json:"min"`
-				} `json:"sfp-exp-delay"`
-			} `json:"timers"`
-			Capability struct {
-				DbSummaryOpt    string `json:"db-summary-opt"`
-				Te              string `json:"te"`
-				Cspf            string `json:"cspf"`
-				GracefulRestart string `json:"graceful-restart"`
-			} `json:"capability"`
-			DefaultMetric string `json:"default-metric"`
-			Distance      struct {
-				Global string `json:"global"`
-				Ospfv3 struct {
-					InterArea string `json:"inter-area"`
-					External  string `json:"external"`
-					IntraArea string `json:"intra-area"`
-				} `json:"ospfv3"`
-			} `json:"distance"`
-			LogAdjacencyChanges struct {
-				Detail string `json:"detail"`
-			} `json:"log-adjacency-changes"`
-			SummaryAddress string `json:"summary-address"`
-			Cspf           struct {
-				TieBreak             string `json:"tie-break"`
-				DefaultRetryInterval string `json:"default-retry-interval"`
-			} `json:"cspf"`
-			AutoCost struct {
-				ReferenceBandwidth string `json:"reference-bandwidth"`
-			} `json:"auto-cost"`
-			PassiveInterfaceExclude string `json:"passive-interface-exclude"`
-			Vrf                     map[string]struct {
-				Bfd struct {
-					AllInterfaces string `json:"all-interfaces"`
-				} `json:"bfd"`
-				Area map[string]struct {
-					ExportList string `json:"export-list"`
-					Interface  string `json:"interface"`
-					FilterList map[string]struct {
-					} `json:".filter-list"`
-					ImportList  string `json:"import-list"`
-					VirtualLink map[string]struct {
-						Bfd string `json:"bfd"`
-					} `json:"virtual-link"`
-					Range map[string]struct {
-						Advertise    string `json:"advertise"`
-						NotAdvertise string `json:"not-advertise"`
-					} `json:"range"`
-				} `json:"area"`
-				Parameters struct {
-					RouterId string `json:"router-id"`
-				} `json:"parameters"`
-				Redistribute struct {
-					Connected struct {
-						RouteMap string `json:"route-map"`
-					} `json:"connected"`
-					Ripng struct {
-						RouteMap string `json:"route-map"`
-					} `json:"ripng"`
-					Static struct {
-						RouteMap string `json:"route-map"`
-					} `json:"static"`
-					Bgp struct {
-						RouteMap string `json:"route-map"`
-					} `json:"bgp"`
-					Kernel struct {
-						RouteMap string `json:"route-map"`
-					} `json:"kernel"`
-				} `json:"redistribute"`
-			} `json:".vrf"`
-			Parameters struct {
-				RouterId string `json:"router-id"`
-				AbrType  string `json:"abr-type"`
-			} `json:"parameters"`
-			PassiveInterface string `json:"passive-interface"`
-			MaxConcurrentDd  string `json:"max-concurrent-dd"`
-			Redistribute     struct {
-				Connected struct {
-					RouteMap string `json:"route-map"`
-				} `json:"connected"`
-				Ripng struct {
-					RouteMap string `json:"route-map"`
-				} `json:"ripng"`
-				Static struct {
-					RouteMap string `json:"route-map"`
-				} `json:"static"`
-				Bgp struct {
-					RouteMap string `json:"route-map"`
-				} `json:"bgp"`
-				Kernel struct {
-					RouteMap string `json:"route-map"`
-				} `json:"kernel"`
-			} `json:"redistribute"`
-			DistributeList map[string]struct {
-				Out struct {
-					Rip       string `json:"rip"`
-					Connected string `json:"connected"`
-					Static    string `json:"static"`
-					Bgp       string `json:"bgp"`
-					Kernel    string `json:"kernel"`
-					Ospf      string `json:"ospf"`
-					Isis      string `json:"isis"`
-				} `json:"out"`
-				In string `json:"in"`
-			} `json:"distribute-list"`
-			DefaultInformation struct {
-				Originate struct {
-					Always     string `json:"always"`
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"originate"`
-			} `json:"default-information"`
-		} `json:"ospfv3"`
-		Ospf struct {
-			Neighbor map[string]struct {
-				PollInterval string `json:"poll-interval"`
-				Priority     string `json:"priority"`
-			} `json:"neighbor"`
-			Bfd struct {
-				Interface     string `json:"interface"`
-				AllInterfaces string `json:"all-interfaces"`
-			} `json:"bfd"`
-			Area map[string]struct {
-				Shortcut string `json:"shortcut"`
-				Network  string `json:"network"`
-				AreaType struct {
-					Stub struct {
-						DefaultCost string `json:"default-cost"`
-						NoSummary   string `json:"no-summary"`
-					} `json:"stub"`
-					Normal string `json:"normal"`
-					Nssa   struct {
-						DefaultCost string `json:"default-cost"`
-						Translate   string `json:"translate"`
-						NoSummary   string `json:"no-summary"`
-					} `json:"nssa"`
-				} `json:"area-type"`
-				VirtualLink map[string]struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Bfd                string `json:"bfd"`
-					DeadInterval       string `json:"dead-interval"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"virtual-link"`
-				Range map[string]struct {
-					Cost         string `json:"cost"`
-					Substitute   string `json:"substitute"`
-					NotAdvertise string `json:"not-advertise"`
-				} `json:"range"`
-				Authentication string `json:"authentication"`
-			} `json:"area"`
-			Refresh struct {
-				Timers string `json:"timers"`
-			} `json:"refresh"`
-			Timers struct {
-				Throttle struct {
-					Spf struct {
-						MaxHoldtime     string `json:"max-holdtime"`
-						Delay           string `json:"delay"`
-						InitialHoldtime string `json:"initial-holdtime"`
-					} `json:"spf"`
-				} `json:"throttle"`
-			} `json:"timers"`
-			DefaultMetric string `json:"default-metric"`
-			Distance      struct {
-				Global string `json:"global"`
-				Ospf   struct {
-					InterArea string `json:"inter-area"`
-					External  string `json:"external"`
-					IntraArea string `json:"intra-area"`
-				} `json:"ospf"`
-			} `json:"distance"`
-			LogAdjacencyChanges struct {
-				Detail string `json:"detail"`
-			} `json:"log-adjacency-changes"`
-			MplsTe struct {
-				Enable        string `json:"enable"`
-				RouterAddress string `json:"router-address"`
-			} `json:"mpls-te"`
-			AutoCost struct {
-				ReferenceBandwidth string `json:"reference-bandwidth"`
-			} `json:"auto-cost"`
-			PassiveInterfaceExclude string `json:"passive-interface-exclude"`
-			AccessList              map[string]struct {
-				Export string `json:"export"`
-				Import string `json:"import"`
-			} `json:"access-list"`
-			InstanceId map[string]struct {
-				Vrf map[string]struct {
-					Neighbor map[string]struct {
-						PollInterval string `json:"poll-interval"`
-						Priority     string `json:"priority"`
-					} `json:"neighbor"`
-					Bfd struct {
-						AllInterfaces string `json:"all-interfaces"`
-					} `json:"bfd"`
-					Area map[string]struct {
-						Shortcut string `json:"shortcut"`
-						Network  string `json:"network"`
-						AreaType struct {
-							Stub struct {
-								DefaultCost string `json:"default-cost"`
-								NoSummary   string `json:"no-summary"`
-							} `json:"stub"`
-							Normal string `json:"normal"`
-							Nssa   struct {
-								DefaultCost string `json:"default-cost"`
-								Translate   string `json:"translate"`
-								NoSummary   string `json:"no-summary"`
-							} `json:"nssa"`
-						} `json:"area-type"`
-						VirtualLink map[string]struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Bfd                string `json:"bfd"`
-							DeadInterval       string `json:"dead-interval"`
-							Authentication     struct {
-								Md5 struct {
-									KeyId map[string]struct {
-										Md5Key string `json:"md5-key"`
-									} `json:"key-id"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-							HelloInterval string `json:"hello-interval"`
-						} `json:"virtual-link"`
-						Range map[string]struct {
-							Cost         string `json:"cost"`
-							Substitute   string `json:"substitute"`
-							NotAdvertise string `json:"not-advertise"`
-						} `json:"range"`
-						Authentication string `json:"authentication"`
-					} `json:"area"`
-					Refresh struct {
-						Timers string `json:"timers"`
-					} `json:"refresh"`
-					Timers struct {
-						Throttle struct {
-							Spf struct {
-								MaxHoldtime     string `json:"max-holdtime"`
-								Delay           string `json:"delay"`
-								InitialHoldtime string `json:"initial-holdtime"`
-							} `json:"spf"`
-						} `json:"throttle"`
-					} `json:"timers"`
-					Capability struct {
-						Cspf struct {
-							EnableBetterProtection string `json:"enable-better-protection"`
-							TieBreak               struct {
-								MostFill  string `json:"most-fill"`
-								LeastFill string `json:"least-fill"`
-								Random    string `json:"random"`
-							} `json:"tie-break"`
-							DisableBetterProtection string `json:"disable-better-protection"`
-							DefaultRetryInterval    string `json:"default-retry-interval"`
-						} `json:"cspf"`
-						TrafficEngineering string `json:"traffic-engineering"`
-					} `json:"capability"`
-					DefaultMetric string `json:"default-metric"`
-					Distance      struct {
-						Global string `json:"global"`
-						Ospf   struct {
-							InterArea string `json:"inter-area"`
-							External  string `json:"external"`
-							IntraArea string `json:"intra-area"`
-						} `json:"ospf"`
-					} `json:"distance"`
-					LogAdjacencyChanges struct {
-						Detail string `json:"detail"`
-					} `json:"log-adjacency-changes"`
-					MplsTe struct {
-						Enable        string `json:"enable"`
-						RouterAddress string `json:"router-address"`
-					} `json:"mpls-te"`
-					AutoCost struct {
-						ReferenceBandwidth string `json:"reference-bandwidth"`
-					} `json:"auto-cost"`
-					PassiveInterfaceExclude string `json:"passive-interface-exclude"`
-					AccessList              map[string]struct {
-						Export string `json:"export"`
-					} `json:"access-list"`
-					Parameters struct {
-						Rfc1583Compatibility string `json:"rfc1583-compatibility"`
-						RouterId             string `json:"router-id"`
-						AbrType              string `json:"abr-type"`
-						OpaqueLsa            string `json:"opaque-lsa"`
-					} `json:"parameters"`
-					PassiveInterface string `json:"passive-interface"`
-					Redistribute     struct {
-						Rip struct {
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"rip"`
-						Connected struct {
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"connected"`
-						Static struct {
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"static"`
-						Bgp struct {
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"bgp"`
-						Kernel struct {
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"kernel"`
-					} `json:"redistribute"`
-					MaxMetric struct {
-						RouterLsa struct {
-							OnStartup      string `json:"on-startup"`
-							Administrative string `json:"administrative"`
-							OnShutdown     string `json:"on-shutdown"`
-						} `json:"router-lsa"`
-					} `json:"max-metric"`
-					DefaultInformation struct {
-						Originate struct {
-							Always     string `json:"always"`
-							RouteMap   string `json:"route-map"`
-							MetricType string `json:"metric-type"`
-							Metric     string `json:"metric"`
-						} `json:"originate"`
-					} `json:"default-information"`
-				} `json:"vrf"`
-			} `json:".instance-id"`
-			Parameters struct {
-				Rfc1583Compatibility string `json:"rfc1583-compatibility"`
-				RouterId             string `json:"router-id"`
-				AbrType              string `json:"abr-type"`
-				OpaqueLsa            string `json:"opaque-lsa"`
-			} `json:"parameters"`
-			PassiveInterface string `json:"passive-interface"`
-			Redistribute     struct {
-				Rip struct {
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"rip"`
-				Connected struct {
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"connected"`
-				Static struct {
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"static"`
-				Bgp struct {
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"bgp"`
-				Kernel struct {
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"kernel"`
-			} `json:"redistribute"`
-			MaxMetric struct {
-				RouterLsa struct {
-					OnStartup      string `json:"on-startup"`
-					Administrative string `json:"administrative"`
-					OnShutdown     string `json:"on-shutdown"`
-				} `json:"router-lsa"`
-			} `json:"max-metric"`
-			DefaultInformation struct {
-				Originate struct {
-					Always     string `json:"always"`
-					RouteMap   string `json:"route-map"`
-					MetricType string `json:"metric-type"`
-					Metric     string `json:"metric"`
-				} `json:"originate"`
-			} `json:"default-information"`
-		} `json:"ospf"`
-	} `json:"protocols"`
-	Policy struct {
-		AsPathList map[string]struct {
-			Rule map[string]struct {
-				Regex       string `json:"regex"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"as-path-list"`
-		AccessList map[string]struct {
-			Rule map[string]struct {
-				Source struct {
-					Host        string `json:"host"`
-					Network     string `json:"network"`
-					Any         string `json:"any"`
-					InverseMask string `json:"inverse-mask"`
-				} `json:"source"`
-				Destination struct {
-					Host        string `json:"host"`
-					Network     string `json:"network"`
-					Any         string `json:"any"`
-					InverseMask string `json:"inverse-mask"`
-				} `json:"destination"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"access-list"`
-		RouteMap map[string]struct {
-			Rule map[string]struct {
-				Match struct {
-					AsPath       string `json:"as-path"`
-					Interface    string `json:"interface"`
-					Extcommunity struct {
-						ExactMatch       string `json:"exact-match"`
-						ExtcommunityList string `json:"extcommunity-list"`
-					} `json:"extcommunity"`
-					Peer      string `json:"peer"`
-					Origin    string `json:"origin"`
-					Community struct {
-						ExactMatch    string `json:"exact-match"`
-						CommunityList string `json:"community-list"`
-					} `json:"community"`
-					Ip struct {
-						RouteSource struct {
-							AccessList string `json:"access-list"`
-							PrefixList string `json:"prefix-list"`
-						} `json:"route-source"`
-						Nexthop struct {
-							AccessList string `json:"access-list"`
-							PrefixList string `json:"prefix-list"`
-						} `json:"nexthop"`
-						Address struct {
-							AccessList string `json:"access-list"`
-							PrefixList string `json:"prefix-list"`
-						} `json:"address"`
-					} `json:"ip"`
-					Metric string `json:"metric"`
-					Ipv6   struct {
-						Nexthop struct {
-							AccessList string `json:"access-list"`
-							PrefixList string `json:"prefix-list"`
-						} `json:"nexthop"`
-						Address struct {
-							AccessList string `json:"access-list"`
-							PrefixList string `json:"prefix-list"`
-						} `json:"address"`
-					} `json:"ipv6"`
-					Tag string `json:"tag"`
-				} `json:"match"`
-				OnMatch struct {
-					Next string `json:"next"`
-					Goto string `json:"goto"`
-				} `json:"on-match"`
-				Action      string `json:"action"`
-				Call        string `json:"call"`
-				Description string `json:"description"`
-				Set         struct {
-					Weight        string `json:"weight"`
-					AsPathPrepend string `json:"as-path-prepend"`
-					Ipv6NextHop   struct {
-						Local  string `json:"local"`
-						Global string `json:"global"`
-					} `json:"ipv6-next-hop"`
-					CommList struct {
-						CommList string `json:"comm-list"`
-						Delete   string `json:"delete"`
-					} `json:"comm-list"`
-					OriginatorId string `json:"originator-id"`
-					Extcommunity struct {
-						Rt string `json:"rt"`
-						Ro string `json:"ro"`
-					} `json:"extcommunity"`
-					Aggregator struct {
-						As string `json:"as"`
-						Ip string `json:"ip"`
-					} `json:"aggregator"`
-					AtomicAggregate string `json:"atomic-aggregate"`
-					LocalPreference string `json:"local-preference"`
-					MetricType      string `json:"metric-type"`
-					Origin          string `json:"origin"`
-					Community       string `json:"community"`
-					Metric          string `json:"metric"`
-					IpNextHop       string `json:"ip-next-hop"`
-					Tag             string `json:"tag"`
-				} `json:"set"`
-				Continue string `json:"continue"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"route-map"`
-		AccessList6 map[string]struct {
-			Rule map[string]struct {
-				Source struct {
-					Network    string `json:"network"`
-					Any        string `json:"any"`
-					ExactMatch string `json:"exact-match"`
-				} `json:"source"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"access-list6"`
-		PrefixList6 map[string]struct {
-			Rule map[string]struct {
-				Prefix      string `json:"prefix"`
-				Le          string `json:"le"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Ge          string `json:"ge"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"prefix-list6"`
-		CommunityList map[string]struct {
-			Rule map[string]struct {
-				Regex       string `json:"regex"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"community-list"`
-		ExtcommunityList map[string]struct {
-			Rule map[string]struct {
-				Rt          string `json:"rt"`
-				Regex       string `json:"regex"`
-				Ro          string `json:"ro"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"extcommunity-list"`
-		PrefixList map[string]struct {
-			Rule map[string]struct {
-				Prefix      string `json:"prefix"`
-				Le          string `json:"le"`
-				Action      string `json:"action"`
-				Description string `json:"description"`
-				Ge          string `json:"ge"`
-			} `json:"rule"`
-			Description string `json:"description"`
-		} `json:"prefix-list"`
-	} `json:"policy"`
-	Interfaces struct {
-		Wirelessmodem map[string]struct {
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Ondemand      string `json:"ondemand"`
-			Mtu           string `json:"mtu"`
-			Network       string `json:"network"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			NoDns             string `json:"no-dns"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Description string `json:"description"`
-			Redirect    string `json:"redirect"`
-			Device      string `json:"device"`
-			Backup      struct {
-				Distance string `json:"distance"`
-			} `json:"backup"`
-			Ip struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"wirelessmodem"`
-		Ipv6Tunnel map[string]struct {
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Encapsulation string `json:"encapsulation"`
-			Multicast     string `json:"multicast"`
-			Ttl           string `json:"ttl"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Key               string `json:"key"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Tos         string `json:"tos"`
-			Description string `json:"description"`
-			Address     string `json:"address"`
-			Redirect    string `json:"redirect"`
-			LocalIp     string `json:"local-ip"`
-			RemoteIp    string `json:"remote-ip"`
-			Ip          struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				Ripng struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"ipv6-tunnel"`
-		Bonding map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			HashPolicy string `json:"hash-policy"`
-			Disable    string `json:"disable"`
-			Bandwidth  struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Mode          string `json:"mode"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Vrrp struct {
-				VrrpGroup map[string]struct {
-					Disable              string `json:"disable"`
-					VirtualAddress       string `json:"virtual-address"`
-					AdvertiseInterval    string `json:"advertise-interval"`
-					SyncGroup            string `json:"sync-group"`
-					PreemptDelay         string `json:"preempt-delay"`
-					RunTransitionScripts struct {
-						Master string `json:"master"`
-						Fault  string `json:"fault"`
-						Backup string `json:"backup"`
-					} `json:"run-transition-scripts"`
-					Preempt            string `json:"preempt"`
-					Description        string `json:"description"`
-					HelloSourceAddress string `json:"hello-source-address"`
-					Priority           string `json:"priority"`
-					Authentication     struct {
-						Password string `json:"password"`
-						Type     string `json:"type"`
-					} `json:"authentication"`
-				} `json:"vrrp-group"`
-			} `json:"vrrp"`
-			Dhcpv6Pd struct {
-				Pd map[string]struct {
-					Interface map[string]struct {
-						StaticMapping map[string]struct {
-							Identifier  string `json:"identifier"`
-							HostAddress string `json:"host-address"`
-						} `json:"static-mapping"`
-						NoDns       string `json:"no-dns"`
-						PrefixId    string `json:"prefix-id"`
-						HostAddress string `json:"host-address"`
-						Service     string `json:"service"`
-					} `json:"interface"`
-					PrefixLength string `json:"prefix-length"`
-				} `json:"pd"`
-				Duid        string `json:"duid"`
-				NoDns       string `json:"no-dns"`
-				RapidCommit string `json:"rapid-commit"`
-				PrefixOnly  string `json:"prefix-only"`
-			} `json:"dhcpv6-pd"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Mac         string `json:"mac"`
-			DhcpOptions struct {
-				NameServer           string `json:"name-server"`
-				DefaultRoute         string `json:"default-route"`
-				ClientOption         string `json:"client-option"`
-				DefaultRouteDistance string `json:"default-route-distance"`
-				GlobalOption         string `json:"global-option"`
-			} `json:"dhcp-options"`
-			Description string `json:"description"`
-			Vif         map[string]struct {
-				BridgeGroup struct {
-					Bridge   string `json:"bridge"`
-					Cost     string `json:"cost"`
-					Priority string `json:"priority"`
-				} `json:"bridge-group"`
-				Disable   string `json:"disable"`
-				Bandwidth struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Mtu           string `json:"mtu"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				Vrrp struct {
-					VrrpGroup map[string]struct {
-						Disable              string `json:"disable"`
-						VirtualAddress       string `json:"virtual-address"`
-						AdvertiseInterval    string `json:"advertise-interval"`
-						SyncGroup            string `json:"sync-group"`
-						PreemptDelay         string `json:"preempt-delay"`
-						RunTransitionScripts struct {
-							Master string `json:"master"`
-							Fault  string `json:"fault"`
-							Backup string `json:"backup"`
-						} `json:"run-transition-scripts"`
-						Preempt            string `json:"preempt"`
-						Description        string `json:"description"`
-						HelloSourceAddress string `json:"hello-source-address"`
-						Priority           string `json:"priority"`
-						Authentication     struct {
-							Password string `json:"password"`
-							Type     string `json:"type"`
-						} `json:"authentication"`
-					} `json:"vrrp-group"`
-				} `json:"vrrp"`
-				Dhcpv6Pd struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				DisableLinkDetect string `json:"disable-link-detect"`
-				Firewall          struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				DhcpOptions struct {
-					NameServer           string `json:"name-server"`
-					DefaultRoute         string `json:"default-route"`
-					ClientOption         string `json:"client-option"`
-					DefaultRouteDistance string `json:"default-route-distance"`
-					GlobalOption         string `json:"global-option"`
-				} `json:"dhcp-options"`
-				Description   string `json:"description"`
-				Address       string `json:"address"`
-				Redirect      string `json:"redirect"`
-				Dhcpv6Options struct {
-					ParametersOnly string `json:"parameters-only"`
-					Temporary      string `json:"temporary"`
-				} `json:"dhcpv6-options"`
-				Ip struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64    string `json:"eui64"`
-						Autoconf string `json:"autoconf"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-			} `json:"vif"`
-			Address    string `json:"address"`
-			Redirect   string `json:"redirect"`
-			ArpMonitor struct {
-				Target   string `json:"target"`
-				Interval string `json:"interval"`
-			} `json:"arp-monitor"`
-			Dhcpv6Options struct {
-				ParametersOnly string `json:"parameters-only"`
-				Temporary      string `json:"temporary"`
-			} `json:"dhcpv6-options"`
-			Ip struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				EnableProxyArp   string `json:"enable-proxy-arp"`
-				SourceValidation string `json:"source-validation"`
-				ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			Primary string `json:"primary"`
-		} `json:"bonding"`
-		L2tpv3 map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			Disable       string `json:"disable"`
-			PeerSessionId string `json:"peer-session-id"`
-			Bandwidth     struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Encapsulation string `json:"encapsulation"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			SourcePort string `json:"source-port"`
-			Firewall   struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			PeerTunnelId string `json:"peer-tunnel-id"`
-			Description  string `json:"description"`
-			Address      string `json:"address"`
-			Redirect     string `json:"redirect"`
-			LocalIp      string `json:"local-ip"`
-			RemoteIp     string `json:"remote-ip"`
-			Ip           struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			DestinationPort string `json:"destination-port"`
-			Ipv6            struct {
-				Ripng struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			TunnelId  string `json:"tunnel-id"`
-			SessionId string `json:"session-id"`
-		} `json:"l2tpv3"`
-		Vti map[string]struct {
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Firewall struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Description string `json:"description"`
-			Address     string `json:"address"`
-			Redirect    string `json:"redirect"`
-			Ip          struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				Ripng struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"vti"`
-		Input map[string]struct {
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Firewall struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Description string `json:"description"`
-			Redirect    string `json:"redirect"`
-		} `json:"input"`
-		Bridge map[string]struct {
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Multicast string `json:"multicast"`
-			Pppoe     map[string]struct {
-				ServiceName string `json:"service-name"`
-				Bandwidth   struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Password      string `json:"password"`
-				RemoteAddress string `json:"remote-address"`
-				HostUniq      string `json:"host-uniq"`
-				Mtu           string `json:"mtu"`
-				NameServer    string `json:"name-server"`
-				DefaultRoute  string `json:"default-route"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				IdleTimeout string `json:"idle-timeout"`
-				Dhcpv6Pd    struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				ConnectOnDemand string `json:"connect-on-demand"`
-				Firewall        struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				UserId       string `json:"user-id"`
-				Description  string `json:"description"`
-				LocalAddress string `json:"local-address"`
-				Redirect     string `json:"redirect"`
-				Ip           struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					Enable struct {
-						RemoteIdentifier string `json:"remote-identifier"`
-						LocalIdentifier  string `json:"local-identifier"`
-					} `json:"enable"`
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64     string `json:"eui64"`
-						Autoconf  string `json:"autoconf"`
-						Secondary string `json:"secondary"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-				Multilink          string `json:"multilink"`
-				AccessConcentrator string `json:"access-concentrator"`
-			} `json:"pppoe"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Vrrp struct {
-				VrrpGroup map[string]struct {
-					Disable              string `json:"disable"`
-					VirtualAddress       string `json:"virtual-address"`
-					AdvertiseInterval    string `json:"advertise-interval"`
-					SyncGroup            string `json:"sync-group"`
-					PreemptDelay         string `json:"preempt-delay"`
-					RunTransitionScripts struct {
-						Master string `json:"master"`
-						Fault  string `json:"fault"`
-						Backup string `json:"backup"`
-					} `json:"run-transition-scripts"`
-					Preempt            string `json:"preempt"`
-					Description        string `json:"description"`
-					HelloSourceAddress string `json:"hello-source-address"`
-					Priority           string `json:"priority"`
-					Authentication     struct {
-						Password string `json:"password"`
-						Type     string `json:"type"`
-					} `json:"authentication"`
-				} `json:"vrrp-group"`
-			} `json:"vrrp"`
-			Dhcpv6Pd struct {
-				Pd map[string]struct {
-					Interface map[string]struct {
-						StaticMapping map[string]struct {
-							Identifier  string `json:"identifier"`
-							HostAddress string `json:"host-address"`
-						} `json:"static-mapping"`
-						NoDns       string `json:"no-dns"`
-						PrefixId    string `json:"prefix-id"`
-						HostAddress string `json:"host-address"`
-						Service     string `json:"service"`
-					} `json:"interface"`
-					PrefixLength string `json:"prefix-length"`
-				} `json:"pd"`
-				Duid        string `json:"duid"`
-				NoDns       string `json:"no-dns"`
-				RapidCommit string `json:"rapid-commit"`
-				PrefixOnly  string `json:"prefix-only"`
-			} `json:"dhcpv6-pd"`
-			Stp               string `json:"stp"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			MaxAge           string `json:"max-age"`
-			BridgedConntrack string `json:"bridged-conntrack"`
-			DhcpOptions      struct {
-				NameServer           string `json:"name-server"`
-				DefaultRoute         string `json:"default-route"`
-				ClientOption         string `json:"client-option"`
-				DefaultRouteDistance string `json:"default-route-distance"`
-				GlobalOption         string `json:"global-option"`
-			} `json:"dhcp-options"`
-			HelloTime   string `json:"hello-time"`
-			Description string `json:"description"`
-			Vif         map[string]struct {
-				Disable   string `json:"disable"`
-				Bandwidth struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Pppoe map[string]struct {
-					ServiceName string `json:"service-name"`
-					Bandwidth   struct {
-						Maximum    string `json:"maximum"`
-						Reservable string `json:"reservable"`
-						Constraint struct {
-							ClassType map[string]struct {
-								Bandwidth string `json:"bandwidth"`
-							} `json:"class-type"`
-						} `json:"constraint"`
-					} `json:"bandwidth"`
-					Password      string `json:"password"`
-					RemoteAddress string `json:"remote-address"`
-					HostUniq      string `json:"host-uniq"`
-					Mtu           string `json:"mtu"`
-					NameServer    string `json:"name-server"`
-					DefaultRoute  string `json:"default-route"`
-					TrafficPolicy struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"traffic-policy"`
-					IdleTimeout string `json:"idle-timeout"`
-					Dhcpv6Pd    struct {
-						Pd map[string]struct {
-							Interface map[string]struct {
-								StaticMapping map[string]struct {
-									Identifier  string `json:"identifier"`
-									HostAddress string `json:"host-address"`
-								} `json:"static-mapping"`
-								NoDns       string `json:"no-dns"`
-								PrefixId    string `json:"prefix-id"`
-								HostAddress string `json:"host-address"`
-								Service     string `json:"service"`
-							} `json:"interface"`
-							PrefixLength string `json:"prefix-length"`
-						} `json:"pd"`
-						Duid        string `json:"duid"`
-						NoDns       string `json:"no-dns"`
-						RapidCommit string `json:"rapid-commit"`
-						PrefixOnly  string `json:"prefix-only"`
-					} `json:"dhcpv6-pd"`
-					ConnectOnDemand string `json:"connect-on-demand"`
-					Firewall        struct {
-						Out struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"out"`
-						In struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"in"`
-						Local struct {
-							Name     string `json:"name"`
-							Ipv6Name string `json:"ipv6-name"`
-						} `json:"local"`
-					} `json:"firewall"`
-					UserId       string `json:"user-id"`
-					Description  string `json:"description"`
-					LocalAddress string `json:"local-address"`
-					Redirect     string `json:"redirect"`
-					Ip           struct {
-						Rip struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-							Authentication struct {
-								Md5 map[string]struct {
-									Password string `json:"password"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-						} `json:"rip"`
-						SourceValidation string `json:"source-validation"`
-						Ospf             struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Network            string `json:"network"`
-							Cost               string `json:"cost"`
-							DeadInterval       string `json:"dead-interval"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							Authentication     struct {
-								Md5 struct {
-									KeyId map[string]struct {
-										Md5Key string `json:"md5-key"`
-									} `json:"key-id"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-							HelloInterval string `json:"hello-interval"`
-						} `json:"ospf"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Enable struct {
-							RemoteIdentifier string `json:"remote-identifier"`
-							LocalIdentifier  string `json:"local-identifier"`
-						} `json:"enable"`
-						DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-						DisableForwarding      string `json:"disable-forwarding"`
-						Ripng                  struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-						} `json:"ripng"`
-						Address struct {
-							Eui64     string `json:"eui64"`
-							Autoconf  string `json:"autoconf"`
-							Secondary string `json:"secondary"`
-						} `json:"address"`
-						RouterAdvert struct {
-							DefaultPreference string `json:"default-preference"`
-							MinInterval       string `json:"min-interval"`
-							MaxInterval       string `json:"max-interval"`
-							ReachableTime     string `json:"reachable-time"`
-							Prefix            map[string]struct {
-								AutonomousFlag    string `json:"autonomous-flag"`
-								OnLinkFlag        string `json:"on-link-flag"`
-								ValidLifetime     string `json:"valid-lifetime"`
-								PreferredLifetime string `json:"preferred-lifetime"`
-							} `json:"prefix"`
-							NameServer      string `json:"name-server"`
-							RetransTimer    string `json:"retrans-timer"`
-							SendAdvert      string `json:"send-advert"`
-							RadvdOptions    string `json:"radvd-options"`
-							ManagedFlag     string `json:"managed-flag"`
-							OtherConfigFlag string `json:"other-config-flag"`
-							DefaultLifetime string `json:"default-lifetime"`
-							CurHopLimit     string `json:"cur-hop-limit"`
-							LinkMtu         string `json:"link-mtu"`
-						} `json:"router-advert"`
-						Ospfv3 struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Cost               string `json:"cost"`
-							Passive            string `json:"passive"`
-							DeadInterval       string `json:"dead-interval"`
-							InstanceId         string `json:"instance-id"`
-							Ifmtu              string `json:"ifmtu"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							HelloInterval      string `json:"hello-interval"`
-						} `json:"ospfv3"`
-					} `json:"ipv6"`
-					Multilink          string `json:"multilink"`
-					AccessConcentrator string `json:"access-concentrator"`
-				} `json:"pppoe"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				Vrrp struct {
-					VrrpGroup map[string]struct {
-						Disable              string `json:"disable"`
-						VirtualAddress       string `json:"virtual-address"`
-						AdvertiseInterval    string `json:"advertise-interval"`
-						SyncGroup            string `json:"sync-group"`
-						PreemptDelay         string `json:"preempt-delay"`
-						RunTransitionScripts struct {
-							Master string `json:"master"`
-							Fault  string `json:"fault"`
-							Backup string `json:"backup"`
-						} `json:"run-transition-scripts"`
-						Preempt            string `json:"preempt"`
-						Description        string `json:"description"`
-						HelloSourceAddress string `json:"hello-source-address"`
-						Priority           string `json:"priority"`
-						Authentication     struct {
-							Password string `json:"password"`
-							Type     string `json:"type"`
-						} `json:"authentication"`
-					} `json:"vrrp-group"`
-				} `json:"vrrp"`
-				Dhcpv6Pd struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				DisableLinkDetect string `json:"disable-link-detect"`
-				Firewall          struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				DhcpOptions struct {
-					NameServer           string `json:"name-server"`
-					DefaultRoute         string `json:"default-route"`
-					ClientOption         string `json:"client-option"`
-					DefaultRouteDistance string `json:"default-route-distance"`
-					GlobalOption         string `json:"global-option"`
-				} `json:"dhcp-options"`
-				Description   string `json:"description"`
-				Address       string `json:"address"`
-				Redirect      string `json:"redirect"`
-				Dhcpv6Options struct {
-					ParametersOnly string `json:"parameters-only"`
-					Temporary      string `json:"temporary"`
-				} `json:"dhcpv6-options"`
-				Ip struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64    string `json:"eui64"`
-						Autoconf string `json:"autoconf"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-			} `json:"vif"`
-			Address         string `json:"address"`
-			Redirect        string `json:"redirect"`
-			ForwardingDelay string `json:"forwarding-delay"`
-			Dhcpv6Options   struct {
-				ParametersOnly string `json:"parameters-only"`
-				Temporary      string `json:"temporary"`
-			} `json:"dhcpv6-options"`
-			Priority    string `json:"priority"`
-			Promiscuous string `json:"promiscuous"`
-			Ip          struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			Aging string `json:"aging"`
-		} `json:"bridge"`
-		L2tpClient map[string]struct {
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Mtu           string `json:"mtu"`
-			NameServer    string `json:"name-server"`
-			DefaultRoute  string `json:"default-route"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Firewall struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			ServerIp    string `json:"server-ip"`
-			Description string `json:"description"`
-			Compression struct {
-				ProtocolField string `json:"protocol-field"`
-				Bsd           string `json:"bsd"`
-				TcpHeader     string `json:"tcp-header"`
-				Deflate       string `json:"deflate"`
-				Control       string `json:"control"`
-			} `json:"compression"`
-			Redirect     string `json:"redirect"`
-			RequireIpsec string `json:"require-ipsec"`
-			Ip           struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				Ripng struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			Authentication struct {
-				Password    string `json:"password"`
-				Refuse      string `json:"refuse"`
-				UserId      string `json:"user-id"`
-				RequireMppe string `json:"require-mppe"`
-			} `json:"authentication"`
-		} `json:"l2tp-client"`
-		PptpClient map[string]struct {
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Password      string `json:"password"`
-			RemoteAddress string `json:"remote-address"`
-			Mtu           string `json:"mtu"`
-			NameServer    string `json:"name-server"`
-			DefaultRoute  string `json:"default-route"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			IdleTimeout     string `json:"idle-timeout"`
-			ConnectOnDemand string `json:".connect-on-demand"`
-			Firewall        struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			UserId       string `json:"user-id"`
-			ServerIp     string `json:"server-ip"`
-			Description  string `json:"description"`
-			LocalAddress string `json:"local-address"`
-			RequireMppe  string `json:"require-mppe"`
-			Redirect     string `json:"redirect"`
-			Ip           struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				Enable struct {
-					RemoteIdentifier string `json:"remote-identifier"`
-					LocalIdentifier  string `json:"local-identifier"`
-				} `json:"enable"`
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64     string `json:"eui64"`
-					Autoconf  string `json:"autoconf"`
-					Secondary string `json:"secondary"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"pptp-client"`
-		Ethernet map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			Poe struct {
-				Output   string `json:"output"`
-				Watchdog struct {
-					Disable      string `json:"disable"`
-					FailureCount string `json:"failure-count"`
-					OffDelay     string `json:"off-delay"`
-					Interval     string `json:"interval"`
-					StartDelay   string `json:"start-delay"`
-					Address      string `json:"address"`
-				} `json:"watchdog"`
-			} `json:"poe"`
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Pppoe map[string]struct {
-				ServiceName string `json:"service-name"`
-				Bandwidth   struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Password      string `json:"password"`
-				RemoteAddress string `json:"remote-address"`
-				HostUniq      string `json:"host-uniq"`
-				Mtu           string `json:"mtu"`
-				NameServer    string `json:"name-server"`
-				DefaultRoute  string `json:"default-route"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				IdleTimeout string `json:"idle-timeout"`
-				Dhcpv6Pd    struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				ConnectOnDemand string `json:"connect-on-demand"`
-				Firewall        struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				UserId       string `json:"user-id"`
-				Description  string `json:"description"`
-				LocalAddress string `json:"local-address"`
-				Redirect     string `json:"redirect"`
-				Ip           struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					Enable struct {
-						RemoteIdentifier string `json:"remote-identifier"`
-						LocalIdentifier  string `json:"local-identifier"`
-					} `json:"enable"`
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64     string `json:"eui64"`
-						Autoconf  string `json:"autoconf"`
-						Secondary string `json:"secondary"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-				Multilink          string `json:"multilink"`
-				AccessConcentrator string `json:"access-concentrator"`
-			} `json:"pppoe"`
-			Speed         string `json:"speed"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Vrrp struct {
-				VrrpGroup map[string]struct {
-					Disable              string `json:"disable"`
-					VirtualAddress       string `json:"virtual-address"`
-					AdvertiseInterval    string `json:"advertise-interval"`
-					SyncGroup            string `json:"sync-group"`
-					PreemptDelay         string `json:"preempt-delay"`
-					RunTransitionScripts struct {
-						Master string `json:"master"`
-						Fault  string `json:"fault"`
-						Backup string `json:"backup"`
-					} `json:"run-transition-scripts"`
-					Preempt            string `json:"preempt"`
-					Description        string `json:"description"`
-					HelloSourceAddress string `json:"hello-source-address"`
-					Priority           string `json:"priority"`
-					Authentication     struct {
-						Password string `json:"password"`
-						Type     string `json:"type"`
-					} `json:"authentication"`
-				} `json:"vrrp-group"`
-			} `json:"vrrp"`
-			Dhcpv6Pd struct {
-				Pd map[string]struct {
-					Interface map[string]struct {
-						StaticMapping map[string]struct {
-							Identifier  string `json:"identifier"`
-							HostAddress string `json:"host-address"`
-						} `json:"static-mapping"`
-						NoDns       string `json:"no-dns"`
-						PrefixId    string `json:"prefix-id"`
-						HostAddress string `json:"host-address"`
-						Service     string `json:"service"`
-					} `json:"interface"`
-					PrefixLength string `json:"prefix-length"`
-				} `json:"pd"`
-				Duid        string `json:"duid"`
-				NoDns       string `json:"no-dns"`
-				RapidCommit string `json:"rapid-commit"`
-				PrefixOnly  string `json:"prefix-only"`
-			} `json:"dhcpv6-pd"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Duplex            string `json:"duplex"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			DisableFlowControl string `json:".disable-flow-control"`
-			Mac                string `json:"mac"`
-			DhcpOptions        struct {
-				NameServer           string `json:"name-server"`
-				DefaultRoute         string `json:"default-route"`
-				ClientOption         string `json:"client-option"`
-				DefaultRouteDistance string `json:"default-route-distance"`
-				GlobalOption         string `json:"global-option"`
-			} `json:"dhcp-options"`
-			Description string `json:"description"`
-			BondGroup   string `json:"bond-group"`
-			Vif         map[string]struct {
-				BridgeGroup struct {
-					Bridge   string `json:"bridge"`
-					Cost     string `json:"cost"`
-					Priority string `json:"priority"`
-				} `json:"bridge-group"`
-				Disable   string `json:"disable"`
-				Bandwidth struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				EgressQos string `json:"egress-qos"`
-				Pppoe     map[string]struct {
-					ServiceName string `json:"service-name"`
-					Bandwidth   struct {
-						Maximum    string `json:"maximum"`
-						Reservable string `json:"reservable"`
-						Constraint struct {
-							ClassType map[string]struct {
-								Bandwidth string `json:"bandwidth"`
-							} `json:"class-type"`
-						} `json:"constraint"`
-					} `json:"bandwidth"`
-					Password      string `json:"password"`
-					RemoteAddress string `json:"remote-address"`
-					HostUniq      string `json:"host-uniq"`
-					Mtu           string `json:"mtu"`
-					NameServer    string `json:"name-server"`
-					DefaultRoute  string `json:"default-route"`
-					TrafficPolicy struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"traffic-policy"`
-					IdleTimeout string `json:"idle-timeout"`
-					Dhcpv6Pd    struct {
-						Pd map[string]struct {
-							Interface map[string]struct {
-								StaticMapping map[string]struct {
-									Identifier  string `json:"identifier"`
-									HostAddress string `json:"host-address"`
-								} `json:"static-mapping"`
-								NoDns       string `json:"no-dns"`
-								PrefixId    string `json:"prefix-id"`
-								HostAddress string `json:"host-address"`
-								Service     string `json:"service"`
-							} `json:"interface"`
-							PrefixLength string `json:"prefix-length"`
-						} `json:"pd"`
-						Duid        string `json:"duid"`
-						NoDns       string `json:"no-dns"`
-						RapidCommit string `json:"rapid-commit"`
-						PrefixOnly  string `json:"prefix-only"`
-					} `json:"dhcpv6-pd"`
-					ConnectOnDemand string `json:"connect-on-demand"`
-					Firewall        struct {
-						Out struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"out"`
-						In struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"in"`
-						Local struct {
-							Name     string `json:"name"`
-							Ipv6Name string `json:"ipv6-name"`
-						} `json:"local"`
-					} `json:"firewall"`
-					UserId       string `json:"user-id"`
-					Description  string `json:"description"`
-					LocalAddress string `json:"local-address"`
-					Redirect     string `json:"redirect"`
-					Ip           struct {
-						Rip struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-							Authentication struct {
-								Md5 map[string]struct {
-									Password string `json:"password"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-						} `json:"rip"`
-						SourceValidation string `json:"source-validation"`
-						Ospf             struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Network            string `json:"network"`
-							Cost               string `json:"cost"`
-							DeadInterval       string `json:"dead-interval"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							Authentication     struct {
-								Md5 struct {
-									KeyId map[string]struct {
-										Md5Key string `json:"md5-key"`
-									} `json:"key-id"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-							HelloInterval string `json:"hello-interval"`
-						} `json:"ospf"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Enable struct {
-							RemoteIdentifier string `json:"remote-identifier"`
-							LocalIdentifier  string `json:"local-identifier"`
-						} `json:"enable"`
-						DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-						DisableForwarding      string `json:"disable-forwarding"`
-						Ripng                  struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-						} `json:"ripng"`
-						Address struct {
-							Eui64     string `json:"eui64"`
-							Autoconf  string `json:"autoconf"`
-							Secondary string `json:"secondary"`
-						} `json:"address"`
-						RouterAdvert struct {
-							DefaultPreference string `json:"default-preference"`
-							MinInterval       string `json:"min-interval"`
-							MaxInterval       string `json:"max-interval"`
-							ReachableTime     string `json:"reachable-time"`
-							Prefix            map[string]struct {
-								AutonomousFlag    string `json:"autonomous-flag"`
-								OnLinkFlag        string `json:"on-link-flag"`
-								ValidLifetime     string `json:"valid-lifetime"`
-								PreferredLifetime string `json:"preferred-lifetime"`
-							} `json:"prefix"`
-							NameServer      string `json:"name-server"`
-							RetransTimer    string `json:"retrans-timer"`
-							SendAdvert      string `json:"send-advert"`
-							RadvdOptions    string `json:"radvd-options"`
-							ManagedFlag     string `json:"managed-flag"`
-							OtherConfigFlag string `json:"other-config-flag"`
-							DefaultLifetime string `json:"default-lifetime"`
-							CurHopLimit     string `json:"cur-hop-limit"`
-							LinkMtu         string `json:"link-mtu"`
-						} `json:"router-advert"`
-						Ospfv3 struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Cost               string `json:"cost"`
-							Passive            string `json:"passive"`
-							DeadInterval       string `json:"dead-interval"`
-							InstanceId         string `json:"instance-id"`
-							Ifmtu              string `json:"ifmtu"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							HelloInterval      string `json:"hello-interval"`
-						} `json:"ospfv3"`
-					} `json:"ipv6"`
-					Multilink          string `json:"multilink"`
-					AccessConcentrator string `json:"access-concentrator"`
-				} `json:"pppoe"`
-				Mtu           string `json:"mtu"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				Vrrp struct {
-					VrrpGroup map[string]struct {
-						Disable              string `json:"disable"`
-						VirtualAddress       string `json:"virtual-address"`
-						AdvertiseInterval    string `json:"advertise-interval"`
-						SyncGroup            string `json:"sync-group"`
-						PreemptDelay         string `json:"preempt-delay"`
-						RunTransitionScripts struct {
-							Master string `json:"master"`
-							Fault  string `json:"fault"`
-							Backup string `json:"backup"`
-						} `json:"run-transition-scripts"`
-						Preempt            string `json:"preempt"`
-						Description        string `json:"description"`
-						HelloSourceAddress string `json:"hello-source-address"`
-						Priority           string `json:"priority"`
-						Authentication     struct {
-							Password string `json:"password"`
-							Type     string `json:"type"`
-						} `json:"authentication"`
-					} `json:"vrrp-group"`
-				} `json:"vrrp"`
-				Dhcpv6Pd struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				DisableLinkDetect string `json:"disable-link-detect"`
-				Firewall          struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				Mac         string `json:"mac"`
-				DhcpOptions struct {
-					NameServer           string `json:"name-server"`
-					DefaultRoute         string `json:"default-route"`
-					ClientOption         string `json:"client-option"`
-					DefaultRouteDistance string `json:"default-route-distance"`
-					GlobalOption         string `json:"global-option"`
-				} `json:"dhcp-options"`
-				Description   string `json:"description"`
-				Address       string `json:"address"`
-				Redirect      string `json:"redirect"`
-				Dhcpv6Options struct {
-					ParametersOnly string `json:"parameters-only"`
-					Temporary      string `json:"temporary"`
-				} `json:"dhcpv6-options"`
-				Ip struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					EnableProxyArp   string `json:"enable-proxy-arp"`
-					SourceValidation string `json:"source-validation"`
-					ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64    string `json:"eui64"`
-						Autoconf string `json:"autoconf"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-			} `json:"vif"`
-			Address       string `json:"address"`
-			Redirect      string `json:"redirect"`
-			SmpAffinity   string `json:".smp_affinity"`
-			Dhcpv6Options struct {
-				ParametersOnly string `json:"parameters-only"`
-				Temporary      string `json:"temporary"`
-			} `json:"dhcpv6-options"`
-			Ip struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				EnableProxyArp   string `json:"enable-proxy-arp"`
-				SourceValidation string `json:"source-validation"`
-				ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			Mirror string `json:"mirror"`
-		} `json:"ethernet"`
-		Tunnel map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Encapsulation string `json:"encapsulation"`
-			Multicast     string `json:"multicast"`
-			Ttl           string `json:"ttl"`
-			Mtu           string `json:"mtu"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Key               string `json:"key"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			SixrdPrefix       string `json:"6rd-prefix"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Tos              string `json:"tos"`
-			SixrdRelayPrefix string `json:"6rd-relay_prefix"`
-			Description      string `json:"description"`
-			Address          string `json:"address"`
-			Redirect         string `json:"redirect"`
-			LocalIp          string `json:"local-ip"`
-			RemoteIp         string `json:"remote-ip"`
-			SixrdDefaultGw   string `json:"6rd-default-gw"`
-			Ip               struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"tunnel"`
-		Openvpn map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			Encryption string `json:"encryption"`
-			Disable    string `json:"disable"`
-			RemoteHost string `json:"remote-host"`
-			Bandwidth  struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			ReplaceDefaultRoute struct {
-				Local string `json:"local"`
-			} `json:"replace-default-route"`
-			OpenvpnOption       string `json:"openvpn-option"`
-			RemoteAddress       string `json:"remote-address"`
-			Mode                string `json:"mode"`
-			Hash                string `json:"hash"`
-			DeviceType          string `json:"device-type"`
-			SharedSecretKeyFile string `json:"shared-secret-key-file"`
-			LocalHost           string `json:"local-host"`
-			TrafficPolicy       struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Server struct {
-				PushRoute      string `json:"push-route"`
-				Topology       string `json:"topology"`
-				NameServer     string `json:"name-server"`
-				DomainName     string `json:"domain-name"`
-				MaxConnections string `json:"max-connections"`
-				Subnet         string `json:"subnet"`
-				Client         map[string]struct {
-					PushRoute string `json:"push-route"`
-					Disable   string `json:"disable"`
-					Ip        string `json:"ip"`
-					Subnet    string `json:"subnet"`
-				} `json:"client"`
-			} `json:"server"`
-			Protocol string `json:"protocol"`
-			Firewall struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Tls struct {
-				CrlFile    string `json:"crl-file"`
-				Role       string `json:"role"`
-				KeyFile    string `json:"key-file"`
-				DhFile     string `json:"dh-file"`
-				CaCertFile string `json:"ca-cert-file"`
-				CertFile   string `json:"cert-file"`
-			} `json:"tls"`
-			Description  string `json:"description"`
-			LocalAddress map[string]struct {
-				SubnetMask string `json:"subnet-mask"`
-			} `json:"local-address"`
-			LocalPort string `json:"local-port"`
-			Redirect  string `json:"redirect"`
-			Ip        struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-			RemotePort string `json:"remote-port"`
-			ConfigFile string `json:"config-file"`
-		} `json:"openvpn"`
-		Loopback map[string]struct {
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Description string `json:"description"`
-			Address     string `json:"address"`
-			Redirect    string `json:"redirect"`
-			Ip          struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				Ripng struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"loopback"`
-		Switch map[string]struct {
-			BridgeGroup struct {
-				Bridge   string `json:"bridge"`
-				Cost     string `json:"cost"`
-				Priority string `json:"priority"`
-			} `json:"bridge-group"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Pppoe map[string]struct {
-				ServiceName string `json:"service-name"`
-				Bandwidth   struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Password      string `json:"password"`
-				RemoteAddress string `json:"remote-address"`
-				HostUniq      string `json:"host-uniq"`
-				Mtu           string `json:"mtu"`
-				NameServer    string `json:"name-server"`
-				DefaultRoute  string `json:"default-route"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				IdleTimeout string `json:"idle-timeout"`
-				Dhcpv6Pd    struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				ConnectOnDemand string `json:"connect-on-demand"`
-				Firewall        struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				UserId       string `json:"user-id"`
-				Description  string `json:"description"`
-				LocalAddress string `json:"local-address"`
-				Redirect     string `json:"redirect"`
-				Ip           struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					Enable struct {
-						RemoteIdentifier string `json:"remote-identifier"`
-						LocalIdentifier  string `json:"local-identifier"`
-					} `json:"enable"`
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64     string `json:"eui64"`
-						Autoconf  string `json:"autoconf"`
-						Secondary string `json:"secondary"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-				Multilink          string `json:"multilink"`
-				AccessConcentrator string `json:"access-concentrator"`
-			} `json:"pppoe"`
-			Mtu        string `json:"mtu"`
-			SwitchPort struct {
-				Interface map[string]struct {
-					Vlan struct {
-						Vid  string `json:"vid"`
-						Pvid string `json:"pvid"`
-					} `json:"vlan"`
-				} `json:"interface"`
-				VlanAware string `json:"vlan-aware"`
-			} `json:"switch-port"`
-			TrafficPolicy struct {
-				Out string `json:"out"`
-				In  string `json:"in"`
-			} `json:"traffic-policy"`
-			Vrrp struct {
-				VrrpGroup map[string]struct {
-					Disable              string `json:"disable"`
-					VirtualAddress       string `json:"virtual-address"`
-					AdvertiseInterval    string `json:"advertise-interval"`
-					SyncGroup            string `json:"sync-group"`
-					PreemptDelay         string `json:"preempt-delay"`
-					RunTransitionScripts struct {
-						Master string `json:"master"`
-						Fault  string `json:"fault"`
-						Backup string `json:"backup"`
-					} `json:"run-transition-scripts"`
-					Preempt            string `json:"preempt"`
-					Description        string `json:"description"`
-					HelloSourceAddress string `json:"hello-source-address"`
-					Priority           string `json:"priority"`
-					Authentication     struct {
-						Password string `json:"password"`
-						Type     string `json:"type"`
-					} `json:"authentication"`
-				} `json:"vrrp-group"`
-			} `json:"vrrp"`
-			Dhcpv6Pd struct {
-				Pd map[string]struct {
-					Interface map[string]struct {
-						StaticMapping map[string]struct {
-							Identifier  string `json:"identifier"`
-							HostAddress string `json:"host-address"`
-						} `json:"static-mapping"`
-						NoDns       string `json:"no-dns"`
-						PrefixId    string `json:"prefix-id"`
-						HostAddress string `json:"host-address"`
-						Service     string `json:"service"`
-					} `json:"interface"`
-					PrefixLength string `json:"prefix-length"`
-				} `json:"pd"`
-				Duid        string `json:"duid"`
-				NoDns       string `json:"no-dns"`
-				RapidCommit string `json:"rapid-commit"`
-				PrefixOnly  string `json:"prefix-only"`
-			} `json:"dhcpv6-pd"`
-			Firewall struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			DhcpOptions struct {
-				NameServer           string `json:"name-server"`
-				DefaultRoute         string `json:"default-route"`
-				ClientOption         string `json:"client-option"`
-				DefaultRouteDistance string `json:"default-route-distance"`
-				GlobalOption         string `json:"global-option"`
-			} `json:"dhcp-options"`
-			Description string `json:"description"`
-			Vif         map[string]struct {
-				BridgeGroup struct {
-					Bridge   string `json:"bridge"`
-					Cost     string `json:"cost"`
-					Priority string `json:"priority"`
-				} `json:"bridge-group"`
-				Disable   string `json:"disable"`
-				Bandwidth struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Pppoe map[string]struct {
-					ServiceName string `json:"service-name"`
-					Bandwidth   struct {
-						Maximum    string `json:"maximum"`
-						Reservable string `json:"reservable"`
-						Constraint struct {
-							ClassType map[string]struct {
-								Bandwidth string `json:"bandwidth"`
-							} `json:"class-type"`
-						} `json:"constraint"`
-					} `json:"bandwidth"`
-					Password      string `json:"password"`
-					RemoteAddress string `json:"remote-address"`
-					HostUniq      string `json:"host-uniq"`
-					Mtu           string `json:"mtu"`
-					NameServer    string `json:"name-server"`
-					DefaultRoute  string `json:"default-route"`
-					TrafficPolicy struct {
-						Out string `json:"out"`
-						In  string `json:"in"`
-					} `json:"traffic-policy"`
-					IdleTimeout string `json:"idle-timeout"`
-					Dhcpv6Pd    struct {
-						Pd map[string]struct {
-							Interface map[string]struct {
-								StaticMapping map[string]struct {
-									Identifier  string `json:"identifier"`
-									HostAddress string `json:"host-address"`
-								} `json:"static-mapping"`
-								NoDns       string `json:"no-dns"`
-								PrefixId    string `json:"prefix-id"`
-								HostAddress string `json:"host-address"`
-								Service     string `json:"service"`
-							} `json:"interface"`
-							PrefixLength string `json:"prefix-length"`
-						} `json:"pd"`
-						Duid        string `json:"duid"`
-						NoDns       string `json:"no-dns"`
-						RapidCommit string `json:"rapid-commit"`
-						PrefixOnly  string `json:"prefix-only"`
-					} `json:"dhcpv6-pd"`
-					ConnectOnDemand string `json:"connect-on-demand"`
-					Firewall        struct {
-						Out struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"out"`
-						In struct {
-							Modify     string `json:"modify"`
-							Ipv6Modify string `json:"ipv6-modify"`
-							Name       string `json:"name"`
-							Ipv6Name   string `json:"ipv6-name"`
-						} `json:"in"`
-						Local struct {
-							Name     string `json:"name"`
-							Ipv6Name string `json:"ipv6-name"`
-						} `json:"local"`
-					} `json:"firewall"`
-					UserId       string `json:"user-id"`
-					Description  string `json:"description"`
-					LocalAddress string `json:"local-address"`
-					Redirect     string `json:"redirect"`
-					Ip           struct {
-						Rip struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-							Authentication struct {
-								Md5 map[string]struct {
-									Password string `json:"password"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-						} `json:"rip"`
-						SourceValidation string `json:"source-validation"`
-						Ospf             struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Network            string `json:"network"`
-							Cost               string `json:"cost"`
-							DeadInterval       string `json:"dead-interval"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							Authentication     struct {
-								Md5 struct {
-									KeyId map[string]struct {
-										Md5Key string `json:"md5-key"`
-									} `json:"key-id"`
-								} `json:"md5"`
-								PlaintextPassword string `json:"plaintext-password"`
-							} `json:"authentication"`
-							HelloInterval string `json:"hello-interval"`
-						} `json:"ospf"`
-					} `json:"ip"`
-					Ipv6 struct {
-						Enable struct {
-							RemoteIdentifier string `json:"remote-identifier"`
-							LocalIdentifier  string `json:"local-identifier"`
-						} `json:"enable"`
-						DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-						DisableForwarding      string `json:"disable-forwarding"`
-						Ripng                  struct {
-							SplitHorizon struct {
-								Disable       string `json:"disable"`
-								PoisonReverse string `json:"poison-reverse"`
-							} `json:"split-horizon"`
-						} `json:"ripng"`
-						Address struct {
-							Eui64     string `json:"eui64"`
-							Autoconf  string `json:"autoconf"`
-							Secondary string `json:"secondary"`
-						} `json:"address"`
-						RouterAdvert struct {
-							DefaultPreference string `json:"default-preference"`
-							MinInterval       string `json:"min-interval"`
-							MaxInterval       string `json:"max-interval"`
-							ReachableTime     string `json:"reachable-time"`
-							Prefix            map[string]struct {
-								AutonomousFlag    string `json:"autonomous-flag"`
-								OnLinkFlag        string `json:"on-link-flag"`
-								ValidLifetime     string `json:"valid-lifetime"`
-								PreferredLifetime string `json:"preferred-lifetime"`
-							} `json:"prefix"`
-							NameServer      string `json:"name-server"`
-							RetransTimer    string `json:"retrans-timer"`
-							SendAdvert      string `json:"send-advert"`
-							RadvdOptions    string `json:"radvd-options"`
-							ManagedFlag     string `json:"managed-flag"`
-							OtherConfigFlag string `json:"other-config-flag"`
-							DefaultLifetime string `json:"default-lifetime"`
-							CurHopLimit     string `json:"cur-hop-limit"`
-							LinkMtu         string `json:"link-mtu"`
-						} `json:"router-advert"`
-						Ospfv3 struct {
-							RetransmitInterval string `json:"retransmit-interval"`
-							TransmitDelay      string `json:"transmit-delay"`
-							Cost               string `json:"cost"`
-							Passive            string `json:"passive"`
-							DeadInterval       string `json:"dead-interval"`
-							InstanceId         string `json:"instance-id"`
-							Ifmtu              string `json:"ifmtu"`
-							Priority           string `json:"priority"`
-							MtuIgnore          string `json:"mtu-ignore"`
-							HelloInterval      string `json:"hello-interval"`
-						} `json:"ospfv3"`
-					} `json:"ipv6"`
-					Multilink          string `json:"multilink"`
-					AccessConcentrator string `json:"access-concentrator"`
-				} `json:"pppoe"`
-				Mtu           string `json:"mtu"`
-				TrafficPolicy struct {
-					Out string `json:"out"`
-					In  string `json:"in"`
-				} `json:"traffic-policy"`
-				Vrrp struct {
-					VrrpGroup map[string]struct {
-						Disable              string `json:"disable"`
-						VirtualAddress       string `json:"virtual-address"`
-						AdvertiseInterval    string `json:"advertise-interval"`
-						SyncGroup            string `json:"sync-group"`
-						PreemptDelay         string `json:"preempt-delay"`
-						RunTransitionScripts struct {
-							Master string `json:"master"`
-							Fault  string `json:"fault"`
-							Backup string `json:"backup"`
-						} `json:"run-transition-scripts"`
-						Preempt            string `json:"preempt"`
-						Description        string `json:"description"`
-						HelloSourceAddress string `json:"hello-source-address"`
-						Priority           string `json:"priority"`
-						Authentication     struct {
-							Password string `json:"password"`
-							Type     string `json:"type"`
-						} `json:"authentication"`
-					} `json:"vrrp-group"`
-				} `json:"vrrp"`
-				Dhcpv6Pd struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				Firewall struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				Mac         string `json:"mac"`
-				DhcpOptions struct {
-					NameServer           string `json:"name-server"`
-					DefaultRoute         string `json:"default-route"`
-					ClientOption         string `json:"client-option"`
-					DefaultRouteDistance string `json:"default-route-distance"`
-					GlobalOption         string `json:"global-option"`
-				} `json:"dhcp-options"`
-				Description   string `json:"description"`
-				Address       string `json:"address"`
-				Redirect      string `json:"redirect"`
-				Dhcpv6Options struct {
-					ParametersOnly string `json:"parameters-only"`
-					Temporary      string `json:"temporary"`
-				} `json:"dhcpv6-options"`
-				Ip struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					EnableProxyArp   string `json:"enable-proxy-arp"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64    string `json:"eui64"`
-						Autoconf string `json:"autoconf"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-			} `json:"vif"`
-			Address       string `json:"address"`
-			Redirect      string `json:"redirect"`
-			Dhcpv6Options struct {
-				ParametersOnly string `json:"parameters-only"`
-				Temporary      string `json:"temporary"`
-			} `json:"dhcpv6-options"`
-			Ip struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				EnableProxyArp   string `json:"enable-proxy-arp"`
-				SourceValidation string `json:"source-validation"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"switch"`
-		PseudoEthernet map[string]struct {
-			Disable   string `json:"disable"`
-			Bandwidth struct {
-				Maximum    string `json:"maximum"`
-				Reservable string `json:"reservable"`
-				Constraint struct {
-					ClassType map[string]struct {
-						Bandwidth string `json:"bandwidth"`
-					} `json:"class-type"`
-				} `json:"constraint"`
-			} `json:"bandwidth"`
-			Pppoe map[string]struct {
-				ServiceName string `json:"service-name"`
-				Bandwidth   struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Password      string `json:"password"`
-				RemoteAddress string `json:"remote-address"`
-				HostUniq      string `json:"host-uniq"`
-				Mtu           string `json:"mtu"`
-				NameServer    string `json:"name-server"`
-				DefaultRoute  string `json:"default-route"`
-				IdleTimeout   string `json:"idle-timeout"`
-				Dhcpv6Pd      struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				ConnectOnDemand string `json:"connect-on-demand"`
-				Firewall        struct {
-					Out struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"out"`
-					In struct {
-						Modify     string `json:"modify"`
-						Ipv6Modify string `json:"ipv6-modify"`
-						Name       string `json:"name"`
-						Ipv6Name   string `json:"ipv6-name"`
-					} `json:"in"`
-					Local struct {
-						Name     string `json:"name"`
-						Ipv6Name string `json:"ipv6-name"`
-					} `json:"local"`
-				} `json:"firewall"`
-				UserId       string `json:"user-id"`
-				Description  string `json:"description"`
-				LocalAddress string `json:"local-address"`
-				Ip           struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					Enable struct {
-						RemoteIdentifier string `json:"remote-identifier"`
-						LocalIdentifier  string `json:"local-identifier"`
-					} `json:"enable"`
-					DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-					DisableForwarding      string `json:"disable-forwarding"`
-					Ripng                  struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Address struct {
-						Eui64     string `json:"eui64"`
-						Autoconf  string `json:"autoconf"`
-						Secondary string `json:"secondary"`
-					} `json:"address"`
-					RouterAdvert struct {
-						DefaultPreference string `json:"default-preference"`
-						MinInterval       string `json:"min-interval"`
-						MaxInterval       string `json:"max-interval"`
-						ReachableTime     string `json:"reachable-time"`
-						Prefix            map[string]struct {
-							AutonomousFlag    string `json:"autonomous-flag"`
-							OnLinkFlag        string `json:"on-link-flag"`
-							ValidLifetime     string `json:"valid-lifetime"`
-							PreferredLifetime string `json:"preferred-lifetime"`
-						} `json:"prefix"`
-						NameServer      string `json:"name-server"`
-						RetransTimer    string `json:"retrans-timer"`
-						SendAdvert      string `json:"send-advert"`
-						RadvdOptions    string `json:"radvd-options"`
-						ManagedFlag     string `json:"managed-flag"`
-						OtherConfigFlag string `json:"other-config-flag"`
-						DefaultLifetime string `json:"default-lifetime"`
-						CurHopLimit     string `json:"cur-hop-limit"`
-						LinkMtu         string `json:"link-mtu"`
-					} `json:"router-advert"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-				Multilink          string `json:"multilink"`
-				AccessConcentrator string `json:"access-concentrator"`
-			} `json:"pppoe"`
-			Vrrp struct {
-				VrrpGroup map[string]struct {
-					Disable              string `json:"disable"`
-					VirtualAddress       string `json:"virtual-address"`
-					AdvertiseInterval    string `json:"advertise-interval"`
-					SyncGroup            string `json:"sync-group"`
-					PreemptDelay         string `json:"preempt-delay"`
-					RunTransitionScripts struct {
-						Master string `json:"master"`
-						Fault  string `json:"fault"`
-						Backup string `json:"backup"`
-					} `json:"run-transition-scripts"`
-					Preempt            string `json:"preempt"`
-					Description        string `json:"description"`
-					HelloSourceAddress string `json:"hello-source-address"`
-					Priority           string `json:"priority"`
-					Authentication     struct {
-						Password string `json:"password"`
-						Type     string `json:"type"`
-					} `json:"authentication"`
-				} `json:"vrrp-group"`
-			} `json:"vrrp"`
-			Dhcpv6Pd struct {
-				Pd map[string]struct {
-					Interface map[string]struct {
-						StaticMapping map[string]struct {
-							Identifier  string `json:"identifier"`
-							HostAddress string `json:"host-address"`
-						} `json:"static-mapping"`
-						NoDns       string `json:"no-dns"`
-						PrefixId    string `json:"prefix-id"`
-						HostAddress string `json:"host-address"`
-						Service     string `json:"service"`
-					} `json:"interface"`
-					PrefixLength string `json:"prefix-length"`
-				} `json:"pd"`
-				Duid        string `json:"duid"`
-				NoDns       string `json:"no-dns"`
-				RapidCommit string `json:"rapid-commit"`
-				PrefixOnly  string `json:"prefix-only"`
-			} `json:"dhcpv6-pd"`
-			DisableLinkDetect string `json:"disable-link-detect"`
-			Firewall          struct {
-				Out struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"out"`
-				In struct {
-					Modify     string `json:"modify"`
-					Ipv6Modify string `json:"ipv6-modify"`
-					Name       string `json:"name"`
-					Ipv6Name   string `json:"ipv6-name"`
-				} `json:"in"`
-				Local struct {
-					Name     string `json:"name"`
-					Ipv6Name string `json:"ipv6-name"`
-				} `json:"local"`
-			} `json:"firewall"`
-			Mac         string `json:"mac"`
-			DhcpOptions struct {
-				NameServer           string `json:"name-server"`
-				DefaultRoute         string `json:"default-route"`
-				ClientOption         string `json:"client-option"`
-				DefaultRouteDistance string `json:"default-route-distance"`
-				GlobalOption         string `json:"global-option"`
-			} `json:"dhcp-options"`
-			Link        string `json:"link"`
-			Description string `json:"description"`
-			Vif         map[string]struct {
-				Disable   string `json:"disable"`
-				Bandwidth struct {
-					Maximum    string `json:"maximum"`
-					Reservable string `json:"reservable"`
-					Constraint struct {
-						ClassType map[string]struct {
-							Bandwidth string `json:"bandwidth"`
-						} `json:"class-type"`
-					} `json:"constraint"`
-				} `json:"bandwidth"`
-				Vrrp struct {
-					VrrpGroup map[string]struct {
-						Disable              string `json:"disable"`
-						VirtualAddress       string `json:"virtual-address"`
-						AdvertiseInterval    string `json:"advertise-interval"`
-						SyncGroup            string `json:"sync-group"`
-						PreemptDelay         string `json:"preempt-delay"`
-						RunTransitionScripts struct {
-							Master string `json:"master"`
-							Fault  string `json:"fault"`
-							Backup string `json:"backup"`
-						} `json:"run-transition-scripts"`
-						Preempt            string `json:"preempt"`
-						Description        string `json:"description"`
-						HelloSourceAddress string `json:"hello-source-address"`
-						Priority           string `json:"priority"`
-						Authentication     struct {
-							Password string `json:"password"`
-							Type     string `json:"type"`
-						} `json:"authentication"`
-					} `json:"vrrp-group"`
-				} `json:"vrrp"`
-				Dhcpv6Pd struct {
-					Pd map[string]struct {
-						Interface map[string]struct {
-							StaticMapping map[string]struct {
-								Identifier  string `json:"identifier"`
-								HostAddress string `json:"host-address"`
-							} `json:"static-mapping"`
-							NoDns       string `json:"no-dns"`
-							PrefixId    string `json:"prefix-id"`
-							HostAddress string `json:"host-address"`
-							Service     string `json:"service"`
-						} `json:"interface"`
-						PrefixLength string `json:"prefix-length"`
-					} `json:"pd"`
-					Duid        string `json:"duid"`
-					NoDns       string `json:"no-dns"`
-					RapidCommit string `json:"rapid-commit"`
-					PrefixOnly  string `json:"prefix-only"`
-				} `json:"dhcpv6-pd"`
-				DisableLinkDetect string `json:"disable-link-detect"`
-				DhcpOptions       struct {
-					NameServer           string `json:"name-server"`
-					DefaultRoute         string `json:"default-route"`
-					ClientOption         string `json:"client-option"`
-					DefaultRouteDistance string `json:"default-route-distance"`
-					GlobalOption         string `json:"global-option"`
-				} `json:"dhcp-options"`
-				Description   string `json:"description"`
-				Address       string `json:"address"`
-				Dhcpv6Options struct {
-					ParametersOnly string `json:"parameters-only"`
-					Temporary      string `json:"temporary"`
-				} `json:"dhcpv6-options"`
-				Ip struct {
-					Rip struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-						Authentication struct {
-							Md5 map[string]struct {
-								Password string `json:"password"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-					} `json:"rip"`
-					SourceValidation string `json:"source-validation"`
-					ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-					Ospf             struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Network            string `json:"network"`
-						Cost               string `json:"cost"`
-						DeadInterval       string `json:"dead-interval"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						Authentication     struct {
-							Md5 struct {
-								KeyId map[string]struct {
-									Md5Key string `json:"md5-key"`
-								} `json:"key-id"`
-							} `json:"md5"`
-							PlaintextPassword string `json:"plaintext-password"`
-						} `json:"authentication"`
-						HelloInterval string `json:"hello-interval"`
-					} `json:"ospf"`
-				} `json:"ip"`
-				Ipv6 struct {
-					Ripng struct {
-						SplitHorizon struct {
-							Disable       string `json:"disable"`
-							PoisonReverse string `json:"poison-reverse"`
-						} `json:"split-horizon"`
-					} `json:"ripng"`
-					Ospfv3 struct {
-						RetransmitInterval string `json:"retransmit-interval"`
-						TransmitDelay      string `json:"transmit-delay"`
-						Cost               string `json:"cost"`
-						Passive            string `json:"passive"`
-						DeadInterval       string `json:"dead-interval"`
-						InstanceId         string `json:"instance-id"`
-						Ifmtu              string `json:"ifmtu"`
-						Priority           string `json:"priority"`
-						MtuIgnore          string `json:"mtu-ignore"`
-						HelloInterval      string `json:"hello-interval"`
-					} `json:"ospfv3"`
-				} `json:"ipv6"`
-			} `json:"vif"`
-			Address       string `json:"address"`
-			Dhcpv6Options struct {
-				ParametersOnly string `json:"parameters-only"`
-				Temporary      string `json:"temporary"`
-			} `json:"dhcpv6-options"`
-			Ip struct {
-				Rip struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-					Authentication struct {
-						Md5 map[string]struct {
-							Password string `json:"password"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-				} `json:"rip"`
-				SourceValidation string `json:"source-validation"`
-				ProxyArpPvlan    string `json:"proxy-arp-pvlan"`
-				Ospf             struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Network            string `json:"network"`
-					Cost               string `json:"cost"`
-					DeadInterval       string `json:"dead-interval"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					Authentication     struct {
-						Md5 struct {
-							KeyId map[string]struct {
-								Md5Key string `json:"md5-key"`
-							} `json:"key-id"`
-						} `json:"md5"`
-						PlaintextPassword string `json:"plaintext-password"`
-					} `json:"authentication"`
-					HelloInterval string `json:"hello-interval"`
-				} `json:"ospf"`
-			} `json:"ip"`
-			Ipv6 struct {
-				DupAddrDetectTransmits string `json:"dup-addr-detect-transmits"`
-				DisableForwarding      string `json:"disable-forwarding"`
-				Ripng                  struct {
-					SplitHorizon struct {
-						Disable       string `json:"disable"`
-						PoisonReverse string `json:"poison-reverse"`
-					} `json:"split-horizon"`
-				} `json:"ripng"`
-				Address struct {
-					Eui64    string `json:"eui64"`
-					Autoconf string `json:"autoconf"`
-				} `json:"address"`
-				RouterAdvert struct {
-					DefaultPreference string `json:"default-preference"`
-					MinInterval       string `json:"min-interval"`
-					MaxInterval       string `json:"max-interval"`
-					ReachableTime     string `json:"reachable-time"`
-					Prefix            map[string]struct {
-						AutonomousFlag    string `json:"autonomous-flag"`
-						OnLinkFlag        string `json:"on-link-flag"`
-						ValidLifetime     string `json:"valid-lifetime"`
-						PreferredLifetime string `json:"preferred-lifetime"`
-					} `json:"prefix"`
-					NameServer      string `json:"name-server"`
-					RetransTimer    string `json:"retrans-timer"`
-					SendAdvert      string `json:"send-advert"`
-					RadvdOptions    string `json:"radvd-options"`
-					ManagedFlag     string `json:"managed-flag"`
-					OtherConfigFlag string `json:"other-config-flag"`
-					DefaultLifetime string `json:"default-lifetime"`
-					CurHopLimit     string `json:"cur-hop-limit"`
-					LinkMtu         string `json:"link-mtu"`
-				} `json:"router-advert"`
-				Ospfv3 struct {
-					RetransmitInterval string `json:"retransmit-interval"`
-					TransmitDelay      string `json:"transmit-delay"`
-					Cost               string `json:"cost"`
-					Passive            string `json:"passive"`
-					DeadInterval       string `json:"dead-interval"`
-					InstanceId         string `json:"instance-id"`
-					Ifmtu              string `json:"ifmtu"`
-					Priority           string `json:"priority"`
-					MtuIgnore          string `json:"mtu-ignore"`
-					HelloInterval      string `json:"hello-interval"`
-				} `json:"ospfv3"`
-			} `json:"ipv6"`
-		} `json:"pseudo-ethernet"`
-	} `json:"interfaces"`
-	CustomAttribute map[string]struct {
-		Value string `json:"value"`
-	} `json:"custom-attribute"`
+	ZonePolicy *struct {
+		Zone *map[string]struct {
+			DefaultAction *string `json:"default-action,omitempty"`
+			Interface     *string `json:"interface,omitempty"`
+			LocalZone     *string `json:"local-zone,omitempty"`
+			From          *map[string]struct {
+				ContentInspection *struct {
+					Enable     *string `json:"enable,omitempty"`
+					Ipv6Enable *string `json:".ipv6-enable,omitempty"`
+				} `json:".content-inspection,omitempty"`
+				Firewall *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"firewall,omitempty"`
+			} `json:"from,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"zone,omitempty"`
+	} `json:"zone-policy,omitempty"`
+	LoadBalance *struct {
+		Group *map[string]struct {
+			Interface *map[string]struct {
+				Weight    *int `json:"weight,omitempty"`
+				RouteTest *struct {
+					Interval *int `json:"interval,omitempty"`
+					Count    *struct {
+						Success *int `json:"success,omitempty"`
+						Failure *int `json:"failure,omitempty"`
+					} `json:"count,omitempty"`
+					InitialDelay *int `json:"initial-delay,omitempty"`
+					Type         *struct {
+						Ping *struct {
+							Target *IP `json:"target,omitempty"`
+						} `json:"ping,omitempty"`
+						Default *string `json:"default,omitempty"`
+						Script  *string `json:"script,omitempty"`
+					} `json:"type,omitempty"`
+				} `json:"route-test,omitempty"`
+				Route *struct {
+					Default *string `json:"default,omitempty"`
+					Table   *int    `json:"table,omitempty"`
+				} `json:"route,omitempty"`
+				FailoverOnly     *string `json:"failover-only,omitempty"`
+				FailoverPriority *int    `json:"failover-priority,omitempty"`
+			} `json:"interface,omitempty"`
+			LbLocal               *string `json:"lb-local,omitempty"`
+			GatewayUpdateInterval *int    `json:"gateway-update-interval,omitempty"`
+			LbLocalMetricChange   *string `json:"lb-local-metric-change,omitempty"`
+			Sticky                *struct {
+				Proto      *string `json:"proto,omitempty"`
+				SourceAddr *string `json:"source-addr,omitempty"`
+				SourcePort *string `json:"source-port,omitempty"`
+				DestPort   *string `json:"dest-port,omitempty"`
+				DestAddr   *string `json:"dest-addr,omitempty"`
+			} `json:"sticky,omitempty"`
+			FlushOnActive      *string `json:"flush-on-active,omitempty"`
+			TransitionScript   *string `json:"transition-script,omitempty"`
+			ExcludeLocalDns    *string `json:"exclude-local-dns,omitempty"`
+			ReachabilityScript *string `json:"reachability-script,omitempty"`
+		} `json:"group,omitempty"`
+	} `json:"load-balance,omitempty"`
+	PortForward *struct {
+		LanInterface *string `json:"lan-interface,omitempty"`
+		AutoFirewall *string `json:"auto-firewall,omitempty"`
+		Rule         *map[string]struct {
+			ForwardTo *struct {
+				Address *IPv4   `json:"address,omitempty"`
+				Port    *string `json:"port,omitempty"`
+			} `json:"forward-to,omitempty"`
+			OriginalPort *string `json:"original-port,omitempty"`
+			Protocol     *string `json:"protocol,omitempty"`
+			Description  *string `json:"description,omitempty"`
+		} `json:"rule,omitempty"`
+		WanInterface *string `json:"wan-interface,omitempty"`
+		HairpinNat   *string `json:"hairpin-nat,omitempty"`
+	} `json:"port-forward,omitempty"`
+	Vpn *struct {
+		RsaKeys *struct {
+			LocalKey *struct {
+				File *string `json:"file,omitempty"`
+			} `json:"local-key,omitempty"`
+			RsaKeyName *map[string]struct {
+				RsaKey *string `json:"rsa-key,omitempty"`
+			} `json:"rsa-key-name,omitempty"`
+		} `json:"rsa-keys,omitempty"`
+		Ipsec *struct {
+			AutoUpdate  *int `json:"auto-update,omitempty"`
+			NatNetworks *struct {
+				AllowedNetwork *map[string]struct {
+					Exclude *IPv4Net `json:"exclude,omitempty"`
+				} `json:"allowed-network,omitempty"`
+			} `json:"nat-networks,omitempty"`
+			AllowAccessToLocalInterface *string `json:"allow-access-to-local-interface,omitempty"`
+			AutoFirewallNatExclude      *string `json:"auto-firewall-nat-exclude,omitempty"`
+			DisableUniqreqids           *string `json:"disable-uniqreqids,omitempty"`
+			SiteToSite                  *struct {
+				Peer *map[string]struct {
+					DefaultEspGroup    *string `json:"default-esp-group,omitempty"`
+					ForceEncapsulation *string `json:"force-encapsulation,omitempty"`
+					Vti                *struct {
+						EspGroup *string `json:"esp-group,omitempty"`
+						Bind     *string `json:"bind,omitempty"`
+					} `json:"vti,omitempty"`
+					ConnectionType *string `json:"connection-type,omitempty"`
+					Ikev2Reauth    *string `json:"ikev2-reauth,omitempty"`
+					Tunnel         *map[string]struct {
+						Disable             *string `json:"disable,omitempty"`
+						AllowPublicNetworks *string `json:"allow-public-networks,omitempty"`
+						Protocol            *string `json:"protocol,omitempty"`
+						Local               *struct {
+							Prefix *IPNet  `json:"prefix,omitempty"`
+							Port   *string `json:"port,omitempty"`
+						} `json:"local,omitempty"`
+						EspGroup         *string `json:"esp-group,omitempty"`
+						AllowNatNetworks *string `json:"allow-nat-networks,omitempty"`
+						Remote           *struct {
+							Prefix *IPNet  `json:"prefix,omitempty"`
+							Port   *string `json:"port,omitempty"`
+						} `json:"remote,omitempty"`
+					} `json:"tunnel,omitempty"`
+					Description    *string `json:"description,omitempty"`
+					LocalAddress   *string `json:"local-address,omitempty"`
+					IkeGroup       *string `json:"ike-group,omitempty"`
+					Authentication *struct {
+						Mode *string `json:"mode,omitempty"`
+						X509 *struct {
+							CrlFile *string `json:"crl-file,omitempty"`
+							Key     *struct {
+								Password *string `json:"password,omitempty"`
+								File     *string `json:"file,omitempty"`
+							} `json:"key,omitempty"`
+							CaCertFile *string `json:"ca-cert-file,omitempty"`
+							CertFile   *string `json:"cert-file,omitempty"`
+						} `json:"x509,omitempty"`
+						PreSharedSecret *string `json:"pre-shared-secret,omitempty"`
+						Id              *string `json:"id,omitempty"`
+						RemoteId        *string `json:"remote-id,omitempty"`
+						RsaKeyName      *string `json:"rsa-key-name,omitempty"`
+					} `json:"authentication,omitempty"`
+					DhcpInterface *string `json:"dhcp-interface,omitempty"`
+				} `json:"peer,omitempty"`
+			} `json:"site-to-site,omitempty"`
+			RemoteAccess *struct {
+				OutsideAddress *IPv4 `json:"outside-address,omitempty"`
+				WinsServers    *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"wins-servers,omitempty"`
+				UpdownScript *string `json:"updown-script,omitempty"`
+				Inactivity   *int    `json:"inactivity,omitempty"`
+				DnsServers   *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"dns-servers,omitempty"`
+				IkeSettings *struct {
+					Proposal *map[string]struct {
+						Encryption *string `json:"encryption,omitempty"`
+						Hash       *string `json:"hash,omitempty"`
+						DhGroup    *int    `json:"dh-group,omitempty"`
+					} `json:"proposal,omitempty"`
+					EspGroup       *string `json:"esp-group,omitempty"`
+					IkeLifetime    *int    `json:"ike-lifetime,omitempty"`
+					Authentication *struct {
+						Mode *string `json:"mode,omitempty"`
+						X509 *struct {
+							ServerKeyFile     *string `json:"server-key-file,omitempty"`
+							CrlFile           *string `json:"crl-file,omitempty"`
+							ServerKeyPassword *string `json:"server-key-password,omitempty"`
+							RemoteCaCertFile  *string `json:"remote-ca-cert-file,omitempty"`
+							ServerCertFile    *string `json:"server-cert-file,omitempty"`
+							ServerKeyType     *string `json:"server-key-type,omitempty"`
+							RemoteId          *string `json:"remote-id,omitempty"`
+							LocalId           *string `json:"local-id,omitempty"`
+							CaCertFile        *string `json:"ca-cert-file,omitempty"`
+						} `json:"x509,omitempty"`
+						PreSharedSecret *string `json:"pre-shared-secret,omitempty"`
+					} `json:"authentication,omitempty"`
+					OperatingMode *string `json:"operating-mode,omitempty"`
+					Fragmentation *string `json:"fragmentation,omitempty"`
+				} `json:"ike-settings,omitempty"`
+				ClientIpPool *struct {
+					Subnet  *IPv4Net `json:"subnet,omitempty"`
+					Subnet6 *IPv6Net `json:"subnet6,omitempty"`
+				} `json:"client-ip-pool,omitempty"`
+				Description       *string `json:"description,omitempty"`
+				LocalIp           *IPv4   `json:"local-ip,omitempty"`
+				CompatibilityMode *string `json:"compatibility-mode,omitempty"`
+				EspSettings       *struct {
+					Proposal *map[string]struct {
+						Encryption *string `json:"encryption,omitempty"`
+						Hash       *string `json:"hash,omitempty"`
+						DhGroup    *int    `json:"dh-group,omitempty"`
+					} `json:"proposal,omitempty"`
+				} `json:"esp-settings,omitempty"`
+				Authentication *struct {
+					Mode       *string `json:"mode,omitempty"`
+					LocalUsers *struct {
+						Username *map[string]struct {
+							Disable  *string `json:"disable,omitempty"`
+							Password *string `json:"password,omitempty"`
+						} `json:"username,omitempty"`
+					} `json:"local-users,omitempty"`
+					RadiusServer *map[string]struct {
+						Key *string `json:"key,omitempty"`
+					} `json:"radius-server,omitempty"`
+				} `json:"authentication,omitempty"`
+				DhcpInterface *string `json:"dhcp-interface,omitempty"`
+			} `json:"remote-access,omitempty"`
+			IpsecInterfaces *struct {
+				Interface *string `json:"interface,omitempty"`
+			} `json:"ipsec-interfaces,omitempty"`
+			GlobalConfig *string `json:"global-config,omitempty"`
+			IkeGroup     *map[string]struct {
+				Mode              *string `json:"mode,omitempty"`
+				DeadPeerDetection *struct {
+					Interval *int    `json:"interval,omitempty"`
+					Timeout  *int    `json:"timeout,omitempty"`
+					Action   *string `json:"action,omitempty"`
+				} `json:"dead-peer-detection,omitempty"`
+				KeyExchange *string `json:"key-exchange,omitempty"`
+				Ikev2Reauth *string `json:"ikev2-reauth,omitempty"`
+				Lifetime    *int    `json:"lifetime,omitempty"`
+				Proposal    *map[string]struct {
+					Encryption *string `json:"encryption,omitempty"`
+					Hash       *string `json:"hash,omitempty"`
+					DhGroup    *int    `json:"dh-group,omitempty"`
+				} `json:"proposal,omitempty"`
+			} `json:"ike-group,omitempty"`
+			EspGroup *map[string]struct {
+				Mode     *string `json:"mode,omitempty"`
+				Pfs      *string `json:"pfs,omitempty"`
+				Lifetime *int    `json:"lifetime,omitempty"`
+				Proposal *map[string]struct {
+					Encryption *string `json:"encryption,omitempty"`
+					Hash       *string `json:"hash,omitempty"`
+				} `json:"proposal,omitempty"`
+				Compression *string `json:"compression,omitempty"`
+			} `json:"esp-group,omitempty"`
+			IncludeIpsecSecrets *string `json:"include-ipsec-secrets,omitempty"`
+			IncludeIpsecConf    *string `json:"include-ipsec-conf,omitempty"`
+			Logging             *struct {
+				LogModes *string `json:"log-modes,omitempty"`
+				LogLevel *int    `json:"log-level,omitempty"`
+			} `json:"logging,omitempty"`
+			NatTraversal *string `json:"nat-traversal,omitempty"`
+		} `json:"ipsec,omitempty"`
+		Pptp *struct {
+			RemoteAccess *struct {
+				Accounting *struct {
+					RadiusServer *map[string]struct {
+						Key  *string `json:"key,omitempty"`
+						Port *int    `json:"port,omitempty"`
+					} `json:"radius-server,omitempty"`
+				} `json:"accounting,omitempty"`
+				OutsideAddress *IPv4 `json:"outside-address,omitempty"`
+				WinsServers    *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"wins-servers,omitempty"`
+				DnsServers *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"dns-servers,omitempty"`
+				Mtu          *int `json:"mtu,omitempty"`
+				ClientIpPool *struct {
+					Start *IPv4 `json:"start,omitempty"`
+					Stop  *IPv4 `json:"stop,omitempty"`
+				} `json:"client-ip-pool,omitempty"`
+				LocalIp        *IPv4 `json:"local-ip,omitempty"`
+				Authentication *struct {
+					Mode       *string `json:"mode,omitempty"`
+					LocalUsers *struct {
+						Username *map[string]struct {
+							Disable  *string `json:"disable,omitempty"`
+							Password *string `json:"password,omitempty"`
+							StaticIp *IPv4   `json:"static-ip,omitempty"`
+						} `json:"username,omitempty"`
+					} `json:"local-users,omitempty"`
+					RadiusServer *map[string]struct {
+						Key  *string `json:"key,omitempty"`
+						Port *int    `json:"port,omitempty"`
+					} `json:"radius-server,omitempty"`
+				} `json:"authentication,omitempty"`
+				DhcpInterface *string `json:"dhcp-interface,omitempty"`
+			} `json:"remote-access,omitempty"`
+		} `json:"pptp,omitempty"`
+		L2tp *struct {
+			RemoteAccess *struct {
+				OutsideNexthop *IPv4 `json:"outside-nexthop,omitempty"`
+				Accounting     *struct {
+					RadiusServer *map[string]struct {
+						Key  *string `json:"key,omitempty"`
+						Port *int    `json:"port,omitempty"`
+					} `json:"radius-server,omitempty"`
+				} `json:"accounting,omitempty"`
+				OutsideAddress *IPv4 `json:"outside-address,omitempty"`
+				Idle           *int  `json:"idle,omitempty"`
+				WinsServers    *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"wins-servers,omitempty"`
+				DnsServers *struct {
+					Server2 *IPv4 `json:"server-2,omitempty"`
+					Server1 *IPv4 `json:"server-1,omitempty"`
+				} `json:"dns-servers,omitempty"`
+				Mtu          *int `json:"mtu,omitempty"`
+				ClientIpPool *struct {
+					Start *IPv4 `json:"start,omitempty"`
+					Stop  *IPv4 `json:"stop,omitempty"`
+				} `json:"client-ip-pool,omitempty"`
+				IpsecSettings *struct {
+					Lifetime       *int `json:"lifetime,omitempty"`
+					IkeLifetime    *int `json:"ike-lifetime,omitempty"`
+					Authentication *struct {
+						Mode *string `json:"mode,omitempty"`
+						X509 *struct {
+							ServerKeyFile     *string `json:"server-key-file,omitempty"`
+							CrlFile           *string `json:"crl-file,omitempty"`
+							ServerKeyPassword *string `json:"server-key-password,omitempty"`
+							ServerCertFile    *string `json:"server-cert-file,omitempty"`
+							CaCertFile        *string `json:"ca-cert-file,omitempty"`
+						} `json:"x509,omitempty"`
+						PreSharedSecret *string `json:"pre-shared-secret,omitempty"`
+					} `json:"authentication,omitempty"`
+					Fragmentation *string `json:"fragmentation,omitempty"`
+				} `json:"ipsec-settings,omitempty"`
+				Description                     *string `json:"description,omitempty"`
+				AllowMultipleClientsFromSameNat *string `json:"allow-multiple-clients-from-same-nat,omitempty"`
+				LocalIp                         *IPv4   `json:"local-ip,omitempty"`
+				Authentication                  *struct {
+					Mode       *string `json:"mode,omitempty"`
+					Require    *string `json:"require,omitempty"`
+					LocalUsers *struct {
+						Username *map[string]struct {
+							Disable  *string `json:"disable,omitempty"`
+							Password *string `json:"password,omitempty"`
+							StaticIp *IPv4   `json:"static-ip,omitempty"`
+						} `json:"username,omitempty"`
+					} `json:"local-users,omitempty"`
+					RadiusServer *map[string]struct {
+						Key  *string `json:"key,omitempty"`
+						Port *int    `json:"port,omitempty"`
+					} `json:"radius-server,omitempty"`
+				} `json:"authentication,omitempty"`
+				DhcpInterface *string `json:"dhcp-interface,omitempty"`
+			} `json:"remote-access,omitempty"`
+		} `json:"l2tp,omitempty"`
+	} `json:"vpn,omitempty"`
+	TrafficPolicy *struct {
+		NetworkEmulator *map[string]struct {
+			PacketCorruption *string `json:"packet-corruption,omitempty"`
+			Bandwidth        *string `json:"bandwidth,omitempty"`
+			Burst            *string `json:"burst,omitempty"`
+			Description      *string `json:"description,omitempty"`
+			QueueLimit       *int    `json:"queue-limit,omitempty"`
+			NetworkDelay     *string `json:"network-delay,omitempty"`
+			PacketReordering *string `json:"packet-reordering,omitempty"`
+			PacketLoss       *string `json:"packet-loss,omitempty"`
+		} `json:"network-emulator,omitempty"`
+		DropTail *map[string]struct {
+			Description *string `json:"description,omitempty"`
+			QueueLimit  *int    `json:"queue-limit,omitempty"`
+		} `json:"drop-tail,omitempty"`
+		RoundRobin *map[string]struct {
+			Default *struct {
+				QueueType  *string `json:"queue-type,omitempty"`
+				QueueLimit *int    `json:"queue-limit,omitempty"`
+				Quantum    *int    `json:"quantum,omitempty"`
+			} `json:"default,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Class       *map[string]struct {
+				Match *map[string]struct {
+					Interface *string `json:"interface,omitempty"`
+					Mark      *int    `json:"mark,omitempty"`
+					Ether     *struct {
+						Source      *MacAddr `json:"source,omitempty"`
+						Destination *MacAddr `json:"destination,omitempty"`
+						Protocol    *string  `json:"protocol,omitempty"`
+					} `json:"ether,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Vif         *int    `json:"vif,omitempty"`
+					Ip          *struct {
+						Source *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Source *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ipv6,omitempty"`
+				} `json:"match,omitempty"`
+				QueueType   *string `json:"queue-type,omitempty"`
+				Description *string `json:"description,omitempty"`
+				QueueLimit  *int    `json:"queue-limit,omitempty"`
+				Quantum     *int    `json:"quantum,omitempty"`
+			} `json:"class,omitempty"`
+		} `json:"round-robin,omitempty"`
+		Limiter *map[string]struct {
+			Default *struct {
+				Bandwidth *string `json:"bandwidth,omitempty"`
+				Burst     *string `json:"burst,omitempty"`
+			} `json:"default,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Class       *map[string]struct {
+				Bandwidth *string `json:"bandwidth,omitempty"`
+				Match     *map[string]struct {
+					Ether *struct {
+						Source      *MacAddr `json:"source,omitempty"`
+						Destination *MacAddr `json:"destination,omitempty"`
+						Protocol    *string  `json:"protocol,omitempty"`
+					} `json:"ether,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Vif         *int    `json:"vif,omitempty"`
+					Ip          *struct {
+						Source *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Source *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ipv6,omitempty"`
+				} `json:"match,omitempty"`
+				Burst       *string `json:"burst,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Priority    *int    `json:"priority,omitempty"`
+			} `json:"class,omitempty"`
+		} `json:"limiter,omitempty"`
+		FairQueue *map[string]struct {
+			HashInterval *int    `json:"hash-interval,omitempty"`
+			Description  *string `json:"description,omitempty"`
+			QueueLimit   *int    `json:"queue-limit,omitempty"`
+		} `json:"fair-queue,omitempty"`
+		RateControl *map[string]struct {
+			Bandwidth   *string `json:"bandwidth,omitempty"`
+			Burst       *string `json:"burst,omitempty"`
+			Latency     *string `json:"latency,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"rate-control,omitempty"`
+		Shaper *map[string]struct {
+			Bandwidth *string `json:"bandwidth,omitempty"`
+			Default   *struct {
+				Bandwidth  *string `json:"bandwidth,omitempty"`
+				Burst      *string `json:"burst,omitempty"`
+				Ceiling    *string `json:"ceiling,omitempty"`
+				QueueType  *string `json:"queue-type,omitempty"`
+				Priority   *int    `json:"priority,omitempty"`
+				QueueLimit *int    `json:"queue-limit,omitempty"`
+				SetDscp    *string `json:".set-dscp,omitempty"`
+			} `json:"default,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Class       *map[string]struct {
+				Bandwidth *string `json:"bandwidth,omitempty"`
+				Match     *map[string]struct {
+					Interface *string `json:"interface,omitempty"`
+					Mark      *string `json:"mark,omitempty"`
+					Ether     *struct {
+						Source      *MacAddr `json:"source,omitempty"`
+						Destination *MacAddr `json:"destination,omitempty"`
+						Protocol    *string  `json:"protocol,omitempty"`
+					} `json:"ether,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Vif         *int    `json:"vif,omitempty"`
+					Ip          *struct {
+						Source *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Source *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ipv6,omitempty"`
+				} `json:"match,omitempty"`
+				Burst       *string `json:"burst,omitempty"`
+				Ceiling     *string `json:"ceiling,omitempty"`
+				QueueType   *string `json:"queue-type,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Priority    *int    `json:"priority,omitempty"`
+				QueueLimit  *int    `json:"queue-limit,omitempty"`
+				SetDscp     *string `json:".set-dscp,omitempty"`
+			} `json:"class,omitempty"`
+		} `json:"shaper,omitempty"`
+		PriorityQueue *map[string]struct {
+			Default *struct {
+				QueueType  *string `json:"queue-type,omitempty"`
+				QueueLimit *int    `json:"queue-limit,omitempty"`
+			} `json:"default,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Class       *map[string]struct {
+				Match *map[string]struct {
+					Interface *string `json:"interface,omitempty"`
+					Mark      *int    `json:"mark,omitempty"`
+					Ether     *struct {
+						Source      *MacAddr `json:"source,omitempty"`
+						Destination *MacAddr `json:"destination,omitempty"`
+						Protocol    *string  `json:"protocol,omitempty"`
+					} `json:"ether,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Vif         *int    `json:"vif,omitempty"`
+					Ip          *struct {
+						Source *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Source *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv6Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Dscp     *string `json:"dscp,omitempty"`
+					} `json:"ipv6,omitempty"`
+				} `json:"match,omitempty"`
+				QueueType   *string `json:"queue-type,omitempty"`
+				Description *string `json:"description,omitempty"`
+				QueueLimit  *int    `json:"queue-limit,omitempty"`
+			} `json:"class,omitempty"`
+		} `json:"priority-queue,omitempty"`
+		RandomDetect *map[string]struct {
+			Bandwidth   *string `json:"bandwidth,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Precedence  *map[string]struct {
+				MarkProbability  *int `json:"mark-probability,omitempty"`
+				MinimumThreshold *int `json:"minimum-threshold,omitempty"`
+				AveragePacket    *int `json:"average-packet,omitempty"`
+				QueueLimit       *int `json:"queue-limit,omitempty"`
+				MaximumThreshold *int `json:"maximum-threshold,omitempty"`
+			} `json:"precedence,omitempty"`
+		} `json:"random-detect,omitempty"`
+	} `json:"traffic-policy,omitempty"`
+	Firewall *struct {
+		Options *struct {
+			MssClamp *struct {
+				Mss           *int    `json:"mss,omitempty"`
+				InterfaceType *string `json:"interface-type,omitempty"`
+			} `json:"mss-clamp,omitempty"`
+			MssClamp6 *struct {
+				Mss           *int    `json:"mss,omitempty"`
+				InterfaceType *string `json:"interface-type,omitempty"`
+			} `json:"mss-clamp6,omitempty"`
+		} `json:"options,omitempty"`
+		IpSrcRoute    *string `json:"ip-src-route,omitempty"`
+		SendRedirects *string `json:"send-redirects,omitempty"`
+		Group         *struct {
+			AddressGroup *map[string]struct {
+				Description *string `json:"description,omitempty"`
+				Address     *string `json:"address,omitempty"`
+			} `json:"address-group,omitempty"`
+			PortGroup *map[string]struct {
+				Description *string `json:"description,omitempty"`
+				Port        *string `json:"port,omitempty"`
+			} `json:"port-group,omitempty"`
+			NetworkGroup *map[string]struct {
+				Network     *IPv4Net `json:"network,omitempty"`
+				Description *string  `json:"description,omitempty"`
+			} `json:"network-group,omitempty"`
+			Ipv6AddressGroup *map[string]struct {
+				Ipv6Address *IPv6Net `json:"ipv6-address,omitempty"`
+				Description *string  `json:"description,omitempty"`
+			} `json:"ipv6-address-group,omitempty"`
+			Ipv6NetworkGroup *map[string]struct {
+				Description *string  `json:"description,omitempty"`
+				Ipv6Network *IPv6Net `json:"ipv6-network,omitempty"`
+			} `json:"ipv6-network-group,omitempty"`
+		} `json:"group,omitempty"`
+		Ipv6ReceiveRedirects *string `json:"ipv6-receive-redirects,omitempty"`
+		AllPing              *string `json:"all-ping,omitempty"`
+		SynCookies           *string `json:"syn-cookies,omitempty"`
+		Modify               *map[string]struct {
+			Rule *map[string]struct {
+				Disable *string `json:"disable,omitempty"`
+				Limit   *struct {
+					Rate  *string `json:"rate,omitempty"`
+					Burst *int    `json:"burst,omitempty"`
+				} `json:"limit,omitempty"`
+				Source *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					MacAddress *string `json:"mac-address,omitempty"`
+					Address    *string `json:"address,omitempty"`
+					Port       *string `json:"port,omitempty"`
+				} `json:"source,omitempty"`
+				Mark   *string `json:"mark,omitempty"`
+				Modify *struct {
+					TcpMss   *string `json:"tcp-mss,omitempty"`
+					Mark     *string `json:"mark,omitempty"`
+					Table    *string `json:"table,omitempty"`
+					Connmark *struct {
+						SaveMark    *string `json:"save-mark,omitempty"`
+						RestoreMark *string `json:"restore-mark,omitempty"`
+						SetMark     *int    `json:"set-mark,omitempty"`
+					} `json:"connmark,omitempty"`
+					Dscp    *int    `json:"dscp,omitempty"`
+					LbGroup *string `json:"lb-group,omitempty"`
+				} `json:"modify,omitempty"`
+				Destination *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"destination,omitempty"`
+				Protocol *string `json:"protocol,omitempty"`
+				State    *struct {
+					Related     *string `json:"related,omitempty"`
+					Invalid     *string `json:"invalid,omitempty"`
+					Established *string `json:"established,omitempty"`
+					New         *string `json:"new,omitempty"`
+				} `json:"state,omitempty"`
+				Time *struct {
+					Stopdate   *string `json:"stopdate,omitempty"`
+					Contiguous *string `json:"contiguous,omitempty"`
+					Starttime  *string `json:"starttime,omitempty"`
+					Stoptime   *string `json:"stoptime,omitempty"`
+					Weekdays   *string `json:"weekdays,omitempty"`
+					Utc        *string `json:"utc,omitempty"`
+					Startdate  *string `json:"startdate,omitempty"`
+					Monthdays  *string `json:"monthdays,omitempty"`
+				} `json:"time,omitempty"`
+				Ipsec *struct {
+					MatchNone  *string `json:"match-none,omitempty"`
+					MatchIpsec *string `json:"match-ipsec,omitempty"`
+				} `json:"ipsec,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Tcp         *struct {
+					Flags *string `json:"flags,omitempty"`
+				} `json:"tcp,omitempty"`
+				Fragment *struct {
+					MatchNonFrag *string `json:"match-non-frag,omitempty"`
+					MatchFrag    *string `json:"match-frag,omitempty"`
+				} `json:"fragment,omitempty"`
+				Icmp *struct {
+					Code     *int    `json:"code,omitempty"`
+					TypeName *string `json:"type-name,omitempty"`
+					Type     *int    `json:"type,omitempty"`
+				} `json:"icmp,omitempty"`
+				P2p *struct {
+					Bittorrent    *string `json:"bittorrent,omitempty"`
+					Gnutella      *string `json:"gnutella,omitempty"`
+					All           *string `json:"all,omitempty"`
+					Applejuice    *string `json:"applejuice,omitempty"`
+					Edonkey       *string `json:"edonkey,omitempty"`
+					Kazaa         *string `json:"kazaa,omitempty"`
+					Directconnect *string `json:"directconnect,omitempty"`
+				} `json:"p2p,omitempty"`
+				Connmark    *string `json:"connmark,omitempty"`
+				Log         *string `json:"log,omitempty"`
+				Application *struct {
+					Category       *string `json:"category,omitempty"`
+					CustomCategory *string `json:"custom-category,omitempty"`
+				} `json:"application,omitempty"`
+				Dscp      *int `json:"dscp,omitempty"`
+				Statistic *struct {
+					Probability *string `json:"probability,omitempty"`
+				} `json:"statistic,omitempty"`
+				Recent *struct {
+					Count *int `json:"count,omitempty"`
+					Time  *int `json:"time,omitempty"`
+				} `json:"recent,omitempty"`
+			} `json:"rule,omitempty"`
+			Description      *string `json:"description,omitempty"`
+			EnableDefaultLog *string `json:"enable-default-log,omitempty"`
+		} `json:"modify,omitempty"`
+		BroadcastPing *string `json:"broadcast-ping,omitempty"`
+		LogMartians   *string `json:"log-martians,omitempty"`
+		Ipv6Modify    *map[string]struct {
+			Rule *map[string]struct {
+				Disable *string `json:"disable,omitempty"`
+				Icmpv6  *struct {
+					Type *string `json:"type,omitempty"`
+				} `json:"icmpv6,omitempty"`
+				Limit *struct {
+					Rate  *string `json:"rate,omitempty"`
+					Burst *int    `json:"burst,omitempty"`
+				} `json:"limit,omitempty"`
+				Source *struct {
+					Group *struct {
+						PortGroup        *string `json:"port-group,omitempty"`
+						Ipv6AddressGroup *string `json:"ipv6-address-group,omitempty"`
+						Ipv6NetworkGroup *string `json:"ipv6-network-group,omitempty"`
+					} `json:"group,omitempty"`
+					MacAddress *string `json:"mac-address,omitempty"`
+					Address    *string `json:"address,omitempty"`
+					Port       *string `json:"port,omitempty"`
+				} `json:"source,omitempty"`
+				Mark   *string `json:"mark,omitempty"`
+				Modify *struct {
+					TcpMss   *string `json:"tcp-mss,omitempty"`
+					Mark     *string `json:"mark,omitempty"`
+					Table    *string `json:"table,omitempty"`
+					Connmark *struct {
+						SaveMark    *string `json:"save-mark,omitempty"`
+						RestoreMark *string `json:"restore-mark,omitempty"`
+						SetMark     *int    `json:"set-mark,omitempty"`
+					} `json:"connmark,omitempty"`
+					Dscp *int `json:"dscp,omitempty"`
+				} `json:"modify,omitempty"`
+				Destination *struct {
+					Group *struct {
+						PortGroup        *string `json:"port-group,omitempty"`
+						Ipv6AddressGroup *string `json:"ipv6-address-group,omitempty"`
+						Ipv6NetworkGroup *string `json:"ipv6-network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"destination,omitempty"`
+				Protocol *string `json:"protocol,omitempty"`
+				State    *struct {
+					Related     *string `json:"related,omitempty"`
+					Invalid     *string `json:"invalid,omitempty"`
+					Established *string `json:"established,omitempty"`
+					New         *string `json:"new,omitempty"`
+				} `json:"state,omitempty"`
+				Time *struct {
+					Stopdate   *string `json:"stopdate,omitempty"`
+					Contiguous *string `json:"contiguous,omitempty"`
+					Starttime  *string `json:"starttime,omitempty"`
+					Stoptime   *string `json:"stoptime,omitempty"`
+					Weekdays   *string `json:"weekdays,omitempty"`
+					Utc        *string `json:"utc,omitempty"`
+					Startdate  *string `json:"startdate,omitempty"`
+					Monthdays  *string `json:"monthdays,omitempty"`
+				} `json:"time,omitempty"`
+				Ipsec *struct {
+					MatchNone  *string `json:"match-none,omitempty"`
+					MatchIpsec *string `json:"match-ipsec,omitempty"`
+				} `json:"ipsec,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Tcp         *struct {
+					Flags *string `json:"flags,omitempty"`
+				} `json:"tcp,omitempty"`
+				P2p *struct {
+					Bittorrent    *string `json:"bittorrent,omitempty"`
+					Gnutella      *string `json:"gnutella,omitempty"`
+					All           *string `json:"all,omitempty"`
+					Applejuice    *string `json:"applejuice,omitempty"`
+					Edonkey       *string `json:"edonkey,omitempty"`
+					Kazaa         *string `json:"kazaa,omitempty"`
+					Directconnect *string `json:"directconnect,omitempty"`
+				} `json:"p2p,omitempty"`
+				Connmark *string `json:"connmark,omitempty"`
+				Log      *string `json:"log,omitempty"`
+				Dscp     *int    `json:"dscp,omitempty"`
+				Recent   *struct {
+					Count *int `json:"count,omitempty"`
+					Time  *int `json:"time,omitempty"`
+				} `json:"recent,omitempty"`
+			} `json:"rule,omitempty"`
+			Description      *string `json:"description,omitempty"`
+			EnableDefaultLog *string `json:"enable-default-log,omitempty"`
+		} `json:"ipv6-modify,omitempty"`
+		SourceValidation *string `json:"source-validation,omitempty"`
+		Name             *map[string]struct {
+			DefaultAction *string `json:"default-action,omitempty"`
+			Rule          *map[string]struct {
+				Disable *string `json:"disable,omitempty"`
+				Limit   *struct {
+					Rate  *string `json:"rate,omitempty"`
+					Burst *int    `json:"burst,omitempty"`
+				} `json:"limit,omitempty"`
+				Source *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					MacAddress *string `json:"mac-address,omitempty"`
+					Address    *string `json:"address,omitempty"`
+					Port       *string `json:"port,omitempty"`
+				} `json:"source,omitempty"`
+				Mark        *string `json:"mark,omitempty"`
+				Destination *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"destination,omitempty"`
+				Protocol *string `json:"protocol,omitempty"`
+				State    *struct {
+					Related     *string `json:"related,omitempty"`
+					Invalid     *string `json:"invalid,omitempty"`
+					Established *string `json:"established,omitempty"`
+					New         *string `json:"new,omitempty"`
+				} `json:"state,omitempty"`
+				Time *struct {
+					Stopdate   *string `json:"stopdate,omitempty"`
+					Contiguous *string `json:"contiguous,omitempty"`
+					Starttime  *string `json:"starttime,omitempty"`
+					Stoptime   *string `json:"stoptime,omitempty"`
+					Weekdays   *string `json:"weekdays,omitempty"`
+					Utc        *string `json:"utc,omitempty"`
+					Startdate  *string `json:"startdate,omitempty"`
+					Monthdays  *string `json:"monthdays,omitempty"`
+				} `json:"time,omitempty"`
+				Ipsec *struct {
+					MatchNone  *string `json:"match-none,omitempty"`
+					MatchIpsec *string `json:"match-ipsec,omitempty"`
+				} `json:"ipsec,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Tcp         *struct {
+					Flags *string `json:"flags,omitempty"`
+				} `json:"tcp,omitempty"`
+				Fragment *struct {
+					MatchNonFrag *string `json:"match-non-frag,omitempty"`
+					MatchFrag    *string `json:"match-frag,omitempty"`
+				} `json:"fragment,omitempty"`
+				Icmp *struct {
+					Code     *int    `json:"code,omitempty"`
+					TypeName *string `json:"type-name,omitempty"`
+					Type     *int    `json:"type,omitempty"`
+				} `json:"icmp,omitempty"`
+				P2p *struct {
+					Bittorrent    *string `json:"bittorrent,omitempty"`
+					Gnutella      *string `json:"gnutella,omitempty"`
+					All           *string `json:"all,omitempty"`
+					Applejuice    *string `json:"applejuice,omitempty"`
+					Edonkey       *string `json:"edonkey,omitempty"`
+					Kazaa         *string `json:"kazaa,omitempty"`
+					Directconnect *string `json:"directconnect,omitempty"`
+				} `json:"p2p,omitempty"`
+				Log         *string `json:"log,omitempty"`
+				Application *struct {
+					Category       *string `json:"category,omitempty"`
+					CustomCategory *string `json:"custom-category,omitempty"`
+				} `json:"application,omitempty"`
+				Dscp   *int `json:"dscp,omitempty"`
+				Recent *struct {
+					Count *int `json:"count,omitempty"`
+					Time  *int `json:"time,omitempty"`
+				} `json:"recent,omitempty"`
+			} `json:"rule,omitempty"`
+			Description      *string `json:"description,omitempty"`
+			EnableDefaultLog *string `json:"enable-default-log,omitempty"`
+		} `json:"name,omitempty"`
+		Ipv6SrcRoute     *string `json:"ipv6-src-route,omitempty"`
+		ReceiveRedirects *string `json:"receive-redirects,omitempty"`
+		Ipv6Name         *map[string]struct {
+			DefaultAction *string `json:"default-action,omitempty"`
+			Rule          *map[string]struct {
+				Disable *string `json:"disable,omitempty"`
+				Icmpv6  *struct {
+					Type *string `json:"type,omitempty"`
+				} `json:"icmpv6,omitempty"`
+				Limit *struct {
+					Rate  *string `json:"rate,omitempty"`
+					Burst *int    `json:"burst,omitempty"`
+				} `json:"limit,omitempty"`
+				Source *struct {
+					Group *struct {
+						PortGroup        *string `json:"port-group,omitempty"`
+						Ipv6AddressGroup *string `json:"ipv6-address-group,omitempty"`
+						Ipv6NetworkGroup *string `json:"ipv6-network-group,omitempty"`
+					} `json:"group,omitempty"`
+					MacAddress *string `json:"mac-address,omitempty"`
+					Address    *string `json:"address,omitempty"`
+					Port       *string `json:"port,omitempty"`
+				} `json:"source,omitempty"`
+				Mark        *string `json:"mark,omitempty"`
+				Destination *struct {
+					Group *struct {
+						PortGroup        *string `json:"port-group,omitempty"`
+						Ipv6AddressGroup *string `json:"ipv6-address-group,omitempty"`
+						Ipv6NetworkGroup *string `json:"ipv6-network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"destination,omitempty"`
+				Protocol *string `json:"protocol,omitempty"`
+				State    *struct {
+					Related     *string `json:"related,omitempty"`
+					Invalid     *string `json:"invalid,omitempty"`
+					Established *string `json:"established,omitempty"`
+					New         *string `json:"new,omitempty"`
+				} `json:"state,omitempty"`
+				Time *struct {
+					Stopdate   *string `json:"stopdate,omitempty"`
+					Contiguous *string `json:"contiguous,omitempty"`
+					Starttime  *string `json:"starttime,omitempty"`
+					Stoptime   *string `json:"stoptime,omitempty"`
+					Weekdays   *string `json:"weekdays,omitempty"`
+					Utc        *string `json:"utc,omitempty"`
+					Startdate  *string `json:"startdate,omitempty"`
+					Monthdays  *string `json:"monthdays,omitempty"`
+				} `json:"time,omitempty"`
+				Ipsec *struct {
+					MatchNone  *string `json:"match-none,omitempty"`
+					MatchIpsec *string `json:"match-ipsec,omitempty"`
+				} `json:"ipsec,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Tcp         *struct {
+					Flags *string `json:"flags,omitempty"`
+				} `json:"tcp,omitempty"`
+				P2p *struct {
+					Bittorrent    *string `json:"bittorrent,omitempty"`
+					Gnutella      *string `json:"gnutella,omitempty"`
+					All           *string `json:"all,omitempty"`
+					Applejuice    *string `json:"applejuice,omitempty"`
+					Edonkey       *string `json:"edonkey,omitempty"`
+					Kazaa         *string `json:"kazaa,omitempty"`
+					Directconnect *string `json:"directconnect,omitempty"`
+				} `json:"p2p,omitempty"`
+				Log    *string `json:"log,omitempty"`
+				Dscp   *int    `json:"dscp,omitempty"`
+				Recent *struct {
+					Count *int `json:"count,omitempty"`
+					Time  *int `json:"time,omitempty"`
+				} `json:"recent,omitempty"`
+			} `json:"rule,omitempty"`
+			Description      *string `json:"description,omitempty"`
+			EnableDefaultLog *string `json:"enable-default-log,omitempty"`
+		} `json:"ipv6-name,omitempty"`
+	} `json:"firewall,omitempty"`
+	System *struct {
+		Options *struct {
+			RebootOnPanic *bool `json:"reboot-on-panic,omitempty"`
+		} `json:"options,omitempty"`
+		Syslog *struct {
+			Host *map[string]struct {
+				Facility *map[string]struct {
+					Level *string `json:"level,omitempty"`
+				} `json:"facility,omitempty"`
+			} `json:"host,omitempty"`
+			File *map[string]struct {
+				Archive *struct {
+					Files *int `json:"files,omitempty"`
+					Size  *int `json:"size,omitempty"`
+				} `json:"archive,omitempty"`
+				Facility *map[string]struct {
+					Level *string `json:"level,omitempty"`
+				} `json:"facility,omitempty"`
+			} `json:"file,omitempty"`
+			User *map[string]struct {
+				Facility *map[string]struct {
+					Level *string `json:"level,omitempty"`
+				} `json:"facility,omitempty"`
+			} `json:"user,omitempty"`
+			Global *struct {
+				Archive *struct {
+					Files *int `json:"files,omitempty"`
+					Size  *int `json:"size,omitempty"`
+				} `json:"archive,omitempty"`
+				Facility *map[string]struct {
+					Level *string `json:"level,omitempty"`
+				} `json:"facility,omitempty"`
+			} `json:"global,omitempty"`
+			Console *struct {
+				Facility *map[string]struct {
+					Level *string `json:"level,omitempty"`
+				} `json:"facility,omitempty"`
+			} `json:"console,omitempty"`
+		} `json:"syslog,omitempty"`
+		FlowAccounting *struct {
+			Netflow *struct {
+				EngineId     *int    `json:"engine-id,omitempty"`
+				SamplingRate *int    `json:"sampling-rate,omitempty"`
+				Mode         *string `json:"mode,omitempty"`
+				Timeout      *struct {
+					TcpFin         *int `json:"tcp-fin,omitempty"`
+					Udp            *int `json:"udp,omitempty"`
+					FlowGeneric    *int `json:"flow-generic,omitempty"`
+					MaxActiveLife  *int `json:"max-active-life,omitempty"`
+					TcpRst         *int `json:"tcp-rst,omitempty"`
+					Icmp           *int `json:"icmp,omitempty"`
+					TcpGeneric     *int `json:"tcp-generic,omitempty"`
+					ExpiryInterval *int `json:"expiry-interval,omitempty"`
+				} `json:"timeout,omitempty"`
+				Server *map[string]struct {
+					Port *int `json:"port,omitempty"`
+				} `json:"server,omitempty"`
+				Version      *string `json:"version,omitempty"`
+				EnableEgress *struct {
+					EngineId *int `json:"engine-id,omitempty"`
+				} `json:"enable-egress,omitempty"`
+			} `json:"netflow,omitempty"`
+			Interface *string `json:"interface,omitempty"`
+			Sflow     *struct {
+				SamplingRate *int    `json:"sampling-rate,omitempty"`
+				AgentAddress *string `json:"agent-address,omitempty"`
+				Agentid      *int    `json:".agentid,omitempty"`
+				Server       *map[string]struct {
+					Port *int `json:"port,omitempty"`
+				} `json:"server,omitempty"`
+			} `json:"sflow,omitempty"`
+			Aggregate *struct {
+				Egress  *string `json:"egress,omitempty"`
+				Ingress *string `json:"ingress,omitempty"`
+			} `json:"aggregate,omitempty"`
+			Unms *struct {
+				Exclude *string `json:"exclude,omitempty"`
+				Subnets *string `json:"subnets,omitempty"`
+			} `json:"unms,omitempty"`
+			IngressCapture     *string `json:"ingress-capture,omitempty"`
+			SyslogFacility     *string `json:"syslog-facility,omitempty"`
+			DisableMemoryTable *string `json:"disable-memory-table,omitempty"`
+		} `json:"flow-accounting,omitempty"`
+		GatewayAddress *IPv4 `json:"gateway-address,omitempty"`
+		TaskScheduler  *struct {
+			Task *map[string]struct {
+				Executable *struct {
+					Path      *string `json:"path,omitempty"`
+					Arguments *string `json:"arguments,omitempty"`
+				} `json:"executable,omitempty"`
+				CrontabSpec *string `json:"crontab-spec,omitempty"`
+				Interval    *string `json:"interval,omitempty"`
+			} `json:"task,omitempty"`
+		} `json:"task-scheduler,omitempty"`
+		AnalyticsHandler *struct {
+			SendAnalyticsReport *bool `json:"send-analytics-report,omitempty"`
+		} `json:"analytics-handler,omitempty"`
+		TimeZone *string `json:"time-zone,omitempty"`
+		Systemd  *struct {
+			Journal *struct {
+				RateLimitBurst    *int    `json:"rate-limit-burst,omitempty"`
+				MaxRetention      *int    `json:"max-retention,omitempty"`
+				RuntimeMaxUse     *int    `json:"runtime-max-use,omitempty"`
+				Storage           *string `json:"storage,omitempty"`
+				RateLimitInterval *int    `json:"rate-limit-interval,omitempty"`
+			} `json:"journal,omitempty"`
+		} `json:"systemd,omitempty"`
+		Conntrack *struct {
+			Ignore *struct {
+				Rule *map[string]struct {
+					InboundInterface *string `json:"inbound-interface,omitempty"`
+					Source           *struct {
+						Address *string `json:"address,omitempty"`
+						Port    *string `json:"port,omitempty"`
+					} `json:"source,omitempty"`
+					Destination *struct {
+						Address *string `json:"address,omitempty"`
+						Port    *string `json:"port,omitempty"`
+					} `json:"destination,omitempty"`
+					Protocol    *string `json:"protocol,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"rule,omitempty"`
+			} `json:"ignore,omitempty"`
+			Timeout *struct {
+				Udp *struct {
+					Stream *int `json:"stream,omitempty"`
+					Other  *int `json:"other,omitempty"`
+				} `json:"udp,omitempty"`
+				Other *int `json:"other,omitempty"`
+				Tcp   *struct {
+					FinWait     *int `json:"fin-wait,omitempty"`
+					TimeWait    *int `json:"time-wait,omitempty"`
+					Close       *int `json:"close,omitempty"`
+					SynSent     *int `json:"syn-sent,omitempty"`
+					Established *int `json:"established,omitempty"`
+					SynRecv     *int `json:"syn-recv,omitempty"`
+					LastAck     *int `json:"last-ack,omitempty"`
+					CloseWait   *int `json:"close-wait,omitempty"`
+				} `json:"tcp,omitempty"`
+				Icmp   *int `json:"icmp,omitempty"`
+				Custom *struct {
+					Rule *map[string]struct {
+						Source *struct {
+							Address *string `json:"address,omitempty"`
+							Port    *string `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *string `json:"address,omitempty"`
+							Port    *string `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *struct {
+							Udp *struct {
+								Stream *int `json:"stream,omitempty"`
+								Other  *int `json:"other,omitempty"`
+							} `json:"udp,omitempty"`
+							Other *int `json:"other,omitempty"`
+							Tcp   *struct {
+								FinWait     *int `json:"fin-wait,omitempty"`
+								TimeWait    *int `json:"time-wait,omitempty"`
+								Close       *int `json:"close,omitempty"`
+								SynSent     *int `json:"syn-sent,omitempty"`
+								Established *int `json:"established,omitempty"`
+								SynRecv     *int `json:"syn-recv,omitempty"`
+								LastAck     *int `json:"last-ack,omitempty"`
+								CloseWait   *int `json:"close-wait,omitempty"`
+							} `json:"tcp,omitempty"`
+							Icmp *int `json:"icmp,omitempty"`
+						} `json:"protocol,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"rule,omitempty"`
+				} `json:".custom,omitempty"`
+			} `json:"timeout,omitempty"`
+			Tcp *struct {
+				Loose               *string `json:"loose,omitempty"`
+				HalfOpenConnections *int    `json:"half-open-connections,omitempty"`
+				MaxRetrans          *int    `json:"max-retrans,omitempty"`
+			} `json:"tcp,omitempty"`
+			Log *struct {
+				Udp *struct {
+					Destroy *string `json:"destroy,omitempty"`
+					Update  *string `json:"update,omitempty"`
+					New     *string `json:"new,omitempty"`
+				} `json:"udp,omitempty"`
+				Other *struct {
+					Destroy *string `json:"destroy,omitempty"`
+					Update  *string `json:"update,omitempty"`
+					New     *string `json:"new,omitempty"`
+				} `json:"other,omitempty"`
+				Tcp *struct {
+					Destroy *string `json:"destroy,omitempty"`
+					Update  *struct {
+						FinWait     *string `json:"fin-wait,omitempty"`
+						TimeWait    *string `json:"time-wait,omitempty"`
+						Established *string `json:"established,omitempty"`
+						SynReceived *string `json:"syn-received,omitempty"`
+						LastAck     *string `json:"last-ack,omitempty"`
+						CloseWait   *string `json:"close-wait,omitempty"`
+					} `json:"update,omitempty"`
+					New *string `json:"new,omitempty"`
+				} `json:"tcp,omitempty"`
+				Icmp *struct {
+					Destroy *string `json:"destroy,omitempty"`
+					Update  *string `json:"update,omitempty"`
+					New     *string `json:"new,omitempty"`
+				} `json:"icmp,omitempty"`
+			} `json:"log,omitempty"`
+			Modules *struct {
+				Ftp *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:"ftp,omitempty"`
+				Nfs *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:".nfs,omitempty"`
+				Rtsp *struct {
+					Enable *string `json:"enable,omitempty"`
+				} `json:"rtsp,omitempty"`
+				Gre *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:"gre,omitempty"`
+				Tftp *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:"tftp,omitempty"`
+				Pptp *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:"pptp,omitempty"`
+				Sqlnet *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:".sqlnet,omitempty"`
+				Sip *struct {
+					Disable                  *string `json:"disable,omitempty"`
+					EnableIndirectSignalling *string `json:"enable-indirect-signalling,omitempty"`
+					EnableIndirectMedia      *string `json:"enable-indirect-media,omitempty"`
+					Port                     *int    `json:"port,omitempty"`
+				} `json:"sip,omitempty"`
+				H323 *struct {
+					Disable *string `json:"disable,omitempty"`
+				} `json:"h323,omitempty"`
+			} `json:"modules,omitempty"`
+			HashSize        *int `json:"hash-size,omitempty"`
+			TableSize       *int `json:"table-size,omitempty"`
+			ExpectTableSize *int `json:"expect-table-size,omitempty"`
+		} `json:"conntrack,omitempty"`
+		NameServer        *IP     `json:"name-server,omitempty"`
+		DomainName        *string `json:"domain-name,omitempty"`
+		StaticHostMapping *struct {
+			HostName *map[string]struct {
+				Alias *string `json:"alias,omitempty"`
+				Inet  *IP     `json:"inet,omitempty"`
+			} `json:"host-name,omitempty"`
+		} `json:"static-host-mapping,omitempty"`
+		HostName *string `json:"host-name,omitempty"`
+		Ntp      *struct {
+			Server *map[string]struct {
+				Prefer   *string `json:"prefer,omitempty"`
+				Preempt  *string `json:"preempt,omitempty"`
+				Noselect *string `json:"noselect,omitempty"`
+			} `json:"server,omitempty"`
+		} `json:"ntp,omitempty"`
+		Coredump *struct {
+			Enabled *bool `json:"enabled,omitempty"`
+		} `json:"coredump,omitempty"`
+		DomainSearch *struct {
+			Domain *string `json:"domain,omitempty"`
+		} `json:"domain-search,omitempty"`
+		ConfigManagement *struct {
+			CommitRevisions *int `json:"commit-revisions,omitempty"`
+			CommitArchive   *struct {
+				Location *string `json:"location,omitempty"`
+			} `json:"commit-archive,omitempty"`
+		} `json:"config-management,omitempty"`
+		TrafficAnalysis *struct {
+			SignatureUpdate *struct {
+				Disable    *string `json:"disable,omitempty"`
+				UpdateHour *int    `json:"update-hour,omitempty"`
+			} `json:"signature-update,omitempty"`
+			Dpi            *string `json:"dpi,omitempty"`
+			CustomCategory *map[string]struct {
+				Name *string `json:"name,omitempty"`
+			} `json:"custom-category,omitempty"`
+			Export *string `json:"export,omitempty"`
+		} `json:"traffic-analysis,omitempty"`
+		CrashHandler *struct {
+			SaveCoreFile    *bool `json:"save-core-file,omitempty"`
+			SendCrashReport *bool `json:"send-crash-report,omitempty"`
+		} `json:"crash-handler,omitempty"`
+		Ip *struct {
+			DisableForwarding  *string `json:"disable-forwarding,omitempty"`
+			OverrideHostnameIp *IPv4   `json:"override-hostname-ip,omitempty"`
+			Arp                *struct {
+				StaleTime         *int `json:"stale-time,omitempty"`
+				BaseReachableTime *int `json:"base-reachable-time,omitempty"`
+				TableSize         *int `json:"table-size,omitempty"`
+			} `json:"arp,omitempty"`
+		} `json:"ip,omitempty"`
+		Ipv6 *struct {
+			Disable  *string `json:"disable,omitempty"`
+			Neighbor *struct {
+				StaleTime         *int `json:"stale-time,omitempty"`
+				BaseReachableTime *int `json:"base-reachable-time,omitempty"`
+				TableSize         *int `json:"table-size,omitempty"`
+			} `json:"neighbor,omitempty"`
+			DisableForwarding *string `json:"disable-forwarding,omitempty"`
+			Blacklist         *string `json:"blacklist,omitempty"`
+			StrictDad         *string `json:"strict-dad,omitempty"`
+		} `json:"ipv6,omitempty"`
+		Login *struct {
+			RadiusServer *map[string]struct {
+				Timeout *int    `json:"timeout,omitempty"`
+				Secret  *string `json:"secret,omitempty"`
+				Port    *int    `json:"port,omitempty"`
+			} `json:"radius-server,omitempty"`
+			User *map[string]struct {
+				Group          *string `json:"group,omitempty"`
+				HomeDirectory  *string `json:"home-directory,omitempty"`
+				Level          *string `json:"level,omitempty"`
+				FullName       *string `json:"full-name,omitempty"`
+				Authentication *struct {
+					EncryptedPassword *string `json:"encrypted-password,omitempty"`
+					PublicKeys        *map[string]struct {
+						Options *string `json:"options,omitempty"`
+						Key     *string `json:"key,omitempty"`
+						Type    *string `json:"type,omitempty"`
+					} `json:"public-keys,omitempty"`
+					PlaintextPassword *string `json:"plaintext-password,omitempty"`
+				} `json:"authentication,omitempty"`
+			} `json:"user,omitempty"`
+			Banner *struct {
+				PostLogin *string `json:"post-login,omitempty"`
+				PreLogin  *string `json:"pre-login,omitempty"`
+			} `json:"banner,omitempty"`
+		} `json:"login,omitempty"`
+		PacketRxCoreNum *string `json:"packet-rx-core-num,omitempty"`
+		Package         *struct {
+			Repository *map[string]struct {
+				Password     *string `json:"password,omitempty"`
+				Distribution *string `json:"distribution,omitempty"`
+				Url          *string `json:"url,omitempty"`
+				Components   *string `json:"components,omitempty"`
+				Description  *string `json:"description,omitempty"`
+				Username     *string `json:"username,omitempty"`
+			} `json:"repository,omitempty"`
+			AutoSync *int `json:".auto-sync,omitempty"`
+		} `json:"package,omitempty"`
+		Offload *struct {
+			Hwnat *string `json:"hwnat,omitempty"`
+			Ipv4  *struct {
+				DisableFlowFlushingUponFibChanges *string `json:"disable-flow-flushing-upon-fib-changes,omitempty"`
+				Bonding                           *string `json:"bonding,omitempty"`
+				Pppoe                             *string `json:"pppoe,omitempty"`
+				Forwarding                        *string `json:"forwarding,omitempty"`
+				Gre                               *string `json:"gre,omitempty"`
+				Vlan                              *string `json:"vlan,omitempty"`
+				TableSize                         *int    `json:"table-size,omitempty"`
+			} `json:"ipv4,omitempty"`
+			Ipsec        *string `json:"ipsec,omitempty"`
+			FlowLifetime *int    `json:"flow-lifetime,omitempty"`
+			Ipv6         *struct {
+				DisableFlowFlushingUponFibChanges *string `json:"disable-flow-flushing-upon-fib-changes,omitempty"`
+				Bonding                           *string `json:"bonding,omitempty"`
+				Pppoe                             *string `json:"pppoe,omitempty"`
+				Forwarding                        *string `json:"forwarding,omitempty"`
+				Vlan                              *string `json:"vlan,omitempty"`
+				TableSize                         *int    `json:"table-size,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"offload,omitempty"`
+	} `json:"system,omitempty"`
+	TrafficControl *struct {
+		OptimizedQueue *struct {
+			Policy *string `json:"policy,omitempty"`
+		} `json:"optimized-queue,omitempty"`
+		SmartQueue *map[string]struct {
+			WanInterface *string `json:"wan-interface,omitempty"`
+			Download     *struct {
+				Rate       *string `json:"rate,omitempty"`
+				HtbQuantum *int    `json:"htb-quantum,omitempty"`
+				Limit      *int    `json:"limit,omitempty"`
+				Target     *string `json:"target,omitempty"`
+				Interval   *string `json:"interval,omitempty"`
+				Burst      *string `json:"burst,omitempty"`
+				Ecn        *string `json:"ecn,omitempty"`
+				FqQuantum  *int    `json:"fq-quantum,omitempty"`
+				Flows      *int    `json:"flows,omitempty"`
+			} `json:"download,omitempty"`
+			Upload *struct {
+				Rate       *string `json:"rate,omitempty"`
+				HtbQuantum *int    `json:"htb-quantum,omitempty"`
+				Limit      *int    `json:"limit,omitempty"`
+				Target     *string `json:"target,omitempty"`
+				Interval   *string `json:"interval,omitempty"`
+				Burst      *string `json:"burst,omitempty"`
+				Ecn        *string `json:"ecn,omitempty"`
+				FqQuantum  *int    `json:"fq-quantum,omitempty"`
+				Flows      *int    `json:"flows,omitempty"`
+			} `json:"upload,omitempty"`
+		} `json:"smart-queue,omitempty"`
+		AdvancedQueue *struct {
+			Filters *struct {
+				Match *map[string]struct {
+					Interface *string `json:"interface,omitempty"`
+					Target    *string `json:"target,omitempty"`
+					Mark      *string `json:"mark,omitempty"`
+					Ether     *struct {
+						Source      *MacAddr `json:"source,omitempty"`
+						Destination *MacAddr `json:"destination,omitempty"`
+						Protocol    *string  `json:"protocol,omitempty"`
+					} `json:"ether,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Application *struct {
+						Category       *string `json:"category,omitempty"`
+						CustomCategory *string `json:"custom-category,omitempty"`
+					} `json:"application,omitempty"`
+					AttachTo *string `json:"attach-to,omitempty"`
+					Ip       *struct {
+						Source *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"source,omitempty"`
+						Destination *struct {
+							Address *IPv4Net `json:"address,omitempty"`
+							Port    *string  `json:"port,omitempty"`
+						} `json:"destination,omitempty"`
+						Protocol *int `json:"protocol,omitempty"`
+						Dscp     *int `json:"dscp,omitempty"`
+					} `json:"ip,omitempty"`
+				} `json:"match,omitempty"`
+			} `json:"filters,omitempty"`
+			Leaf *struct {
+				Queue *map[string]struct {
+					Bandwidth *string `json:"bandwidth,omitempty"`
+					Burst     *struct {
+						BurstRate *string `json:"burst-rate,omitempty"`
+						BurstSize *string `json:"burst-size,omitempty"`
+					} `json:"burst,omitempty"`
+					Ceiling     *string `json:"ceiling,omitempty"`
+					QueueType   *string `json:"queue-type,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Parent      *string `json:"parent,omitempty"`
+					Priority    *int    `json:"priority,omitempty"`
+				} `json:"queue,omitempty"`
+			} `json:"leaf,omitempty"`
+			Branch *struct {
+				Queue *map[string]struct {
+					Bandwidth   *string `json:"bandwidth,omitempty"`
+					Description *string `json:"description,omitempty"`
+					Parent      *string `json:"parent,omitempty"`
+					Priority    *int    `json:"priority,omitempty"`
+				} `json:"queue,omitempty"`
+			} `json:"branch,omitempty"`
+			QueueType *struct {
+				Pfifo *map[string]struct {
+					Limit *int `json:"limit,omitempty"`
+				} `json:"pfifo,omitempty"`
+				Hfq *map[string]struct {
+					Burst *struct {
+						BurstRate *string `json:"burst-rate,omitempty"`
+						BurstSize *string `json:"burst-size,omitempty"`
+					} `json:"burst,omitempty"`
+					Description    *string  `json:"description,omitempty"`
+					HostIdentifier *string  `json:"host-identifier,omitempty"`
+					Subnet         *IPv4Net `json:"subnet,omitempty"`
+					MaxRate        *string  `json:"max-rate,omitempty"`
+				} `json:"hfq,omitempty"`
+				FqCodel *map[string]struct {
+					Limit    *int    `json:"limit,omitempty"`
+					Target   *string `json:"target,omitempty"`
+					Interval *string `json:"interval,omitempty"`
+					Ecn      *string `json:"ecn,omitempty"`
+					Flows    *int    `json:"flows,omitempty"`
+					Quantum  *int    `json:"quantum,omitempty"`
+				} `json:"fq-codel,omitempty"`
+				Sfq *map[string]struct {
+					HashInterval *int    `json:"hash-interval,omitempty"`
+					Description  *string `json:"description,omitempty"`
+					QueueLimit   *int    `json:"queue-limit,omitempty"`
+				} `json:"sfq,omitempty"`
+			} `json:"queue-type,omitempty"`
+			Root *struct {
+				Queue *map[string]struct {
+					Bandwidth   *string `json:"bandwidth,omitempty"`
+					Default     *int    `json:"default,omitempty"`
+					Description *string `json:"description,omitempty"`
+					AttachTo    *string `json:"attach-to,omitempty"`
+				} `json:"queue,omitempty"`
+			} `json:"root,omitempty"`
+		} `json:"advanced-queue,omitempty"`
+	} `json:"traffic-control,omitempty"`
+	Service *struct {
+		UbntDiscover *struct {
+			Disable   *string `json:"disable,omitempty"`
+			Interface *map[string]struct {
+				Disable *string `json:"disable,omitempty"`
+			} `json:"interface,omitempty"`
+		} `json:"ubnt-discover,omitempty"`
+		UdapiServer *string `json:"udapi-server,omitempty"`
+		Snmp        *struct {
+			Contact       *string `json:"contact,omitempty"`
+			Location      *string `json:"location,omitempty"`
+			ListenAddress *map[string]struct {
+				Interface *string `json:"interface,omitempty"`
+				Port      *int    `json:"port,omitempty"`
+			} `json:"listen-address,omitempty"`
+			Description *string `json:"description,omitempty"`
+			V3          *struct {
+				Group *map[string]struct {
+					Mode     *string `json:"mode,omitempty"`
+					View     *string `json:"view,omitempty"`
+					Seclevel *string `json:"seclevel,omitempty"`
+				} `json:"group,omitempty"`
+				Tsm *struct {
+					LocalKey *string `json:"local-key,omitempty"`
+					Port     *int    `json:"port,omitempty"`
+				} `json:"tsm,omitempty"`
+				User *map[string]struct {
+					TsmKey  *string `json:"tsm-key,omitempty"`
+					Privacy *struct {
+						PlaintextKey *string `json:"plaintext-key,omitempty"`
+						EncryptedKey *string `json:"encrypted-key,omitempty"`
+						Type         *string `json:"type,omitempty"`
+					} `json:"privacy,omitempty"`
+					Mode *string `json:"mode,omitempty"`
+					Auth *struct {
+						PlaintextKey *string `json:"plaintext-key,omitempty"`
+						EncryptedKey *string `json:"encrypted-key,omitempty"`
+						Type         *string `json:"type,omitempty"`
+					} `json:"auth,omitempty"`
+					Group    *string `json:"group,omitempty"`
+					Engineid *string `json:"engineid,omitempty"`
+				} `json:"user,omitempty"`
+				View *map[string]struct {
+					Oid *map[string]struct {
+						Exclude *string `json:"exclude,omitempty"`
+						Mask    *string `json:"mask,omitempty"`
+					} `json:"oid,omitempty"`
+				} `json:"view,omitempty"`
+				TrapTarget *map[string]struct {
+					Privacy *struct {
+						PlaintextKey *string `json:"plaintext-key,omitempty"`
+						EncryptedKey *string `json:"encrypted-key,omitempty"`
+						Type         *string `json:"type,omitempty"`
+					} `json:"privacy,omitempty"`
+					Auth *struct {
+						PlaintextKey *string `json:"plaintext-key,omitempty"`
+						EncryptedKey *string `json:"encrypted-key,omitempty"`
+						Type         *string `json:"type,omitempty"`
+					} `json:"auth,omitempty"`
+					User     *string `json:"user,omitempty"`
+					Protocol *string `json:"protocol,omitempty"`
+					Type     *string `json:"type,omitempty"`
+					Port     *int    `json:"port,omitempty"`
+					Engineid *string `json:"engineid,omitempty"`
+				} `json:"trap-target,omitempty"`
+				Engineid *string `json:"engineid,omitempty"`
+			} `json:"v3,omitempty"`
+			TrapSource *IP `json:"trap-source,omitempty"`
+			TrapTarget *map[string]struct {
+				Port      *int    `json:"port,omitempty"`
+				Community *string `json:"community,omitempty"`
+			} `json:"trap-target,omitempty"`
+			Community *map[string]struct {
+				Network       *IPNet  `json:"network,omitempty"`
+				Authorization *string `json:"authorization,omitempty"`
+				Client        *IP     `json:"client,omitempty"`
+			} `json:"community,omitempty"`
+			IgnoreInterface *string `json:"ignore-interface,omitempty"`
+		} `json:"snmp,omitempty"`
+		Dhcpv6Server *struct {
+			Preference        *int `json:"preference,omitempty"`
+			SharedNetworkName *map[string]struct {
+				NameServer *IPv6 `json:"name-server,omitempty"`
+				Subnet     *map[string]struct {
+					NisServer     *IPv6 `json:"nis-server,omitempty"`
+					StaticMapping *map[string]struct {
+						Ipv6Address *IPv6   `json:"ipv6-address,omitempty"`
+						Identifier  *string `json:"identifier,omitempty"`
+					} `json:"static-mapping,omitempty"`
+					SntpServer       *IPv6 `json:"sntp-server,omitempty"`
+					PrefixDelegation *struct {
+						Start *map[string]struct {
+							Stop *map[string]struct {
+								PrefixLength *string `json:"prefix-length,omitempty"`
+							} `json:"stop,omitempty"`
+						} `json:"start,omitempty"`
+					} `json:"prefix-delegation,omitempty"`
+					NisplusDomain    *string `json:"nisplus-domain,omitempty"`
+					SipServerAddress *IPv6   `json:"sip-server-address,omitempty"`
+					SipServerName    *string `json:"sip-server-name,omitempty"`
+					NameServer       *IPv6   `json:"name-server,omitempty"`
+					NisDomain        *string `json:"nis-domain,omitempty"`
+					DomainSearch     *string `json:"domain-search,omitempty"`
+					LeaseTime        *struct {
+						Maximum *int `json:"maximum,omitempty"`
+						Default *int `json:"default,omitempty"`
+						Minimum *int `json:"minimum,omitempty"`
+					} `json:"lease-time,omitempty"`
+					NisplusServer *IPv6 `json:"nisplus-server,omitempty"`
+					AddressRange  *struct {
+						Prefix *map[string]struct {
+							Temporary *string `json:"temporary,omitempty"`
+						} `json:"prefix,omitempty"`
+						Start *map[string]struct {
+							Stop *IPv6 `json:"stop,omitempty"`
+						} `json:"start,omitempty"`
+					} `json:"address-range,omitempty"`
+				} `json:"subnet,omitempty"`
+			} `json:"shared-network-name,omitempty"`
+		} `json:"dhcpv6-server,omitempty"`
+		Upnp *struct {
+			ListenOn *map[string]struct {
+				OutboundInterface *string `json:"outbound-interface,omitempty"`
+			} `json:"listen-on,omitempty"`
+		} `json:"upnp,omitempty"`
+		Lldp *struct {
+			LegacyProtocols *struct {
+				Cdp   *string `json:"cdp,omitempty"`
+				Sonmp *string `json:"sonmp,omitempty"`
+				Edp   *string `json:"edp,omitempty"`
+				Fdp   *string `json:"fdp,omitempty"`
+			} `json:"legacy-protocols,omitempty"`
+			Interface *map[string]struct {
+				Disable  *string `json:"disable,omitempty"`
+				Location *struct {
+					CivicBased *struct {
+						CountryCode *string `json:"country-code,omitempty"`
+						CaType      *map[string]struct {
+							CaValue *string `json:"ca-value,omitempty"`
+						} `json:"ca-type,omitempty"`
+					} `json:"civic-based,omitempty"`
+					Elin            *string `json:"elin,omitempty"`
+					CoordinateBased *struct {
+						Datum     *string `json:"datum,omitempty"`
+						Longitude *string `json:"longitude,omitempty"`
+						Altitude  *string `json:"altitude,omitempty"`
+						Latitude  *string `json:"latitude,omitempty"`
+					} `json:"coordinate-based,omitempty"`
+				} `json:"location,omitempty"`
+			} `json:"interface,omitempty"`
+			ManagementAddress *IPv4   `json:"management-address,omitempty"`
+			ListenVlan        *string `json:".listen-vlan,omitempty"`
+		} `json:"lldp,omitempty"`
+		Nat *struct {
+			Rule *map[string]struct {
+				OutsideAddress *struct {
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"outside-address,omitempty"`
+				Disable          *string `json:"disable,omitempty"`
+				InboundInterface *string `json:"inbound-interface,omitempty"`
+				Exclude          *string `json:"exclude,omitempty"`
+				Source           *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"source,omitempty"`
+				OutboundInterface *string `json:"outbound-interface,omitempty"`
+				Destination       *struct {
+					Group *struct {
+						AddressGroup *string `json:"address-group,omitempty"`
+						PortGroup    *string `json:"port-group,omitempty"`
+						NetworkGroup *string `json:"network-group,omitempty"`
+					} `json:"group,omitempty"`
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"destination,omitempty"`
+				Protocol      *string `json:"protocol,omitempty"`
+				Type          *string `json:"type,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Log           *string `json:"log,omitempty"`
+				InsideAddress *struct {
+					Address *string `json:"address,omitempty"`
+					Port    *string `json:"port,omitempty"`
+				} `json:"inside-address,omitempty"`
+			} `json:"rule,omitempty"`
+		} `json:"nat,omitempty"`
+		Webproxy *struct {
+			DomainBlock       *string `json:"domain-block,omitempty"`
+			MinimumObjectSize *int    `json:"minimum-object-size,omitempty"`
+			ProxyBypass       *string `json:"proxy-bypass,omitempty"`
+			ProxyBypassSource *string `json:"proxy-bypass-source,omitempty"`
+			ListenAddress     *map[string]struct {
+				DisableTransparent *string `json:"disable-transparent,omitempty"`
+				Port               *int    `json:"port,omitempty"`
+			} `json:"listen-address,omitempty"`
+			DomainNoncache    *string `json:"domain-noncache,omitempty"`
+			MemCacheSize      *int    `json:"mem-cache-size,omitempty"`
+			MaximumObjectSize *int    `json:"maximum-object-size,omitempty"`
+			DefaultPort       *int    `json:"default-port,omitempty"`
+			AppendDomain      *string `json:"append-domain,omitempty"`
+			UrlFiltering      *struct {
+				Disable    *string `json:"disable,omitempty"`
+				Squidguard *struct {
+					AutoUpdate *struct {
+						UpdateHour *int `json:"update-hour,omitempty"`
+					} `json:"auto-update,omitempty"`
+					DefaultAction    *string `json:"default-action,omitempty"`
+					EnableSafeSearch *string `json:"enable-safe-search,omitempty"`
+					SourceGroup      *map[string]struct {
+						Description *string `json:"description,omitempty"`
+						Address     *string `json:"address,omitempty"`
+						Domain      *string `json:"domain,omitempty"`
+					} `json:"source-group,omitempty"`
+					RedirectUrl   *string `json:"redirect-url,omitempty"`
+					LocalBlock    *string `json:"local-block,omitempty"`
+					BlockCategory *string `json:"block-category,omitempty"`
+					LocalOk       *string `json:"local-ok,omitempty"`
+					TimePeriod    *map[string]struct {
+						Description *string `json:"description,omitempty"`
+						Days        *map[string]struct {
+							Time *string `json:"time,omitempty"`
+						} `json:"days,omitempty"`
+					} `json:"time-period,omitempty"`
+					LocalOkUrl     *string `json:"local-ok-url,omitempty"`
+					AllowIpaddrUrl *string `json:"allow-ipaddr-url,omitempty"`
+					Rule           *map[string]struct {
+						DefaultAction     *string `json:"default-action,omitempty"`
+						EnableSafeSearch  *string `json:"enable-safe-search,omitempty"`
+						SourceGroup       *string `json:"source-group,omitempty"`
+						RedirectUrl       *string `json:"redirect-url,omitempty"`
+						LocalBlock        *string `json:"local-block,omitempty"`
+						BlockCategory     *string `json:"block-category,omitempty"`
+						LocalOk           *string `json:"local-ok,omitempty"`
+						TimePeriod        *string `json:"time-period,omitempty"`
+						LocalOkUrl        *string `json:"local-ok-url,omitempty"`
+						AllowIpaddrUrl    *string `json:"allow-ipaddr-url,omitempty"`
+						Description       *string `json:"description,omitempty"`
+						LocalBlockKeyword *string `json:"local-block-keyword,omitempty"`
+						AllowCategory     *string `json:"allow-category,omitempty"`
+						Log               *string `json:"log,omitempty"`
+						LocalBlockUrl     *string `json:"local-block-url,omitempty"`
+					} `json:"rule,omitempty"`
+					LocalBlockKeyword *string `json:"local-block-keyword,omitempty"`
+					AllowCategory     *string `json:"allow-category,omitempty"`
+					Log               *string `json:"log,omitempty"`
+					LocalBlockUrl     *string `json:"local-block-url,omitempty"`
+				} `json:"squidguard,omitempty"`
+			} `json:"url-filtering,omitempty"`
+			EnableAccessLog  *string `json:"enable-access-log,omitempty"`
+			Administrator    *string `json:"administrator,omitempty"`
+			CacheSize        *int    `json:"cache-size,omitempty"`
+			ReplyBlockMime   *string `json:"reply-block-mime,omitempty"`
+			ReplyBodyMaxSize *int    `json:"reply-body-max-size,omitempty"`
+		} `json:"webproxy,omitempty"`
+		Suspend *struct {
+			ForwardTo *struct {
+				HttpPort  *int  `json:"http-port,omitempty"`
+				Address   *IPv4 `json:"address,omitempty"`
+				HttpsPort *int  `json:"https-port,omitempty"`
+			} `json:"forward-to,omitempty"`
+			AllowDomain *string `json:"allow-domain,omitempty"`
+			UserIp      *IPv4   `json:"user-ip,omitempty"`
+			Redirect    *struct {
+				HttpPort  *int    `json:"http-port,omitempty"`
+				Url       *string `json:"url,omitempty"`
+				HttpsPort *int    `json:"https-port,omitempty"`
+			} `json:"redirect,omitempty"`
+			AllowIp *IPv4 `json:"allow-ip,omitempty"`
+		} `json:"suspend,omitempty"`
+		Unms *struct {
+			Disable    *string `json:"disable,omitempty"`
+			Connection *string `json:"connection,omitempty"`
+			Lldp       *struct {
+				Disable *string `json:"disable,omitempty"`
+			} `json:"lldp,omitempty"`
+			RestApi *struct {
+				Interface *string `json:"interface,omitempty"`
+				Port      *int    `json:"port,omitempty"`
+			} `json:"rest-api,omitempty"`
+		} `json:"unms,omitempty"`
+		Mdns *struct {
+			Reflector *string `json:"reflector,omitempty"`
+			Repeater  *struct {
+				Interface *string `json:"interface,omitempty"`
+			} `json:"repeater,omitempty"`
+		} `json:"mdns,omitempty"`
+		UbntDiscoverServer *struct {
+			Disable  *string `json:"disable,omitempty"`
+			Protocol *string `json:"protocol,omitempty"`
+		} `json:"ubnt-discover-server,omitempty"`
+		DhcpServer *struct {
+			UseDnsmasq        *string `json:"use-dnsmasq,omitempty"`
+			StaticArp         *string `json:"static-arp,omitempty"`
+			HostfileUpdate    *string `json:"hostfile-update,omitempty"`
+			SharedNetworkName *map[string]struct {
+				Disable                 *string `json:"disable,omitempty"`
+				SharedNetworkParameters *string `json:"shared-network-parameters,omitempty"`
+				Authoritative           *string `json:"authoritative,omitempty"`
+				Description             *string `json:"description,omitempty"`
+				Subnet                  *map[string]struct {
+					StaticMapping *map[string]struct {
+						Disable                 *string  `json:"disable,omitempty"`
+						IpAddress               *IPv4    `json:"ip-address,omitempty"`
+						StaticMappingParameters *string  `json:"static-mapping-parameters,omitempty"`
+						MacAddress              *MacAddr `json:"mac-address,omitempty"`
+					} `json:"static-mapping,omitempty"`
+					BootfileName   *string `json:"bootfile-name,omitempty"`
+					BootfileServer *string `json:"bootfile-server,omitempty"`
+					PopServer      *IPv4   `json:"pop-server,omitempty"`
+					Exclude        *IPv4   `json:"exclude,omitempty"`
+					DomainName     *string `json:"domain-name,omitempty"`
+					StaticRoute    *struct {
+						DestinationSubnet *IPv4Net `json:"destination-subnet,omitempty"`
+						Router            *IPv4    `json:"router,omitempty"`
+					} `json:"static-route,omitempty"`
+					SubnetParameters *string `json:"subnet-parameters,omitempty"`
+					Start            *map[string]struct {
+						Stop *IPv4 `json:"stop,omitempty"`
+					} `json:"start,omitempty"`
+					TimeServer      *IPv4   `json:"time-server,omitempty"`
+					WpadUrl         *string `json:"wpad-url,omitempty"`
+					UnifiController *IPv4   `json:"unifi-controller,omitempty"`
+					Lease           *int    `json:"lease,omitempty"`
+					DefaultRouter   *IPv4   `json:"default-router,omitempty"`
+					TftpServerName  *string `json:"tftp-server-name,omitempty"`
+					IpForwarding    *struct {
+						Enable *bool `json:"enable,omitempty"`
+					} `json:"ip-forwarding,omitempty"`
+					DnsServer          *IPv4   `json:"dns-server,omitempty"`
+					NtpServer          *IPv4   `json:"ntp-server,omitempty"`
+					TimeOffset         *string `json:"time-offset,omitempty"`
+					SmtpServer         *IPv4   `json:"smtp-server,omitempty"`
+					WinsServer         *IPv4   `json:"wins-server,omitempty"`
+					ClientPrefixLength *int    `json:"client-prefix-length,omitempty"`
+					Failover           *struct {
+						PeerAddress  *IPv4   `json:"peer-address,omitempty"`
+						Status       *string `json:"status,omitempty"`
+						LocalAddress *IPv4   `json:"local-address,omitempty"`
+						Name         *string `json:"name,omitempty"`
+					} `json:"failover,omitempty"`
+					ServerIdentifier *IPv4 `json:"server-identifier,omitempty"`
+				} `json:"subnet,omitempty"`
+			} `json:"shared-network-name,omitempty"`
+			Disabled         *bool `json:"disabled,omitempty"`
+			DynamicDnsUpdate *struct {
+				Enable *bool `json:"enable,omitempty"`
+			} `json:"dynamic-dns-update,omitempty"`
+			GlobalParameters *string `json:"global-parameters,omitempty"`
+		} `json:"dhcp-server,omitempty"`
+		Ssh *struct {
+			DisablePasswordAuthentication *string `json:"disable-password-authentication,omitempty"`
+			ListenAddress                 *IP     `json:"listen-address,omitempty"`
+			AllowRoot                     *string `json:"allow-root,omitempty"`
+			ProtocolVersion               *string `json:"protocol-version,omitempty"`
+			DisableHostValidation         *string `json:"disable-host-validation,omitempty"`
+			Port                          *int    `json:"port,omitempty"`
+		} `json:"ssh,omitempty"`
+		Gui *struct {
+			CaFile        *string `json:"ca-file,omitempty"`
+			HttpPort      *int    `json:"http-port,omitempty"`
+			ListenAddress *IP     `json:"listen-address,omitempty"`
+			HttpsPort     *int    `json:"https-port,omitempty"`
+			DhFile        *string `json:"dh-file,omitempty"`
+			CertFile      *string `json:"cert-file,omitempty"`
+			OlderCiphers  *string `json:"older-ciphers,omitempty"`
+			Debug         *string `json:"debug,omitempty"`
+		} `json:"gui,omitempty"`
+		PppoeServer *struct {
+			Encryption  *string `json:"encryption,omitempty"`
+			ServiceName *string `json:"service-name,omitempty"`
+			WinsServers *struct {
+				Server2 *IPv4 `json:"server-2,omitempty"`
+				Server1 *IPv4 `json:"server-1,omitempty"`
+			} `json:"wins-servers,omitempty"`
+			Interface  *string `json:"interface,omitempty"`
+			DnsServers *struct {
+				Server2 *IPv4 `json:"server-2,omitempty"`
+				Server1 *IPv4 `json:"server-1,omitempty"`
+			} `json:"dns-servers,omitempty"`
+			Mtu          *int `json:"mtu,omitempty"`
+			ClientIpPool *struct {
+				Start *IPv4 `json:"start,omitempty"`
+				Stop  *IPv4 `json:"stop,omitempty"`
+			} `json:"client-ip-pool,omitempty"`
+			Radius *struct {
+				DefaultInterimInterval *int `json:"default-interim-interval,omitempty"`
+			} `json:"radius,omitempty"`
+			LocalIp        *IPv4 `json:"local-ip,omitempty"`
+			Authentication *struct {
+				Mode       *string `json:"mode,omitempty"`
+				LocalUsers *struct {
+					Username *map[string]struct {
+						Disable  *string `json:"disable,omitempty"`
+						Password *string `json:"password,omitempty"`
+						StaticIp *IPv4   `json:"static-ip,omitempty"`
+					} `json:"username,omitempty"`
+				} `json:"local-users,omitempty"`
+				RadiusServer *map[string]struct {
+					Key *string `json:"key,omitempty"`
+				} `json:"radius-server,omitempty"`
+			} `json:"authentication,omitempty"`
+			AccessConcentrator *string `json:"access-concentrator,omitempty"`
+		} `json:"pppoe-server,omitempty"`
+		SshRecovery *struct {
+			ListenOn *string `json:"listen-on,omitempty"`
+			Lifetime *string `json:"lifetime,omitempty"`
+			Disabled *string `json:"disabled,omitempty"`
+			Port     *int    `json:"port,omitempty"`
+		} `json:"ssh-recovery,omitempty"`
+		Dns *struct {
+			Dynamic *struct {
+				Interface *map[string]struct {
+					Web     *string `json:"web,omitempty"`
+					WebSkip *string `json:"web-skip,omitempty"`
+					Service *map[string]struct {
+						Options  *string `json:"options,omitempty"`
+						Password *string `json:"password,omitempty"`
+						Server   *string `json:"server,omitempty"`
+						HostName *string `json:"host-name,omitempty"`
+						Protocol *string `json:"protocol,omitempty"`
+						Login    *string `json:"login,omitempty"`
+					} `json:"service,omitempty"`
+				} `json:"interface,omitempty"`
+			} `json:"dynamic,omitempty"`
+			Forwarding *struct {
+				Options             *string `json:"options,omitempty"`
+				ExceptInterface     *string `json:"except-interface,omitempty"`
+				ForcePublicDnsBoost *string `json:"force-public-dns-boost,omitempty"`
+				ListenOn            *string `json:"listen-on,omitempty"`
+				NameServer          *IP     `json:"name-server,omitempty"`
+				System              *string `json:"system,omitempty"`
+				Dhcp                *string `json:"dhcp,omitempty"`
+				CacheSize           *int    `json:"cache-size,omitempty"`
+			} `json:"forwarding,omitempty"`
+		} `json:"dns,omitempty"`
+		DhcpRelay *struct {
+			Interface    *string `json:"interface,omitempty"`
+			RelayOptions *struct {
+				HopCount           *int    `json:"hop-count,omitempty"`
+				MaxSize            *int    `json:"max-size,omitempty"`
+				Port               *int    `json:"port,omitempty"`
+				RelayAgentsPackets *string `json:"relay-agents-packets,omitempty"`
+			} `json:"relay-options,omitempty"`
+			Server *IPv4 `json:"server,omitempty"`
+		} `json:"dhcp-relay,omitempty"`
+		Upnp2 *struct {
+			ListenOn *string `json:"listen-on,omitempty"`
+			NatPmp   *string `json:"nat-pmp,omitempty"`
+			BitRate  *struct {
+				Up   *int `json:"up,omitempty"`
+				Down *int `json:"down,omitempty"`
+			} `json:"bit-rate,omitempty"`
+			Wan        *string `json:"wan,omitempty"`
+			Port       *int    `json:"port,omitempty"`
+			SecureMode *string `json:"secure-mode,omitempty"`
+			Acl        *struct {
+				Rule *map[string]struct {
+					Action       *string  `json:"action,omitempty"`
+					Description  *string  `json:"description,omitempty"`
+					ExternalPort *string  `json:"external-port,omitempty"`
+					LocalPort    *string  `json:"local-port,omitempty"`
+					Subnet       *IPv4Net `json:"subnet,omitempty"`
+				} `json:"rule,omitempty"`
+			} `json:"acl,omitempty"`
+		} `json:"upnp2,omitempty"`
+		Telnet *struct {
+			ListenAddress *IP     `json:"listen-address,omitempty"`
+			AllowRoot     *string `json:"allow-root,omitempty"`
+			Port          *int    `json:"port,omitempty"`
+		} `json:"telnet,omitempty"`
+		Dhcpv6Relay *struct {
+			ListenInterface *map[string]struct {
+				Address *IPv6 `json:"address,omitempty"`
+			} `json:"listen-interface,omitempty"`
+			MaxHopCount          *int    `json:"max-hop-count,omitempty"`
+			UseInterfaceIdOption *string `json:"use-interface-id-option,omitempty"`
+			UpstreamInterface    *map[string]struct {
+				Address *IPv6 `json:"address,omitempty"`
+			} `json:"upstream-interface,omitempty"`
+			ListenPort *int `json:"listen-port,omitempty"`
+		} `json:"dhcpv6-relay,omitempty"`
+	} `json:"service,omitempty"`
+	Protocols *struct {
+		Rip *struct {
+			Interface *string  `json:"interface,omitempty"`
+			Neighbor  *IPv4    `json:"neighbor,omitempty"`
+			Route     *IPv4Net `json:"route,omitempty"`
+			Bfd       *struct {
+				Neighbor *map[string]struct {
+					FallOver *string `json:"fall-over,omitempty"`
+				} `json:"neighbor,omitempty"`
+				AllInterfaces *string `json:"all-interfaces,omitempty"`
+			} `json:"bfd,omitempty"`
+			DefaultDistance *int `json:"default-distance,omitempty"`
+			Timers          *struct {
+				Update            *int `json:"update,omitempty"`
+				Timeout           *int `json:"timeout,omitempty"`
+				GarbageCollection *int `json:"garbage-collection,omitempty"`
+			} `json:"timers,omitempty"`
+			Network       *IPv4Net `json:"network,omitempty"`
+			DefaultMetric *int     `json:"default-metric,omitempty"`
+			Vrf           *map[string]struct {
+				Interface *string `json:"interface,omitempty"`
+				Bfd       *struct {
+					Neighbor *map[string]struct {
+						FallOver *string `json:"fall-over,omitempty"`
+					} `json:"neighbor,omitempty"`
+					AllInterfaces *string `json:"all-interfaces,omitempty"`
+				} `json:"bfd,omitempty"`
+				DefaultDistance *int     `json:"default-distance,omitempty"`
+				Network         *IPv4Net `json:"network,omitempty"`
+				DefaultMetric   *int     `json:"default-metric,omitempty"`
+				NetworkDistance *map[string]struct {
+					Distance   *int    `json:"distance,omitempty"`
+					AccessList *string `json:"access-list,omitempty"`
+				} `json:"network-distance,omitempty"`
+				Redistribute *struct {
+					Connected *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"connected,omitempty"`
+					Static *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"static,omitempty"`
+					Bgp *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"bgp,omitempty"`
+					Ospf *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"redistribute,omitempty"`
+				DistributeList *struct {
+					Interface *map[string]struct {
+						AccessList *struct {
+							Out *int `json:"out,omitempty"`
+							In  *int `json:"in,omitempty"`
+						} `json:"access-list,omitempty"`
+						PrefixList *struct {
+							Out *string `json:"out,omitempty"`
+							In  *string `json:"in,omitempty"`
+						} `json:"prefix-list,omitempty"`
+					} `json:"interface,omitempty"`
+					AccessList *struct {
+						Out *int `json:"out,omitempty"`
+						In  *int `json:"in,omitempty"`
+					} `json:"access-list,omitempty"`
+					PrefixList *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"prefix-list,omitempty"`
+				} `json:"distribute-list,omitempty"`
+				DefaultInformation *struct {
+					Originate *string `json:"originate,omitempty"`
+				} `json:"default-information,omitempty"`
+			} `json:".vrf,omitempty"`
+			NetworkDistance *map[string]struct {
+				Distance   *int    `json:"distance,omitempty"`
+				AccessList *string `json:"access-list,omitempty"`
+			} `json:"network-distance,omitempty"`
+			PassiveInterface *string `json:"passive-interface,omitempty"`
+			Redistribute     *struct {
+				Connected *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"connected,omitempty"`
+				Static *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"static,omitempty"`
+				Bgp *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"bgp,omitempty"`
+				Kernel *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"kernel,omitempty"`
+				Ospf *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"redistribute,omitempty"`
+			DistributeList *struct {
+				Interface *map[string]struct {
+					AccessList *struct {
+						Out *int `json:"out,omitempty"`
+						In  *int `json:"in,omitempty"`
+					} `json:"access-list,omitempty"`
+					PrefixList *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"prefix-list,omitempty"`
+				} `json:"interface,omitempty"`
+				AccessList *struct {
+					Out *int `json:"out,omitempty"`
+					In  *int `json:"in,omitempty"`
+				} `json:"access-list,omitempty"`
+				PrefixList *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"prefix-list,omitempty"`
+			} `json:"distribute-list,omitempty"`
+			DefaultInformation *struct {
+				Originate *string `json:"originate,omitempty"`
+			} `json:"default-information,omitempty"`
+		} `json:"rip,omitempty"`
+		Mpls *struct {
+			LspTunneling *struct {
+				Interface *map[string]struct {
+					InLabel *map[string]struct {
+						OutLabel *map[string]struct {
+							NetworkFec *IPv4Net `json:"network-fec,omitempty"`
+						} `json:"out-label,omitempty"`
+					} `json:"in-label,omitempty"`
+				} `json:"interface,omitempty"`
+			} `json:"lsp-tunneling,omitempty"`
+			AcGroup *map[string]struct {
+				GroupId *int `json:"group-id,omitempty"`
+			} `json:"ac-group,omitempty"`
+			LocalPacketHandling *string `json:"local-packet-handling,omitempty"`
+			Interface           *map[string]struct {
+				MulticastHellos  *string `json:"multicast-hellos,omitempty"`
+				KeepaliveTimeout *int    `json:"keepalive-timeout,omitempty"`
+				VcMode           *struct {
+					Standby   *string `json:"standby,omitempty"`
+					Revertive *string `json:"revertive,omitempty"`
+				} `json:"vc-mode,omitempty"`
+				LdpIgp *struct {
+					Sync *struct {
+						Ospf *struct {
+							HolddownTimer *int `json:"holddown-timer,omitempty"`
+						} `json:"ospf,omitempty"`
+					} `json:"sync,omitempty"`
+					SyncDelay *int `json:"sync-delay,omitempty"`
+				} `json:"ldp-igp,omitempty"`
+				MaxPduLength       *int `json:"max-pdu-length,omitempty"`
+				LabelRetentionMode *struct {
+					Liberal      *string `json:"liberal,omitempty"`
+					Conservative *string `json:"conservative,omitempty"`
+				} `json:"label-retention-mode,omitempty"`
+				AdminGroup *string `json:"admin-group,omitempty"`
+				L2Circuit  *map[string]struct {
+					Hdlc *struct {
+						Primary   *string `json:"primary,omitempty"`
+						Secondary *string `json:"secondary,omitempty"`
+					} `json:".hdlc,omitempty"`
+					Ppp *struct {
+						Primary   *string `json:"primary,omitempty"`
+						Secondary *string `json:"secondary,omitempty"`
+					} `json:".ppp,omitempty"`
+					Ethernet *struct {
+						Primary   *string `json:"primary,omitempty"`
+						Secondary *string `json:"secondary,omitempty"`
+					} `json:".ethernet,omitempty"`
+				} `json:"l2-circuit,omitempty"`
+				LabelSwitching    *string `json:"label-switching,omitempty"`
+				HoldTime          *int    `json:"hold-time,omitempty"`
+				KeepaliveInterval *int    `json:"keepalive-interval,omitempty"`
+				AdvertisementMode *struct {
+					DownstreamOnDemand    *string `json:"downstream-on-demand,omitempty"`
+					DownstreamUnsolicited *string `json:"downstream-unsolicited,omitempty"`
+				} `json:"advertisement-mode,omitempty"`
+				HelloInterval *int `json:"hello-interval,omitempty"`
+			} `json:"interface,omitempty"`
+			L2CircuitFibEntry *map[string]struct {
+				InLabel *map[string]struct {
+					OutLabel *map[string]struct {
+						Ipv4 *map[string]struct {
+							Int *map[string]struct {
+								Int *string `json:"int,omitempty"`
+							} `json:"int,omitempty"`
+						} `json:"ipv4,omitempty"`
+						Ipv6 *map[string]struct {
+							Int *map[string]struct {
+								Int *string `json:"int,omitempty"`
+							} `json:"int,omitempty"`
+						} `json:"ipv6,omitempty"`
+					} `json:"out-label,omitempty"`
+				} `json:"in-label,omitempty"`
+			} `json:".l2-circuit-fib-entry,omitempty"`
+			EnableAllInterfaces *string `json:"enable-all-interfaces,omitempty"`
+			MsPw                *map[string]struct {
+				Description *string `json:"description,omitempty"`
+			} `json:"ms-pw,omitempty"`
+			IngressTtl *int `json:"ingress-ttl,omitempty"`
+			TeClass    *map[string]struct {
+				Name *map[string]struct {
+					Priority *int `json:"priority,omitempty"`
+				} `json:"name,omitempty"`
+			} `json:"te-class,omitempty"`
+			LspModel *struct {
+				Pipe *string `json:"pipe,omitempty"`
+			} `json:"lsp-model,omitempty"`
+			FtnEntry *struct {
+				TunnelId *map[string]struct {
+					Ip *map[string]struct {
+						Mask *map[string]struct {
+							OutLabel *map[string]struct {
+								Nexthop *map[string]struct {
+									Interface *map[string]struct {
+										Primary   *string `json:"primary,omitempty"`
+										Secondary *string `json:"secondary,omitempty"`
+									} `json:"interface,omitempty"`
+								} `json:"nexthop,omitempty"`
+							} `json:"out-label,omitempty"`
+						} `json:"mask,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6mask *map[string]struct {
+						OutLabel *map[string]struct {
+							Nexthop *map[string]struct {
+								Interface *map[string]struct {
+									Primary   *string `json:"primary,omitempty"`
+									Secondary *string `json:"secondary,omitempty"`
+								} `json:"interface,omitempty"`
+							} `json:"nexthop,omitempty"`
+						} `json:"out-label,omitempty"`
+					} `json:"ipv6mask,omitempty"`
+					Ipv4mask *map[string]struct {
+						OutLabel *map[string]struct {
+							Nexthop *map[string]struct {
+								Interface *map[string]struct {
+									Primary   *string `json:"primary,omitempty"`
+									Secondary *string `json:"secondary,omitempty"`
+								} `json:"interface,omitempty"`
+							} `json:"nexthop,omitempty"`
+						} `json:"out-label,omitempty"`
+					} `json:"ipv4mask,omitempty"`
+				} `json:"tunnel-id,omitempty"`
+			} `json:"ftn-entry,omitempty"`
+			ClassToExp *map[string]struct {
+				Bit *int `json:"bit,omitempty"`
+			} `json:"class-to-exp,omitempty"`
+			L2Circuit *map[string]struct {
+				Ipv4 *map[string]struct {
+					Agi *map[string]struct {
+						Saii *map[string]struct {
+							Taii *map[string]struct {
+								Manual    *string `json:"manual,omitempty"`
+								Groupname *map[string]struct {
+									GroupId *int `json:"group-id,omitempty"`
+								} `json:"groupname,omitempty"`
+								ControlWord *struct {
+									Manual   *string `json:"manual,omitempty"`
+									TunnelId *map[string]struct {
+										Passive *string `json:"passive,omitempty"`
+										Reverse *struct {
+											Passive *string `json:"passive,omitempty"`
+											Manual  *string `json:"manual,omitempty"`
+										} `json:"reverse,omitempty"`
+										Manual  *string `json:"manual,omitempty"`
+										Forward *struct {
+											Passive *string `json:"passive,omitempty"`
+											Manual  *string `json:"manual,omitempty"`
+										} `json:"forward,omitempty"`
+									} `json:"tunnel-id,omitempty"`
+								} `json:"control-word,omitempty"`
+								TunnelId *map[string]struct {
+									Passive *string `json:"passive,omitempty"`
+									Reverse *struct {
+										Passive *string `json:"passive,omitempty"`
+										Manual  *string `json:"manual,omitempty"`
+									} `json:"reverse,omitempty"`
+									Manual  *string `json:"manual,omitempty"`
+									Forward *struct {
+										Passive *string `json:"passive,omitempty"`
+										Manual  *string `json:"manual,omitempty"`
+									} `json:"forward,omitempty"`
+								} `json:"tunnel-id,omitempty"`
+							} `json:"taii,omitempty"`
+						} `json:"saii,omitempty"`
+					} `json:"agi,omitempty"`
+				} `json:"ipv4,omitempty"`
+				Id *map[string]struct {
+					Ipv4 *map[string]struct {
+						Passive   *string `json:"passive,omitempty"`
+						Manual    *string `json:"manual,omitempty"`
+						Groupname *map[string]struct {
+							ControlWord *struct {
+								Manual *string `json:"manual,omitempty"`
+							} `json:"control-word,omitempty"`
+						} `json:"groupname,omitempty"`
+						ControlWord *struct {
+							Passive  *string `json:"passive,omitempty"`
+							Manual   *string `json:"manual,omitempty"`
+							TunnelId *map[string]struct {
+								Passive *string `json:"passive,omitempty"`
+								Reverse *struct {
+									Passive *string `json:"passive,omitempty"`
+									Manual  *string `json:"manual,omitempty"`
+								} `json:"reverse,omitempty"`
+								Manual  *string `json:"manual,omitempty"`
+								Forward *struct {
+									Passive *string `json:"passive,omitempty"`
+									Manual  *string `json:"manual,omitempty"`
+								} `json:"forward,omitempty"`
+							} `json:"tunnel-id,omitempty"`
+						} `json:"control-word,omitempty"`
+						TunnelId *map[string]struct {
+							Passive *string `json:"passive,omitempty"`
+							Reverse *struct {
+								Passive *string `json:"passive,omitempty"`
+								Manual  *string `json:"manual,omitempty"`
+							} `json:"reverse,omitempty"`
+							Manual  *string `json:"manual,omitempty"`
+							Forward *struct {
+								Passive *string `json:"passive,omitempty"`
+								Manual  *string `json:"manual,omitempty"`
+							} `json:"forward,omitempty"`
+						} `json:"tunnel-id,omitempty"`
+					} `json:"ipv4,omitempty"`
+					Ipv6 *map[string]struct {
+						Manual *string `json:"manual,omitempty"`
+					} `json:"ipv6,omitempty"`
+				} `json:"id,omitempty"`
+			} `json:".l2-circuit,omitempty"`
+			EgressTtl     *int `json:"egress-ttl,omitempty"`
+			MinLabelValue *map[string]struct {
+				LabelSpace *int `json:"label-space,omitempty"`
+			} `json:"min-label-value,omitempty"`
+			AdminGroup *map[string]struct {
+				Value *int `json:"value,omitempty"`
+			} `json:"admin-group,omitempty"`
+			MsPwStitch *map[string]struct {
+				Vc1 *map[string]struct {
+					Vc2 *map[string]struct {
+						Mtu *map[string]struct {
+							Ethernet *string `json:"ethernet,omitempty"`
+							Vlan     *int    `json:"vlan,omitempty"`
+						} `json:"mtu,omitempty"`
+					} `json:"vc2,omitempty"`
+				} `json:"vc1,omitempty"`
+			} `json:"ms-pw-stitch,omitempty"`
+			ClassType *map[string]struct {
+				Name *string `json:"name,omitempty"`
+			} `json:"class-type,omitempty"`
+			IlmEntry *map[string]struct {
+				Interface *map[string]struct {
+					Pop  *string `json:"pop,omitempty"`
+					Swap *map[string]struct {
+						Interface *map[string]struct {
+							Ip *map[string]struct {
+								Fec *map[string]struct {
+									Mask *IPv4 `json:"mask,omitempty"`
+								} `json:"fec,omitempty"`
+							} `json:"ip,omitempty"`
+						} `json:"interface,omitempty"`
+					} `json:"swap,omitempty"`
+				} `json:"interface,omitempty"`
+			} `json:"ilm-entry,omitempty"`
+			SupportDiffservClass *string `json:"support-diffserv-class,omitempty"`
+			MapRoute             *map[string]struct {
+				Fec *IPv4Net `json:"fec,omitempty"`
+			} `json:"map-route,omitempty"`
+			Rsvp *struct {
+				MinLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"min-label-value,omitempty"`
+				MaxLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"max-label-value,omitempty"`
+			} `json:"rsvp,omitempty"`
+			Ldp *struct {
+				MinLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"min-label-value,omitempty"`
+				MaxLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"max-label-value,omitempty"`
+			} `json:"ldp,omitempty"`
+			Bgp *struct {
+				MinLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"min-label-value,omitempty"`
+				MaxLabelValue *map[string]struct {
+					LabelSpace *int `json:"label-space,omitempty"`
+				} `json:"max-label-value,omitempty"`
+			} `json:"bgp,omitempty"`
+			MaxLabelValue *map[string]struct {
+				LabelSpace *int `json:"label-space,omitempty"`
+			} `json:"max-label-value,omitempty"`
+			PropagateTtl         *string `json:"propagate-ttl,omitempty"`
+			DisableAllInterfaces *string `json:"disable-all-interfaces,omitempty"`
+		} `json:"mpls,omitempty"`
+		Bfd *struct {
+			Interface *map[string]struct {
+				Enable *string `json:"enable,omitempty"`
+				Echo   *struct {
+					Interval *int `json:"interval,omitempty"`
+				} `json:"echo,omitempty"`
+				Auth *struct {
+					Key  *string `json:"key,omitempty"`
+					Type *string `json:"type,omitempty"`
+				} `json:"auth,omitempty"`
+				Interval *map[string]struct {
+					Minrx *map[string]struct {
+						Multiplier *int `json:"multiplier,omitempty"`
+					} `json:"minrx,omitempty"`
+				} `json:"interval,omitempty"`
+				Session *struct {
+					Source *map[string]struct {
+						Dest *map[string]struct {
+							Multihop *struct {
+								AdminDown  *string `json:"admin-down,omitempty"`
+								DemandMode *struct {
+									AdminDown     *string `json:"admin-down,omitempty"`
+									NonPersistent *struct {
+										AdminDown *string `json:"admin-down,omitempty"`
+									} `json:"non-persistent,omitempty"`
+								} `json:"demand-mode,omitempty"`
+							} `json:"multihop,omitempty"`
+							AdminDown  *string `json:"admin-down,omitempty"`
+							DemandMode *struct {
+								AdminDown     *string `json:"admin-down,omitempty"`
+								NonPersistent *struct {
+									AdminDown *string `json:"admin-down,omitempty"`
+								} `json:"non-persistent,omitempty"`
+							} `json:"demand-mode,omitempty"`
+							NonPersistent *struct {
+								AdminDown *string `json:"admin-down,omitempty"`
+							} `json:"non-persistent,omitempty"`
+						} `json:"dest,omitempty"`
+					} `json:"source,omitempty"`
+				} `json:"session,omitempty"`
+			} `json:"interface,omitempty"`
+			Echo         *string `json:"echo,omitempty"`
+			Notification *struct {
+				Enable *string `json:"enable,omitempty"`
+			} `json:"notification,omitempty"`
+			SlowTimer *int `json:"slow-timer,omitempty"`
+			Gtsm      *struct {
+				Enable *string `json:"enable,omitempty"`
+				Ttl    *int    `json:"ttl,omitempty"`
+			} `json:"gtsm,omitempty"`
+			MultihopPeer *map[string]struct {
+				Auth *struct {
+					Key  *string `json:"key,omitempty"`
+					Type *string `json:"type,omitempty"`
+				} `json:"auth,omitempty"`
+				Interval *map[string]struct {
+					Minrx *map[string]struct {
+						Multiplier *int `json:"multiplier,omitempty"`
+					} `json:"minrx,omitempty"`
+				} `json:"interval,omitempty"`
+			} `json:"multihop-peer,omitempty"`
+		} `json:"bfd,omitempty"`
+		Ripng *struct {
+			Interface *string  `json:"interface,omitempty"`
+			Route     *IPv6Net `json:"route,omitempty"`
+			Timers    *struct {
+				Update            *int `json:"update,omitempty"`
+				Timeout           *int `json:"timeout,omitempty"`
+				GarbageCollection *int `json:"garbage-collection,omitempty"`
+			} `json:"timers,omitempty"`
+			Network          *IPv6Net `json:"network,omitempty"`
+			DefaultMetric    *int     `json:"default-metric,omitempty"`
+			AggregateAddress *IPv6Net `json:"aggregate-address,omitempty"`
+			Vrf              *map[string]struct {
+				Interface *string  `json:"interface,omitempty"`
+				Route     *IPv6Net `json:"route,omitempty"`
+				Timers    *struct {
+					Update            *int `json:"update,omitempty"`
+					Timeout           *int `json:"timeout,omitempty"`
+					GarbageCollection *int `json:"garbage-collection,omitempty"`
+				} `json:"timers,omitempty"`
+				Network          *IPv6Net `json:"network,omitempty"`
+				DefaultMetric    *int     `json:"default-metric,omitempty"`
+				AggregateAddress *IPv6Net `json:"aggregate-address,omitempty"`
+				PassiveInterface *string  `json:"passive-interface,omitempty"`
+				Redistribute     *struct {
+					Connected *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"connected,omitempty"`
+					Static *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"static,omitempty"`
+					Bgp *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"bgp,omitempty"`
+					Ospfv3 *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+						Metric   *int    `json:"metric,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"redistribute,omitempty"`
+				DistributeList *struct {
+					Interface *map[string]struct {
+						AccessList *struct {
+							Out *int `json:"out,omitempty"`
+							In  *int `json:"in,omitempty"`
+						} `json:"access-list,omitempty"`
+						PrefixList *struct {
+							Out *string `json:"out,omitempty"`
+							In  *string `json:"in,omitempty"`
+						} `json:"prefix-list,omitempty"`
+					} `json:"interface,omitempty"`
+					AccessList *struct {
+						Out *int `json:"out,omitempty"`
+						In  *int `json:"in,omitempty"`
+					} `json:"access-list,omitempty"`
+					PrefixList *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"prefix-list,omitempty"`
+				} `json:"distribute-list,omitempty"`
+				DefaultInformation *struct {
+					Originate *string `json:"originate,omitempty"`
+				} `json:"default-information,omitempty"`
+			} `json:".vrf,omitempty"`
+			PassiveInterface *string `json:"passive-interface,omitempty"`
+			Redistribute     *struct {
+				Connected *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"connected,omitempty"`
+				Static *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"static,omitempty"`
+				Bgp *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"bgp,omitempty"`
+				Ospfv3 *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"ospfv3,omitempty"`
+				Kernel *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"kernel,omitempty"`
+			} `json:"redistribute,omitempty"`
+			DistributeList *struct {
+				Interface *map[string]struct {
+					AccessList *struct {
+						Out *int `json:"out,omitempty"`
+						In  *int `json:"in,omitempty"`
+					} `json:"access-list,omitempty"`
+					PrefixList *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"prefix-list,omitempty"`
+				} `json:"interface,omitempty"`
+				AccessList *struct {
+					Out *int `json:"out,omitempty"`
+					In  *int `json:"in,omitempty"`
+				} `json:"access-list,omitempty"`
+				PrefixList *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"prefix-list,omitempty"`
+			} `json:"distribute-list,omitempty"`
+			DefaultInformation *struct {
+				Originate *string `json:"originate,omitempty"`
+			} `json:"default-information,omitempty"`
+		} `json:"ripng,omitempty"`
+		Vrf *map[string]struct {
+			Interface   *string `json:"interface,omitempty"`
+			RouterId    *IPv4   `json:"router-id,omitempty"`
+			RouteTarget *struct {
+				Both   *string `json:"both,omitempty"`
+				Export *string `json:"export,omitempty"`
+				Import *string `json:"import,omitempty"`
+			} `json:"route-target,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Import      *struct {
+				Map *string `json:"map,omitempty"`
+			} `json:"import,omitempty"`
+			Rd *struct {
+				Int *string `json:"int,omitempty"`
+				Ip  *string `json:"ip,omitempty"`
+			} `json:"rd,omitempty"`
+		} `json:".vrf,omitempty"`
+		Static *struct {
+			InterfaceRoute6 *map[string]struct {
+				NextHopInterface *map[string]struct {
+					Disable     *string `json:"disable,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"next-hop-interface,omitempty"`
+			} `json:"interface-route6,omitempty"`
+			Route *map[string]struct {
+				NextHop *map[string]struct {
+					Disable     *string `json:"disable,omitempty"`
+					Bfd         *string `json:"bfd,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"next-hop,omitempty"`
+				Blackhole *struct {
+					Disable     *string `json:"disable,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"blackhole,omitempty"`
+			} `json:"route,omitempty"`
+			Bfd *struct {
+				Interface *map[string]struct {
+					Ipv4 *string `json:"ipv4,omitempty"`
+					Ipv6 *string `json:"ipv6,omitempty"`
+				} `json:"interface,omitempty"`
+				AllInterfaces *struct {
+					Ipv4 *string `json:"ipv4,omitempty"`
+					Ipv6 *string `json:"ipv6,omitempty"`
+				} `json:"all-interfaces,omitempty"`
+			} `json:"bfd,omitempty"`
+			Vrf *map[string]struct {
+				InterfaceRoute6 *map[string]struct {
+					NextHopInterface *map[string]struct {
+						Gw *map[string]struct {
+							Disable *string `json:"disable,omitempty"`
+						} `json:"gw,omitempty"`
+					} `json:"next-hop-interface,omitempty"`
+				} `json:"interface-route6,omitempty"`
+				Route *map[string]struct {
+					NextHop *map[string]struct {
+						Disable   *string `json:"disable,omitempty"`
+						Interface *string `json:"interface,omitempty"`
+					} `json:"next-hop,omitempty"`
+					Blackhole *struct {
+						Disable   *string `json:"disable,omitempty"`
+						Interface *string `json:"interface,omitempty"`
+					} `json:"blackhole,omitempty"`
+				} `json:"route,omitempty"`
+				InterfaceRoute *map[string]struct {
+					NextHopInterface *map[string]struct {
+						Disable *string `json:"disable,omitempty"`
+					} `json:"next-hop-interface,omitempty"`
+				} `json:"interface-route,omitempty"`
+				Ip *struct {
+					Forwarding *string `json:"forwarding,omitempty"`
+				} `json:"ip,omitempty"`
+				Route6 *map[string]struct {
+					NextHop *map[string]struct {
+						Disable   *string `json:"disable,omitempty"`
+						Interface *string `json:"interface,omitempty"`
+					} `json:"next-hop,omitempty"`
+				} `json:"route6,omitempty"`
+			} `json:".vrf,omitempty"`
+			Table *map[string]struct {
+				InterfaceRoute6 *map[string]struct {
+					NextHopInterface *map[string]struct {
+						Disable     *string `json:"disable,omitempty"`
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"next-hop-interface,omitempty"`
+				} `json:"interface-route6,omitempty"`
+				Route *map[string]struct {
+					NextHop *map[string]struct {
+						Disable     *string `json:"disable,omitempty"`
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"next-hop,omitempty"`
+					Blackhole *struct {
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"blackhole,omitempty"`
+				} `json:"route,omitempty"`
+				Mark           *int    `json:"mark,omitempty"`
+				Description    *string `json:"description,omitempty"`
+				InterfaceRoute *map[string]struct {
+					NextHopInterface *map[string]struct {
+						Disable     *string `json:"disable,omitempty"`
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"next-hop-interface,omitempty"`
+				} `json:"interface-route,omitempty"`
+				Route6 *map[string]struct {
+					NextHop *map[string]struct {
+						Disable     *string `json:"disable,omitempty"`
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"next-hop,omitempty"`
+					Blackhole *struct {
+						Distance    *int    `json:"distance,omitempty"`
+						Description *string `json:"description,omitempty"`
+					} `json:"blackhole,omitempty"`
+				} `json:"route6,omitempty"`
+			} `json:"table,omitempty"`
+			InterfaceRoute *map[string]struct {
+				NextHopInterface *map[string]struct {
+					Disable     *string `json:"disable,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"next-hop-interface,omitempty"`
+			} `json:"interface-route,omitempty"`
+			Arp *map[string]struct {
+				Hwaddr *MacAddr `json:"hwaddr,omitempty"`
+			} `json:"arp,omitempty"`
+			Route6 *map[string]struct {
+				NextHop *map[string]struct {
+					Disable     *string `json:"disable,omitempty"`
+					Interface   *string `json:"interface,omitempty"`
+					Bfd         *string `json:"bfd,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"next-hop,omitempty"`
+				Blackhole *struct {
+					Disable     *string `json:"disable,omitempty"`
+					Distance    *int    `json:"distance,omitempty"`
+					Description *string `json:"description,omitempty"`
+				} `json:"blackhole,omitempty"`
+			} `json:"route6,omitempty"`
+		} `json:"static,omitempty"`
+		Rsvp *struct {
+			HelloTimeout *int `json:"hello-timeout,omitempty"`
+			Interface    *map[string]struct {
+				HelloTimeout     *int    `json:"hello-timeout,omitempty"`
+				Disable          *string `json:"disable,omitempty"`
+				AckWaitTimeout   *int    `json:"ack-wait-timeout,omitempty"`
+				MessageAck       *string `json:"message-ack,omitempty"`
+				RefreshReduction *string `json:"refresh-reduction,omitempty"`
+				RefreshTime      *int    `json:"refresh-time,omitempty"`
+				HelloReceipt     *string `json:"hello-receipt,omitempty"`
+				KeepMultiplier   *int    `json:"keep-multiplier,omitempty"`
+				NonIANAHello     *string `json:"non-IANA-hello,omitempty"`
+				HelloInterval    *int    `json:"hello-interval,omitempty"`
+			} `json:"interface,omitempty"`
+			Neighbor                 *IP     `json:"neighbor,omitempty"`
+			BundleSend               *string `json:"bundle-send,omitempty"`
+			ExplicitNull             *string `json:"explicit-null,omitempty"`
+			OverrideDiffserv         *string `json:"override-diffserv,omitempty"`
+			PreprogramSuggestedLabel *string `json:"preprogram-suggested-label,omitempty"`
+			Notification             *string `json:"notification,omitempty"`
+			Path                     *map[string]struct {
+				Mpls *struct {
+					Loose      *IP `json:"loose,omitempty"`
+					Unnumbered *map[string]struct {
+						LinkId *IPv4 `json:"link-id,omitempty"`
+					} `json:".unnumbered,omitempty"`
+					Strict    *IP `json:"strict,omitempty"`
+					StrictHop *IP `json:".strict-hop,omitempty"`
+				} `json:"mpls,omitempty"`
+				Gmpls *struct {
+					StrictHop  *IP `json:"strict-hop,omitempty"`
+					Unnumbered *map[string]struct {
+						LinkId *IPv4 `json:"link-id,omitempty"`
+					} `json:"unnumbered,omitempty"`
+					Strict *IP `json:".strict,omitempty"`
+					Loose  *IP `json:".loose,omitempty"`
+				} `json:".gmpls,omitempty"`
+			} `json:"path,omitempty"`
+			From               *IP     `json:"from,omitempty"`
+			AckWaitTimeout     *int    `json:"ack-wait-timeout,omitempty"`
+			RefreshPathParsing *string `json:"refresh-path-parsing,omitempty"`
+			Cspf               *string `json:"cspf,omitempty"`
+			GracefulRestart    *struct {
+				Enable       *string `json:"enable,omitempty"`
+				RestartTime  *int    `json:"restart-time,omitempty"`
+				RecoveryTime *int    `json:"recovery-time,omitempty"`
+			} `json:"graceful-restart,omitempty"`
+			RefreshResvParsing *string `json:"refresh-resv-parsing,omitempty"`
+			MessageAck         *string `json:"message-ack,omitempty"`
+			RefreshReduction   *string `json:"refresh-reduction,omitempty"`
+			LocalProtection    *string `json:"local-protection,omitempty"`
+			RefreshTime        *int    `json:"refresh-time,omitempty"`
+			NoPhp              *string `json:"no-php,omitempty"`
+			HelloReceipt       *string `json:"hello-receipt,omitempty"`
+			KeepMultiplier     *int    `json:"keep-multiplier,omitempty"`
+			LoopDetection      *string `json:"loop-detection,omitempty"`
+			HelloInterval      *int    `json:"hello-interval,omitempty"`
+			Trunk              *map[string]struct {
+				Gmpls *struct {
+					ExtTunnelId *IP `json:"ext-tunnel-id,omitempty"`
+					LspMetric   *struct {
+						Relative *int `json:"relative,omitempty"`
+						Absolute *int `json:"absolute,omitempty"`
+					} `json:"lsp-metric,omitempty"`
+					EnableIgpShortcut *string `json:".enable-igp-shortcut,omitempty"`
+					Capability        *struct {
+						Psc1  *string `json:"psc-1,omitempty"`
+						PbbTe *string `json:"pbb-te,omitempty"`
+						Psc4  *string `json:"psc-4,omitempty"`
+						Psc3  *string `json:"psc-3,omitempty"`
+						Psc2  *string `json:"psc-2,omitempty"`
+					} `json:"capability,omitempty"`
+					From *IP `json:"from,omitempty"`
+					Gpid *struct {
+						Ethernet *string `json:"ethernet,omitempty"`
+						Ipv4     *string `json:"ipv4,omitempty"`
+					} `json:"gpid,omitempty"`
+					RsvpTrunkRestart *string `json:"rsvp-trunk-restart,omitempty"`
+					GmplsLabelSet    *struct {
+						Range *struct {
+							StartRange *map[string]struct {
+								EndRange *int `json:"end_range,omitempty"`
+							} `json:"start_range,omitempty"`
+						} `json:"range,omitempty"`
+						Packet *struct {
+							Range *struct {
+								StartRange *map[string]struct {
+									EndRange *int `json:"end_range,omitempty"`
+								} `json:"start_range,omitempty"`
+							} `json:"range,omitempty"`
+						} `json:"packet,omitempty"`
+					} `json:"gmpls-label-set,omitempty"`
+					Direction *struct {
+						Bidirectional  *string `json:"bidirectional,omitempty"`
+						Unidirectional *string `json:"unidirectional,omitempty"`
+					} `json:"direction,omitempty"`
+					UpdateType *struct {
+						MakeBeforeBreak *string `json:"make-before-break,omitempty"`
+						BreakBeforeMake *string `json:"break-before-make,omitempty"`
+					} `json:"update-type,omitempty"`
+					DisableIgpShortcut *string `json:".disable-igp-shortcut,omitempty"`
+					Primary            *struct {
+						Traffic *struct {
+							ControlledLoad *string `json:"controlled-load,omitempty"`
+							Guaranteed     *string `json:"guaranteed,omitempty"`
+						} `json:"traffic,omitempty"`
+						Bandwidth         *int    `json:"bandwidth,omitempty"`
+						SetupPriority     *int    `json:"setup-priority,omitempty"`
+						Record            *string `json:"record,omitempty"`
+						IncludeAny        *string `json:"include-any,omitempty"`
+						Affinity          *string `json:"affinity,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						HoldPriority      *int    `json:"hold-priority,omitempty"`
+						HopLimit          *int    `json:"hop-limit,omitempty"`
+						Cspf              *string `json:"cspf,omitempty"`
+						LabelRecord       *string `json:"label-record,omitempty"`
+						NoAffinity        *string `json:"no-affinity,omitempty"`
+						Protection        *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:"protection,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						ClassToExpBit   *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp-bit,omitempty"`
+						Filter *struct {
+							SharedExplicit *string `json:"shared-explicit,omitempty"`
+							Fixed          *string `json:"fixed,omitempty"`
+						} `json:"filter,omitempty"`
+						ExplicitLabel *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:"explicit-label,omitempty"`
+						CspfRetryLimit *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny     *string `json:"exclude-any,omitempty"`
+						RetryTimer     *int    `json:"retry-timer,omitempty"`
+						NoRecord       *string `json:"no-record,omitempty"`
+						Llsp           *string `json:"llsp,omitempty"`
+					} `json:"primary,omitempty"`
+					To        *IP `json:"to,omitempty"`
+					Secondary *struct {
+						Traffic *struct {
+							ControlledLoad *string `json:"controlled-load,omitempty"`
+							Guaranteed     *string `json:"guaranteed,omitempty"`
+						} `json:"traffic,omitempty"`
+						Bandwidth         *int    `json:"bandwidth,omitempty"`
+						SetupPriority     *int    `json:"setup-priority,omitempty"`
+						Record            *string `json:"record,omitempty"`
+						IncludeAny        *string `json:"include-any,omitempty"`
+						Affinity          *string `json:"affinity,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						HoldPriority      *int    `json:"hold-priority,omitempty"`
+						HopLimit          *int    `json:"hop-limit,omitempty"`
+						Cspf              *string `json:"cspf,omitempty"`
+						LabelRecord       *string `json:"label-record,omitempty"`
+						NoAffinity        *string `json:"no-affinity,omitempty"`
+						Protection        *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:"protection,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						ClassToExpBit   *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp-bit,omitempty"`
+						Filter *struct {
+							SharedExplicit *string `json:"shared-explicit,omitempty"`
+							Fixed          *string `json:"fixed,omitempty"`
+						} `json:"filter,omitempty"`
+						ExplicitLabel *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:"explicit-label,omitempty"`
+						CspfRetryLimit *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny     *string `json:"exclude-any,omitempty"`
+						RetryTimer     *int    `json:"retry-timer,omitempty"`
+						NoRecord       *string `json:"no-record,omitempty"`
+						Llsp           *string `json:"llsp,omitempty"`
+					} `json:"secondary,omitempty"`
+				} `json:".gmpls,omitempty"`
+				Ipv4 *struct {
+					ExtTunnelId *IP `json:"ext-tunnel-id,omitempty"`
+					LspMetric   *struct {
+						Relative *int `json:"relative,omitempty"`
+						Absolute *int `json:"absolute,omitempty"`
+					} `json:"lsp-metric,omitempty"`
+					From             *IPv4   `json:"from,omitempty"`
+					RsvpTrunkRestart *string `json:".rsvp-trunk-restart,omitempty"`
+					Capability       *struct {
+						Psc1 *string `json:"psc-1,omitempty"`
+						Psc4 *string `json:"psc-4,omitempty"`
+						Psc3 *string `json:"psc-3,omitempty"`
+						Psc2 *string `json:"psc-2,omitempty"`
+					} `json:".capability,omitempty"`
+					Direction *struct {
+						Bidirectional  *string `json:"bidirectional,omitempty"`
+						Unidirectional *string `json:"unidirectional,omitempty"`
+					} `json:".direction,omitempty"`
+					MapRoute *map[string]struct {
+						Class *string `json:"class,omitempty"`
+					} `json:"map-route,omitempty"`
+					UpdateType *string `json:"update-type,omitempty"`
+					Primary    *struct {
+						Traffic       *string `json:"traffic,omitempty"`
+						Bandwidth     *string `json:"bandwidth,omitempty"`
+						SetupPriority *int    `json:"setup-priority,omitempty"`
+						Record        *string `json:"record,omitempty"`
+						IncludeAny    *string `json:"include-any,omitempty"`
+						Protection    *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:".protection,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						ExplicitLabel     *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:".explicit-label,omitempty"`
+						ClassToExp *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp,omitempty"`
+						HoldPriority    *int    `json:"hold-priority,omitempty"`
+						HopLimit        *int    `json:"hop-limit,omitempty"`
+						Cspf            *string `json:"cspf,omitempty"`
+						LabelRecord     *string `json:"label-record,omitempty"`
+						NoAffinity      *string `json:"no-affinity,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						NoRecord        *string `json:".no-record,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						Filter          *string `json:"filter,omitempty"`
+						CspfRetryLimit  *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny      *string `json:"exclude-any,omitempty"`
+						RetryTimer      *int    `json:"retry-timer,omitempty"`
+						Llsp            *string `json:"llsp,omitempty"`
+					} `json:"primary,omitempty"`
+					To                *IPv4   `json:"to,omitempty"`
+					EnableIgpShortcut *string `json:"enable-igp-shortcut,omitempty"`
+					Secondary         *struct {
+						Traffic       *string `json:"traffic,omitempty"`
+						Bandwidth     *string `json:"bandwidth,omitempty"`
+						SetupPriority *int    `json:"setup-priority,omitempty"`
+						Record        *string `json:"record,omitempty"`
+						IncludeAny    *string `json:"include-any,omitempty"`
+						Protection    *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:".protection,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						ExplicitLabel     *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:".explicit-label,omitempty"`
+						ClassToExp *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp,omitempty"`
+						HoldPriority    *int    `json:"hold-priority,omitempty"`
+						HopLimit        *int    `json:"hop-limit,omitempty"`
+						Cspf            *string `json:"cspf,omitempty"`
+						LabelRecord     *string `json:"label-record,omitempty"`
+						NoAffinity      *string `json:"no-affinity,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						NoRecord        *string `json:".no-record,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						Filter          *string `json:"filter,omitempty"`
+						CspfRetryLimit  *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny      *string `json:"exclude-any,omitempty"`
+						RetryTimer      *int    `json:"retry-timer,omitempty"`
+						Llsp            *string `json:"llsp,omitempty"`
+					} `json:"secondary,omitempty"`
+					GmplsLabelSet *struct {
+						Range *struct {
+							StartRange *map[string]struct {
+								EndRange *int `json:"end_range,omitempty"`
+							} `json:"start_range,omitempty"`
+						} `json:"range,omitempty"`
+						Packet *struct {
+							Range *struct {
+								StartRange *map[string]struct {
+									EndRange *int `json:"end_range,omitempty"`
+								} `json:"start_range,omitempty"`
+							} `json:"range,omitempty"`
+						} `json:"packet,omitempty"`
+					} `json:".gmpls-label-set,omitempty"`
+				} `json:"ipv4,omitempty"`
+				Ipv6 *struct {
+					ExtTunnelId *IP `json:"ext-tunnel-id,omitempty"`
+					LspMetric   *struct {
+						Relative *int `json:"relative,omitempty"`
+						Absolute *int `json:"absolute,omitempty"`
+					} `json:"lsp-metric,omitempty"`
+					From             *IP     `json:"from,omitempty"`
+					Ethernet         *string `json:"ethernet,omitempty"`
+					RsvpTrunkRestart *string `json:"rsvp-trunk-restart,omitempty"`
+					Capability       *struct {
+						Psc1 *string `json:"psc-1,omitempty"`
+						Psc4 *string `json:"psc-4,omitempty"`
+						Psc3 *string `json:"psc-3,omitempty"`
+						Psc2 *string `json:"psc-2,omitempty"`
+					} `json:".capability,omitempty"`
+					Direction *struct {
+						Bidirectional  *string `json:"bidirectional,omitempty"`
+						Unidirectional *string `json:"unidirectional,omitempty"`
+					} `json:".direction,omitempty"`
+					MapRoute *struct {
+						Prefix *map[string]struct {
+							Mask *map[string]struct {
+								Class *string `json:"class,omitempty"`
+							} `json:"mask,omitempty"`
+						} `json:"prefix,omitempty"`
+						Mask *map[string]struct {
+							Class *string `json:"class,omitempty"`
+						} `json:"mask,omitempty"`
+					} `json:"map-route,omitempty"`
+					DisableIgpShortcut *string `json:"disable-igp-shortcut,omitempty"`
+					UpdateType         *struct {
+						MakeBeforeBreak *string `json:"make-before-break,omitempty"`
+						BreakBeforeMake *string `json:"break-before-make,omitempty"`
+					} `json:"update-type,omitempty"`
+					Primary *struct {
+						Traffic *struct {
+							ControlledLoad *string `json:"controlled-load,omitempty"`
+							Guaranteed     *string `json:"guaranteed,omitempty"`
+						} `json:"traffic,omitempty"`
+						Bandwidth     *int    `json:"bandwidth,omitempty"`
+						SetupPriority *int    `json:"setup-priority,omitempty"`
+						Record        *string `json:"record,omitempty"`
+						IncludeAny    *string `json:"include-any,omitempty"`
+						Protection    *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:".protection,omitempty"`
+						Affinity          *string `json:"affinity,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						ExplicitLabel     *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:".explicit-label,omitempty"`
+						HoldPriority    *int    `json:"hold-priority,omitempty"`
+						HopLimit        *int    `json:"hop-limit,omitempty"`
+						Cspf            *string `json:"cspf,omitempty"`
+						LabelRecord     *string `json:"label-record,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						NoRecord        *string `json:".no-record,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						NoAffinity      *string `json:".no-affinity,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						ClassToExpBit   *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp-bit,omitempty"`
+						Filter *struct {
+							SharedExplicit *string `json:"shared-explicit,omitempty"`
+							Fixed          *string `json:"fixed,omitempty"`
+						} `json:"filter,omitempty"`
+						CspfRetryLimit *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny     *string `json:"exclude-any,omitempty"`
+						RetryTimer     *int    `json:"retry-timer,omitempty"`
+						Llsp           *string `json:"llsp,omitempty"`
+					} `json:"primary,omitempty"`
+					To                *IP     `json:"to,omitempty"`
+					EnableIgpShortcut *string `json:"enable-igp-shortcut,omitempty"`
+					Secondary         *struct {
+						Traffic *struct {
+							ControlledLoad *string `json:"controlled-load,omitempty"`
+							Guaranteed     *string `json:"guaranteed,omitempty"`
+						} `json:"traffic,omitempty"`
+						Bandwidth     *int    `json:"bandwidth,omitempty"`
+						SetupPriority *int    `json:"setup-priority,omitempty"`
+						Record        *string `json:"record,omitempty"`
+						IncludeAny    *string `json:"include-any,omitempty"`
+						Protection    *struct {
+							Unprotected         *string `json:"unprotected,omitempty"`
+							DedicatedOneToOne   *string `json:"dedicated-one-to-one,omitempty"`
+							Shared              *string `json:"shared,omitempty"`
+							ExtraTraffic        *string `json:"extra-traffic,omitempty"`
+							DedicatedOnePlusOne *string `json:"dedicated-one-plus-one,omitempty"`
+							Ehanced             *string `json:"ehanced,omitempty"`
+						} `json:".protection,omitempty"`
+						Affinity          *string `json:"affinity,omitempty"`
+						ReuseRouteRecord  *string `json:"reuse-route-record,omitempty"`
+						ElspPreconfigured *string `json:"elsp-preconfigured,omitempty"`
+						Path              *string `json:"path,omitempty"`
+						ExplicitLabel     *map[string]struct {
+							Reverse *string `json:"reverse,omitempty"`
+							Packet  *struct {
+								Reverse *string `json:"reverse,omitempty"`
+								Forward *string `json:"forward,omitempty"`
+							} `json:"packet,omitempty"`
+							Forward *string `json:"forward,omitempty"`
+						} `json:".explicit-label,omitempty"`
+						HoldPriority    *int    `json:"hold-priority,omitempty"`
+						HopLimit        *int    `json:"hop-limit,omitempty"`
+						Cspf            *string `json:"cspf,omitempty"`
+						LabelRecord     *string `json:"label-record,omitempty"`
+						RetryLimit      *int    `json:"retry-limit,omitempty"`
+						CspfRetryTimer  *int    `json:"cspf-retry-timer,omitempty"`
+						ClassType       *string `json:"class-type,omitempty"`
+						NoRecord        *string `json:".no-record,omitempty"`
+						ElspSignaled    *string `json:"elsp-signaled,omitempty"`
+						NoAffinity      *string `json:".no-affinity,omitempty"`
+						LocalProtection *string `json:"local-protection,omitempty"`
+						ClassToExpBit   *map[string]struct {
+							Bit *int `json:"bit,omitempty"`
+						} `json:"class-to-exp-bit,omitempty"`
+						Filter *struct {
+							SharedExplicit *string `json:"shared-explicit,omitempty"`
+							Fixed          *string `json:"fixed,omitempty"`
+						} `json:"filter,omitempty"`
+						CspfRetryLimit *int    `json:"cspf-retry-limit,omitempty"`
+						ExcludeAny     *string `json:"exclude-any,omitempty"`
+						RetryTimer     *int    `json:"retry-timer,omitempty"`
+						Llsp           *string `json:"llsp,omitempty"`
+					} `json:"secondary,omitempty"`
+					GmplsLabelSet *struct {
+						Range *struct {
+							StartRange *map[string]struct {
+								EndRange *int `json:"end_range,omitempty"`
+							} `json:"start_range,omitempty"`
+						} `json:"range,omitempty"`
+						Packet *struct {
+							Range *struct {
+								StartRange *map[string]struct {
+									EndRange *int `json:"end_range,omitempty"`
+								} `json:"start_range,omitempty"`
+							} `json:"range,omitempty"`
+						} `json:"packet,omitempty"`
+					} `json:".gmpls-label-set,omitempty"`
+				} `json:".ipv6,omitempty"`
+			} `json:"trunk,omitempty"`
+		} `json:"rsvp,omitempty"`
+		Vpls *struct {
+			Interface *map[string]struct {
+				VlanInstance *map[string]struct {
+					Vlan *map[string]struct {
+					} `json:"vlan,omitempty"`
+				} `json:"vlan-instance,omitempty"`
+				Instance *string `json:"instance,omitempty"`
+			} `json:"interface,omitempty"`
+			FibEntry *map[string]struct {
+				Peer *map[string]struct {
+					InLabel *map[string]struct {
+						OutInterface *map[string]struct {
+							OutLabel *int `json:"out-label,omitempty"`
+						} `json:"out-interface,omitempty"`
+					} `json:"in-label,omitempty"`
+				} `json:"peer,omitempty"`
+				SpokeVc *map[string]struct {
+					InLabel *map[string]struct {
+						OutInterface *map[string]struct {
+							OutLabel *int `json:"out-label,omitempty"`
+						} `json:"out-interface,omitempty"`
+					} `json:"in-label,omitempty"`
+				} `json:".spoke-vc,omitempty"`
+			} `json:"fib-entry,omitempty"`
+			Instance *map[string]struct {
+				Id *map[string]struct {
+					VplsAcGroup *string `json:"vpls-ac-group,omitempty"`
+					VplsPeer    *map[string]struct {
+						Manual   *string `json:"manual,omitempty"`
+						TunnelId *map[string]struct {
+							Reverse *struct {
+								Manual *string `json:"manual,omitempty"`
+							} `json:"reverse,omitempty"`
+							Manual  *string `json:"manual,omitempty"`
+							Forward *struct {
+								Manual *string `json:"manual,omitempty"`
+							} `json:"forward,omitempty"`
+						} `json:"tunnel-id,omitempty"`
+					} `json:"vpls-peer,omitempty"`
+					Learning *struct {
+						Disable *string `json:"disable,omitempty"`
+						Limit   *int    `json:"limit,omitempty"`
+					} `json:"learning,omitempty"`
+					VplsVc *map[string]struct {
+						Ethernet *string `json:"ethernet,omitempty"`
+						Vlan     *string `json:"vlan,omitempty"`
+						Normal   *string `json:"normal,omitempty"`
+					} `json:"vpls-vc,omitempty"`
+					VplsDescription *string `json:"vpls-description,omitempty"`
+					Signaling       *struct {
+						Ldp *struct {
+							VplsPeer *map[string]struct {
+								Agi *map[string]struct {
+									Saii *map[string]struct {
+										Taii *map[string]struct {
+											Normal   *string `json:"normal,omitempty"`
+											TunnelId *map[string]struct {
+												Reverse *string `json:"reverse,omitempty"`
+												Normal  *string `json:"normal,omitempty"`
+												Forward *string `json:"forward,omitempty"`
+											} `json:"tunnel-id,omitempty"`
+										} `json:"taii,omitempty"`
+									} `json:"saii,omitempty"`
+								} `json:"agi,omitempty"`
+								TunnelId *map[string]struct {
+									Reverse *string `json:"reverse,omitempty"`
+									Forward *string `json:"forward,omitempty"`
+								} `json:"tunnel-id,omitempty"`
+							} `json:"vpls-peer,omitempty"`
+						} `json:"ldp,omitempty"`
+						Bgp *struct {
+							VeRange     *int    `json:"ve-range,omitempty"`
+							VeId        *int    `json:"ve-id,omitempty"`
+							RouteTarget *string `json:"route-target,omitempty"`
+							Rd          *string `json:"rd,omitempty"`
+						} `json:"bgp,omitempty"`
+					} `json:"signaling,omitempty"`
+					VplsType *string `json:"vpls-type,omitempty"`
+					VplsMtu  *int    `json:"vpls-mtu,omitempty"`
+				} `json:"id,omitempty"`
+			} `json:"instance,omitempty"`
+		} `json:"vpls,omitempty"`
+		Ldp *struct {
+			LdpOptimization           *string `json:"ldp-optimization,omitempty"`
+			TargetedPeerHelloInterval *int    `json:"targeted-peer-hello-interval,omitempty"`
+			Interface                 *map[string]struct {
+				Enable *struct {
+					Both *string `json:"both,omitempty"`
+					Ipv4 *string `json:"ipv4,omitempty"`
+					Ipv6 *string `json:"ipv6,omitempty"`
+				} `json:"enable,omitempty"`
+				KeepaliveTimeout   *int `json:"keepalive-timeout,omitempty"`
+				LabelRetentionMode *struct {
+					Liberal      *string `json:"liberal,omitempty"`
+					Conservative *string `json:"conservative,omitempty"`
+				} `json:"label-retention-mode,omitempty"`
+				HoldTime          *int `json:"hold-time,omitempty"`
+				KeepaliveInterval *int `json:"keepalive-interval,omitempty"`
+				AdvertisementMode *struct {
+					DownstreamOnDemand    *string `json:"downstream-on-demand,omitempty"`
+					DownstreamUnsolicited *string `json:"downstream-unsolicited,omitempty"`
+				} `json:"advertisement-mode,omitempty"`
+				HelloInterval *int `json:"hello-interval,omitempty"`
+			} `json:"interface,omitempty"`
+			Neighbor *map[string]struct {
+				Auth *struct {
+					Md5 *struct {
+						Password *map[string]struct {
+							Type *int `json:"type,omitempty"`
+						} `json:"password,omitempty"`
+					} `json:"md5,omitempty"`
+				} `json:"auth,omitempty"`
+			} `json:"neighbor,omitempty"`
+			MulticastHellos *string `json:"multicast-hellos,omitempty"`
+			ExplicitNull    *string `json:"explicit-null,omitempty"`
+			ImportBgpRoutes *string `json:"import-bgp-routes,omitempty"`
+			AdvertiseLabels *struct {
+				ForAcl *map[string]struct {
+					To *struct {
+						Any *string `json:"any,omitempty"`
+					} `json:"to,omitempty"`
+				} `json:"for-acl,omitempty"`
+				For *struct {
+					PeerAcl *map[string]struct {
+						To *struct {
+							PeerAcl *string `json:"peer-acl,omitempty"`
+							Any     *string `json:"any,omitempty"`
+						} `json:"to,omitempty"`
+					} `json:"peer-acl,omitempty"`
+					Any *struct {
+						To *struct {
+							None *string `json:"none,omitempty"`
+						} `json:"to,omitempty"`
+					} `json:"any,omitempty"`
+				} `json:"for,omitempty"`
+			} `json:"advertise-labels,omitempty"`
+			KeepaliveTimeout *int    `json:"keepalive-timeout,omitempty"`
+			PropagateRelease *string `json:"propagate-release,omitempty"`
+			TransportAddress *struct {
+				Ipv4 *map[string]struct {
+					Labelspace *string `json:"labelspace,omitempty"`
+				} `json:"ipv4,omitempty"`
+				Ipv6 *map[string]struct {
+					Labelspace *string `json:"labelspace,omitempty"`
+				} `json:".ipv6,omitempty"`
+			} `json:"transport-address,omitempty"`
+			RouterId    *IP `json:"router-id,omitempty"`
+			ControlMode *struct {
+				Independent *string `json:"independent,omitempty"`
+				Ordered     *string `json:"ordered,omitempty"`
+			} `json:"control-mode,omitempty"`
+			LabelRetentionMode *struct {
+				Liberal      *string `json:"liberal,omitempty"`
+				Conservative *string `json:"conservative,omitempty"`
+			} `json:"label-retention-mode,omitempty"`
+			RequestRetryTimeout *int `json:"request-retry-timeout,omitempty"`
+			GracefulRestart     *struct {
+				Enable  *string `json:"enable,omitempty"`
+				Disable *string `json:"disable,omitempty"`
+				Timers  *struct {
+					MaxRecovery      *int `json:"max-recovery,omitempty"`
+					NeighborLiveness *int `json:"neighbor-liveness,omitempty"`
+				} `json:"timers,omitempty"`
+			} `json:"graceful-restart,omitempty"`
+			TargetedPeerHoldTime      *int    `json:"targeted-peer-hold-time,omitempty"`
+			LoopDetectionPathVecCount *int    `json:"loop-detection-path-vec-count,omitempty"`
+			HoldTime                  *int    `json:"hold-time,omitempty"`
+			RequestRetry              *string `json:"request-retry,omitempty"`
+			LoopDetection             *string `json:"loop-detection,omitempty"`
+			TargetedPeer              *struct {
+				Ipv4 *map[string]struct {
+				} `json:"ipv4,omitempty"`
+				Ipv6 *IPv6 `json:".ipv6,omitempty"`
+			} `json:"targeted-peer,omitempty"`
+			GlobalMergeCapability *struct {
+				NonMergeCapable *string `json:"non-merge-capable,omitempty"`
+				MergeCapable    *string `json:"merge-capable,omitempty"`
+			} `json:"global-merge-capability,omitempty"`
+			KeepaliveInterval *int `json:"keepalive-interval,omitempty"`
+			AdvertisementMode *struct {
+				DownstreamOnDemand    *string `json:"downstream-on-demand,omitempty"`
+				DownstreamUnsolicited *string `json:"downstream-unsolicited,omitempty"`
+			} `json:"advertisement-mode,omitempty"`
+			LoopDetectionHopCount *int    `json:"loop-detection-hop-count,omitempty"`
+			HelloInterval         *int    `json:"hello-interval,omitempty"`
+			PwStatusTlv           *string `json:"pw-status-tlv,omitempty"`
+		} `json:"ldp,omitempty"`
+		IgmpProxy *struct {
+			Disable   *string `json:"disable,omitempty"`
+			Interface *map[string]struct {
+				Whitelist *IPv4Net `json:"whitelist,omitempty"`
+				Role      *string  `json:"role,omitempty"`
+				AltSubnet *IPv4Net `json:"alt-subnet,omitempty"`
+				Threshold *int     `json:"threshold,omitempty"`
+			} `json:"interface,omitempty"`
+			DisableQuickleave *string `json:"disable-quickleave,omitempty"`
+		} `json:"igmp-proxy,omitempty"`
+		Bgp *map[string]struct {
+			Neighbor *map[string]struct {
+				Weight        *int    `json:"weight,omitempty"`
+				NoActivate    *string `json:"no-activate,omitempty"`
+				EbgpMultihop  *int    `json:"ebgp-multihop,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				MaximumPrefix *int    `json:"maximum-prefix,omitempty"`
+				FilterList    *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"filter-list,omitempty"`
+				AllowasIn *struct {
+					Number *int `json:"number,omitempty"`
+				} `json:"allowas-in,omitempty"`
+				RouteReflectorClient  *string `json:"route-reflector-client,omitempty"`
+				OverrideCapability    *string `json:"override-capability,omitempty"`
+				Shutdown              *string `json:"shutdown,omitempty"`
+				StrictCapabilityMatch *string `json:"strict-capability-match,omitempty"`
+				DisableSendCommunity  *struct {
+					Standard *string `json:"standard,omitempty"`
+					Extended *string `json:"extended,omitempty"`
+				} `json:"disable-send-community,omitempty"`
+				Timers *struct {
+					Holdtime  *int `json:"holdtime,omitempty"`
+					Keepalive *int `json:"keepalive,omitempty"`
+					Connect   *int `json:"connect,omitempty"`
+				} `json:"timers,omitempty"`
+				DefaultOriginate *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"default-originate,omitempty"`
+				RouteServerClient *string `json:"route-server-client,omitempty"`
+				Capability        *struct {
+					Dynamic *string `json:"dynamic,omitempty"`
+					Orf     *struct {
+						PrefixList *struct {
+							Both    *string `json:"both,omitempty"`
+							Receive *string `json:"receive,omitempty"`
+							Send    *string `json:"send,omitempty"`
+						} `json:"prefix-list,omitempty"`
+					} `json:"orf,omitempty"`
+					GracefulRestart *string `json:"graceful-restart,omitempty"`
+				} `json:"capability,omitempty"`
+				UpdateSource *string `json:"update-source,omitempty"`
+				TtlSecurity  *struct {
+					Hops *int `json:"hops,omitempty"`
+				} `json:"ttl-security,omitempty"`
+				UnsuppressMap *string `json:"unsuppress-map,omitempty"`
+				FallOver      *struct {
+					Bfd *struct {
+						Multihop *string `json:"multihop,omitempty"`
+					} `json:"bfd,omitempty"`
+				} `json:"fall-over,omitempty"`
+				Passive       *string `json:"passive,omitempty"`
+				AddressFamily *struct {
+					Ipv6Unicast *struct {
+						MaximumPrefix *int `json:"maximum-prefix,omitempty"`
+						FilterList    *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"filter-list,omitempty"`
+						AllowasIn *struct {
+							Number *int `json:"number,omitempty"`
+						} `json:"allowas-in,omitempty"`
+						RouteReflectorClient *string `json:"route-reflector-client,omitempty"`
+						NexthopLocal         *struct {
+							Unchanged *string `json:"unchanged,omitempty"`
+						} `json:"nexthop-local,omitempty"`
+						DisableSendCommunity *struct {
+							Standard *string `json:"standard,omitempty"`
+							Extended *string `json:"extended,omitempty"`
+						} `json:"disable-send-community,omitempty"`
+						DefaultOriginate *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+						} `json:"default-originate,omitempty"`
+						RouteServerClient *string `json:"route-server-client,omitempty"`
+						Capability        *struct {
+							Orf *struct {
+								PrefixList *struct {
+									Receive *string `json:"receive,omitempty"`
+									Send    *string `json:"send,omitempty"`
+								} `json:"prefix-list,omitempty"`
+							} `json:"orf,omitempty"`
+							GracefulRestart *string `json:"graceful-restart,omitempty"`
+						} `json:"capability,omitempty"`
+						UnsuppressMap       *string `json:"unsuppress-map,omitempty"`
+						SoftReconfiguration *struct {
+							Inbound *string `json:"inbound,omitempty"`
+						} `json:"soft-reconfiguration,omitempty"`
+						AttributeUnchanged *struct {
+							AsPath  *string `json:"as-path,omitempty"`
+							NextHop *string `json:"next-hop,omitempty"`
+							Med     *string `json:"med,omitempty"`
+						} `json:"attribute-unchanged,omitempty"`
+						RouteMap *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"route-map,omitempty"`
+						NexthopSelf     *string `json:"nexthop-self,omitempty"`
+						RemovePrivateAs *string `json:"remove-private-as,omitempty"`
+						PrefixList      *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"prefix-list,omitempty"`
+						DistributeList *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"distribute-list,omitempty"`
+						PeerGroup *string `json:"peer-group,omitempty"`
+					} `json:"ipv6-unicast,omitempty"`
+				} `json:"address-family,omitempty"`
+				Description         *string `json:"description,omitempty"`
+				SoftReconfiguration *struct {
+					Inbound *string `json:"inbound,omitempty"`
+				} `json:"soft-reconfiguration,omitempty"`
+				LocalAs *map[string]struct {
+					NoPrepend *string `json:"no-prepend,omitempty"`
+				} `json:"local-as,omitempty"`
+				AttributeUnchanged *struct {
+					AsPath  *string `json:"as-path,omitempty"`
+					NextHop *string `json:"next-hop,omitempty"`
+					Med     *string `json:"med,omitempty"`
+				} `json:"attribute-unchanged,omitempty"`
+				RouteMap *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"route-map,omitempty"`
+				RemoteAs                     *int    `json:"remote-as,omitempty"`
+				NexthopSelf                  *string `json:"nexthop-self,omitempty"`
+				DisableConnectedCheck        *string `json:"disable-connected-check,omitempty"`
+				DisableCapabilityNegotiation *string `json:"disable-capability-negotiation,omitempty"`
+				Port                         *int    `json:"port,omitempty"`
+				AdvertisementInterval        *int    `json:"advertisement-interval,omitempty"`
+				RemovePrivateAs              *string `json:"remove-private-as,omitempty"`
+				PrefixList                   *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"prefix-list,omitempty"`
+				DistributeList *struct {
+					Word *map[string]struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"word,omitempty"`
+					Export *int `json:"export,omitempty"`
+					Import *int `json:"import,omitempty"`
+				} `json:"distribute-list,omitempty"`
+				PeerGroup *string `json:"peer-group,omitempty"`
+			} `json:"neighbor,omitempty"`
+			Timers *struct {
+				Holdtime  *int `json:"holdtime,omitempty"`
+				Keepalive *int `json:"keepalive,omitempty"`
+			} `json:"timers,omitempty"`
+			MaximumPaths *struct {
+				Ibgp *int `json:"ibgp,omitempty"`
+				Ebgp *int `json:"ebgp,omitempty"`
+			} `json:"maximum-paths,omitempty"`
+			Network *map[string]struct {
+				Backdoor *string `json:"backdoor,omitempty"`
+				RouteMap *string `json:"route-map,omitempty"`
+			} `json:"network,omitempty"`
+			AggregateAddress *map[string]struct {
+				SummaryOnly *string `json:"summary-only,omitempty"`
+				AsSet       *string `json:"as-set,omitempty"`
+			} `json:"aggregate-address,omitempty"`
+			AddressFamily *struct {
+				L2vpn *struct {
+					Vpls *struct {
+						Neighbor *struct {
+							Ipv4 *map[string]struct {
+								Activate *string `json:"activate,omitempty"`
+							} `json:"ipv4,omitempty"`
+							Ipv6 *map[string]struct {
+								Activate *string `json:"activate,omitempty"`
+							} `json:"ipv6,omitempty"`
+							Tag *map[string]struct {
+								Activate *string `json:"activate,omitempty"`
+							} `json:"tag,omitempty"`
+						} `json:"neighbor,omitempty"`
+					} `json:"vpls,omitempty"`
+				} `json:"l2vpn,omitempty"`
+				Ipv4Unicast *struct {
+					Vrf *map[string]struct {
+						Neighbor *map[string]struct {
+							Weight        *int `json:"weight,omitempty"`
+							EbgpMultihop  *int `json:"ebgp-multihop,omitempty"`
+							MaximumPrefix *int `json:"maximum-prefix,omitempty"`
+							FilterList    *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"filter-list,omitempty"`
+							AllowasIn *struct {
+								Number *int `json:"number,omitempty"`
+							} `json:"allowas-in,omitempty"`
+							RouteReflectorClient *string `json:"route-reflector-client,omitempty"`
+							Shutdown             *string `json:"shutdown,omitempty"`
+							Timers               *struct {
+								Holdtime  *int `json:"holdtime,omitempty"`
+								Keepalive *int `json:"keepalive,omitempty"`
+								Connect   *int `json:"connect,omitempty"`
+							} `json:"timers,omitempty"`
+							DefaultOriginate *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+							} `json:"default-originate,omitempty"`
+							Capability *struct {
+								Dynamic *string `json:"dynamic,omitempty"`
+								Orf     *struct {
+									PrefixList *struct {
+										Both    *string `json:"both,omitempty"`
+										Receive *string `json:"receive,omitempty"`
+										Send    *string `json:"send,omitempty"`
+									} `json:"prefix-list,omitempty"`
+								} `json:"orf,omitempty"`
+								GracefulRestart *string `json:"graceful-restart,omitempty"`
+							} `json:"capability,omitempty"`
+							UpdateSource        *string `json:"update-source,omitempty"`
+							UnsuppressMap       *string `json:"unsuppress-map,omitempty"`
+							Passive             *string `json:"passive,omitempty"`
+							Description         *string `json:"description,omitempty"`
+							SoftReconfiguration *struct {
+								Inbound *string `json:"inbound,omitempty"`
+							} `json:"soft-reconfiguration,omitempty"`
+							LocalAs *map[string]struct {
+								NoPrepend *string `json:"no-prepend,omitempty"`
+							} `json:"local-as,omitempty"`
+							AttributeUnchanged *struct {
+								AsPath  *string `json:"as-path,omitempty"`
+								NextHop *string `json:"next-hop,omitempty"`
+								Med     *string `json:"med,omitempty"`
+							} `json:"attribute-unchanged,omitempty"`
+							RouteMap *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"route-map,omitempty"`
+							RemoteAs              *int    `json:"remote-as,omitempty"`
+							Activate              *string `json:"activate,omitempty"`
+							Port                  *int    `json:"port,omitempty"`
+							AdvertisementInterval *int    `json:"advertisement-interval,omitempty"`
+							RemovePrivateAs       *string `json:"remove-private-as,omitempty"`
+							PrefixList            *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"prefix-list,omitempty"`
+							DistributeList *struct {
+								Word *map[string]struct {
+									Out *string `json:"out,omitempty"`
+									In  *string `json:"in,omitempty"`
+								} `json:"word,omitempty"`
+							} `json:"distribute-list,omitempty"`
+							PeerGroup *string `json:"peer-group,omitempty"`
+						} `json:"neighbor,omitempty"`
+						Network *map[string]struct {
+							RouteMap *string `json:"route-map,omitempty"`
+						} `json:"network,omitempty"`
+						Parameters *struct {
+							Dampening *struct {
+								MaxSuppressTime   *int `json:"max-suppress-time,omitempty"`
+								StartSuppressTime *int `json:"start-suppress-time,omitempty"`
+								ReUse             *int `json:"re-use,omitempty"`
+								HalfLife          *int `json:"half-life,omitempty"`
+							} `json:"dampening,omitempty"`
+							Confederation *struct {
+								Identifier *int `json:"identifier,omitempty"`
+								Peers      *int `json:"peers,omitempty"`
+							} `json:"confederation,omitempty"`
+						} `json:"parameters,omitempty"`
+						Redistribute *struct {
+							Rip *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+								Metric   *int    `json:"metric,omitempty"`
+							} `json:"rip,omitempty"`
+							Connected *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+								Metric   *int    `json:"metric,omitempty"`
+							} `json:"connected,omitempty"`
+							Static *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+								Metric   *int    `json:"metric,omitempty"`
+							} `json:"static,omitempty"`
+							Kernel *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+								Metric   *int    `json:"metric,omitempty"`
+							} `json:"kernel,omitempty"`
+							Ospf *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+								Metric   *int    `json:"metric,omitempty"`
+							} `json:"ospf,omitempty"`
+						} `json:"redistribute,omitempty"`
+						PeerGroup *map[string]struct {
+							Weight        *int `json:"weight,omitempty"`
+							EbgpMultihop  *int `json:"ebgp-multihop,omitempty"`
+							MaximumPrefix *int `json:"maximum-prefix,omitempty"`
+							FilterList    *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"filter-list,omitempty"`
+							AllowasIn *struct {
+								Number *int `json:"number,omitempty"`
+							} `json:"allowas-in,omitempty"`
+							RouteReflectorClient *string `json:"route-reflector-client,omitempty"`
+							OverrideCapability   *string `json:"override-capability,omitempty"`
+							Shutdown             *string `json:"shutdown,omitempty"`
+							DisableSendCommunity *struct {
+								Standard *string `json:"standard,omitempty"`
+								Extended *string `json:"extended,omitempty"`
+							} `json:"disable-send-community,omitempty"`
+							DefaultOriginate *struct {
+								RouteMap *string `json:"route-map,omitempty"`
+							} `json:"default-originate,omitempty"`
+							Capability *struct {
+								Dynamic *string `json:"dynamic,omitempty"`
+								Orf     *struct {
+									PrefixList *struct {
+										Receive *string `json:"receive,omitempty"`
+										Send    *string `json:"send,omitempty"`
+									} `json:"prefix-list,omitempty"`
+								} `json:"orf,omitempty"`
+							} `json:"capability,omitempty"`
+							UpdateSource  *string `json:"update-source,omitempty"`
+							UnsuppressMap *string `json:"unsuppress-map,omitempty"`
+							Passive       *string `json:"passive,omitempty"`
+							Timers        *struct {
+								Holdtime  *int `json:"holdtime,omitempty"`
+								Keepalive *int `json:"keepalive,omitempty"`
+							} `json:".timers,omitempty"`
+							Description         *string `json:"description,omitempty"`
+							SoftReconfiguration *struct {
+								Inbound *string `json:"inbound,omitempty"`
+							} `json:"soft-reconfiguration,omitempty"`
+							LocalAs *map[string]struct {
+								NoPrepend *string `json:"no-prepend,omitempty"`
+							} `json:"local-as,omitempty"`
+							AttributeUnchanged *struct {
+								AsPath  *string `json:"as-path,omitempty"`
+								NextHop *string `json:"next-hop,omitempty"`
+								Med     *string `json:"med,omitempty"`
+							} `json:"attribute-unchanged,omitempty"`
+							RouteMap *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"route-map,omitempty"`
+							RemoteAs                     *int    `json:"remote-as,omitempty"`
+							DisableConnectedCheck        *string `json:"disable-connected-check,omitempty"`
+							DisableCapabilityNegotiation *string `json:"disable-capability-negotiation,omitempty"`
+							RemovePrivateAs              *string `json:"remove-private-as,omitempty"`
+							PrefixList                   *struct {
+								Export *string `json:"export,omitempty"`
+								Import *string `json:"import,omitempty"`
+							} `json:"prefix-list,omitempty"`
+							DistributeList *struct {
+								Export *int `json:"export,omitempty"`
+								Import *int `json:"import,omitempty"`
+							} `json:"distribute-list,omitempty"`
+						} `json:"peer-group,omitempty"`
+					} `json:"vrf,omitempty"`
+				} `json:".ipv4-unicast,omitempty"`
+				Ipv6Unicast *struct {
+					Network *map[string]struct {
+						RouteMap  *string `json:"route-map,omitempty"`
+						PathLimit *int    `json:"path-limit,omitempty"`
+					} `json:"network,omitempty"`
+					AggregateAddress *map[string]struct {
+						SummaryOnly *string `json:"summary-only,omitempty"`
+					} `json:"aggregate-address,omitempty"`
+					Redistribute *struct {
+						Connected *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *int    `json:"metric,omitempty"`
+						} `json:"connected,omitempty"`
+						Ripng *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *int    `json:"metric,omitempty"`
+						} `json:"ripng,omitempty"`
+						Static *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *int    `json:"metric,omitempty"`
+						} `json:"static,omitempty"`
+						Ospfv3 *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *int    `json:"metric,omitempty"`
+						} `json:"ospfv3,omitempty"`
+						Kernel *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *int    `json:"metric,omitempty"`
+						} `json:"kernel,omitempty"`
+					} `json:"redistribute,omitempty"`
+				} `json:"ipv6-unicast,omitempty"`
+			} `json:"address-family,omitempty"`
+			Dampening *struct {
+				RouteMap *string `json:"route-map,omitempty"`
+				HalfLife *map[string]struct {
+					ReuseRoute *map[string]struct {
+						SupRoute *map[string]struct {
+							Time *map[string]struct {
+								HalfTime *int `json:"half-time,omitempty"`
+							} `json:"time,omitempty"`
+						} `json:"sup-route,omitempty"`
+					} `json:"reuse-route,omitempty"`
+				} `json:"half-life,omitempty"`
+			} `json:"dampening,omitempty"`
+			Parameters *struct {
+				ClusterId                  *IPv4   `json:"cluster-id,omitempty"`
+				DisableNetworkImportCheck  *string `json:"disable-network-import-check,omitempty"`
+				NoClientToClientReflection *string `json:"no-client-to-client-reflection,omitempty"`
+				EnforceFirstAs             *string `json:"enforce-first-as,omitempty"`
+				RouterId                   *IPv4   `json:"router-id,omitempty"`
+				Distance                   *struct {
+					Prefix *map[string]struct {
+						Distance *int `json:"distance,omitempty"`
+					} `json:"prefix,omitempty"`
+					Global *struct {
+						Internal *int `json:"internal,omitempty"`
+						Local    *int `json:"local,omitempty"`
+						External *int `json:"external,omitempty"`
+					} `json:"global,omitempty"`
+				} `json:"distance,omitempty"`
+				Default *struct {
+					NoIpv4Unicast *string `json:"no-ipv4-unicast,omitempty"`
+					LocalPref     *int    `json:"local-pref,omitempty"`
+				} `json:"default,omitempty"`
+				AlwaysCompareMed *string `json:"always-compare-med,omitempty"`
+				GracefulRestart  *struct {
+					StalepathTime *int `json:"stalepath-time,omitempty"`
+				} `json:"graceful-restart,omitempty"`
+				Dampening *struct {
+					MaxSuppressTime   *int `json:"max-suppress-time,omitempty"`
+					StartSuppressTime *int `json:"start-suppress-time,omitempty"`
+					ReUse             *int `json:"re-use,omitempty"`
+					HalfLife          *int `json:"half-life,omitempty"`
+				} `json:"dampening,omitempty"`
+				DeterministicMed *string `json:"deterministic-med,omitempty"`
+				Bestpath         *struct {
+					AsPath *struct {
+						Confed *string `json:"confed,omitempty"`
+						Ignore *string `json:"ignore,omitempty"`
+					} `json:"as-path,omitempty"`
+					CompareRouterid *string `json:"compare-routerid,omitempty"`
+					Med             *struct {
+						Confed         *string `json:"confed,omitempty"`
+						MissingAsWorst *string `json:"missing-as-worst,omitempty"`
+					} `json:"med,omitempty"`
+				} `json:"bestpath,omitempty"`
+				LogNeighborChanges *string `json:"log-neighbor-changes,omitempty"`
+				ScanTime           *int    `json:"scan-time,omitempty"`
+				Confederation      *struct {
+					Identifier *int `json:"identifier,omitempty"`
+					Peers      *int `json:"peers,omitempty"`
+				} `json:"confederation,omitempty"`
+				NoFastExternalFailover *string `json:"no-fast-external-failover,omitempty"`
+			} `json:"parameters,omitempty"`
+			Redistribute *struct {
+				Rip *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"rip,omitempty"`
+				Connected *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"connected,omitempty"`
+				Static *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"static,omitempty"`
+				Kernel *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"kernel,omitempty"`
+				Ospf *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+					Metric   *int    `json:"metric,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"redistribute,omitempty"`
+			PeerGroup *map[string]struct {
+				Weight        *int    `json:"weight,omitempty"`
+				EbgpMultihop  *int    `json:"ebgp-multihop,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				MaximumPrefix *int    `json:"maximum-prefix,omitempty"`
+				FilterList    *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"filter-list,omitempty"`
+				AllowasIn *struct {
+					Number *int `json:"number,omitempty"`
+				} `json:"allowas-in,omitempty"`
+				RouteReflectorClient *string `json:"route-reflector-client,omitempty"`
+				OverrideCapability   *string `json:"override-capability,omitempty"`
+				Shutdown             *string `json:"shutdown,omitempty"`
+				DisableSendCommunity *struct {
+					Standard *string `json:"standard,omitempty"`
+					Extended *string `json:"extended,omitempty"`
+				} `json:"disable-send-community,omitempty"`
+				DefaultOriginate *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"default-originate,omitempty"`
+				RouteServerClient *string `json:"route-server-client,omitempty"`
+				Capability        *struct {
+					Dynamic *string `json:"dynamic,omitempty"`
+					Orf     *struct {
+						PrefixList *struct {
+							Receive *string `json:"receive,omitempty"`
+							Send    *string `json:"send,omitempty"`
+						} `json:"prefix-list,omitempty"`
+					} `json:"orf,omitempty"`
+					GracefulRestart *string `json:"graceful-restart,omitempty"`
+				} `json:"capability,omitempty"`
+				UpdateSource *string `json:"update-source,omitempty"`
+				TtlSecurity  *struct {
+					Hops *int `json:"hops,omitempty"`
+				} `json:"ttl-security,omitempty"`
+				UnsuppressMap *string `json:"unsuppress-map,omitempty"`
+				Passive       *string `json:"passive,omitempty"`
+				Timers        *struct {
+					Holdtime  *int `json:"holdtime,omitempty"`
+					Keepalive *int `json:"keepalive,omitempty"`
+				} `json:".timers,omitempty"`
+				AddressFamily *struct {
+					Ipv6Unicast *struct {
+						MaximumPrefix *int `json:"maximum-prefix,omitempty"`
+						FilterList    *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"filter-list,omitempty"`
+						AllowasIn *struct {
+							Number *int `json:"number,omitempty"`
+						} `json:"allowas-in,omitempty"`
+						RouteReflectorClient *string `json:"route-reflector-client,omitempty"`
+						NexthopLocal         *struct {
+							Unchanged *string `json:"unchanged,omitempty"`
+						} `json:"nexthop-local,omitempty"`
+						DisableSendCommunity *struct {
+							Standard *string `json:"standard,omitempty"`
+							Extended *string `json:"extended,omitempty"`
+						} `json:"disable-send-community,omitempty"`
+						DefaultOriginate *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+						} `json:"default-originate,omitempty"`
+						RouteServerClient *string `json:"route-server-client,omitempty"`
+						Capability        *struct {
+							Orf *struct {
+								PrefixList *struct {
+									Receive *string `json:"receive,omitempty"`
+									Send    *string `json:"send,omitempty"`
+								} `json:"prefix-list,omitempty"`
+							} `json:"orf,omitempty"`
+							GracefulRestart *string `json:"graceful-restart,omitempty"`
+						} `json:"capability,omitempty"`
+						UnsuppressMap       *string `json:"unsuppress-map,omitempty"`
+						SoftReconfiguration *struct {
+							Inbound *string `json:"inbound,omitempty"`
+						} `json:"soft-reconfiguration,omitempty"`
+						AttributeUnchanged *struct {
+							AsPath  *string `json:"as-path,omitempty"`
+							NextHop *string `json:"next-hop,omitempty"`
+							Med     *string `json:"med,omitempty"`
+						} `json:"attribute-unchanged,omitempty"`
+						RouteMap *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"route-map,omitempty"`
+						NexthopSelf     *string `json:"nexthop-self,omitempty"`
+						RemovePrivateAs *string `json:"remove-private-as,omitempty"`
+						PrefixList      *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"prefix-list,omitempty"`
+						DistributeList *struct {
+							Export *string `json:"export,omitempty"`
+							Import *string `json:"import,omitempty"`
+						} `json:"distribute-list,omitempty"`
+					} `json:"ipv6-unicast,omitempty"`
+				} `json:"address-family,omitempty"`
+				Description         *string `json:"description,omitempty"`
+				SoftReconfiguration *struct {
+					Inbound *string `json:"inbound,omitempty"`
+				} `json:"soft-reconfiguration,omitempty"`
+				LocalAs *map[string]struct {
+					NoPrepend *string `json:"no-prepend,omitempty"`
+				} `json:"local-as,omitempty"`
+				AttributeUnchanged *struct {
+					AsPath  *string `json:"as-path,omitempty"`
+					NextHop *string `json:"next-hop,omitempty"`
+					Med     *string `json:"med,omitempty"`
+				} `json:"attribute-unchanged,omitempty"`
+				RouteMap *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"route-map,omitempty"`
+				RemoteAs                     *int    `json:"remote-as,omitempty"`
+				NexthopSelf                  *string `json:"nexthop-self,omitempty"`
+				DisableConnectedCheck        *string `json:"disable-connected-check,omitempty"`
+				DisableCapabilityNegotiation *string `json:"disable-capability-negotiation,omitempty"`
+				RemovePrivateAs              *string `json:"remove-private-as,omitempty"`
+				PrefixList                   *struct {
+					Export *string `json:"export,omitempty"`
+					Import *string `json:"import,omitempty"`
+				} `json:"prefix-list,omitempty"`
+				DistributeList *struct {
+					Export *int `json:"export,omitempty"`
+					Import *int `json:"import,omitempty"`
+				} `json:"distribute-list,omitempty"`
+			} `json:"peer-group,omitempty"`
+		} `json:"bgp,omitempty"`
+		Ospfv3 *struct {
+			Bfd *struct {
+				Interface     *string `json:"interface,omitempty"`
+				AllInterfaces *string `json:"all-interfaces,omitempty"`
+			} `json:"bfd,omitempty"`
+			Area *map[string]struct {
+				ExportList *string `json:"export-list,omitempty"`
+				Interface  *string `json:"interface,omitempty"`
+				FilterList *map[string]struct {
+				} `json:".filter-list,omitempty"`
+				ImportList *string `json:"import-list,omitempty"`
+				AreaType   *struct {
+					Stub *struct {
+						DefaultCost *int    `json:"default-cost,omitempty"`
+						NoSummary   *string `json:"no-summary,omitempty"`
+					} `json:"stub,omitempty"`
+					Normal *string `json:"normal,omitempty"`
+					Nssa   *struct {
+						DefaultCost                 *int    `json:"default-cost,omitempty"`
+						Translate                   *string `json:"translate,omitempty"`
+						NoSummary                   *string `json:"no-summary,omitempty"`
+						StabilityInterval           *int    `json:"stability-interval,omitempty"`
+						DefaultInformationOriginate *struct {
+							RouteMap *string `json:"route-map,omitempty"`
+							Metric   *map[string]struct {
+								Type *string `json:"type,omitempty"`
+							} `json:"metric,omitempty"`
+						} `json:"default-information-originate,omitempty"`
+						NoRedistribution *string `json:"no-redistribution,omitempty"`
+					} `json:"nssa,omitempty"`
+				} `json:"area-type,omitempty"`
+				VirtualLink *map[string]struct {
+					Bfd *string `json:"bfd,omitempty"`
+				} `json:"virtual-link,omitempty"`
+				Range *map[string]struct {
+					NotAdvertise *string `json:"not-advertise,omitempty"`
+				} `json:"range,omitempty"`
+			} `json:"area,omitempty"`
+			Timers *struct {
+				SfpExpDelay *struct {
+					Min *map[string]struct {
+						Max *int `json:"max,omitempty"`
+					} `json:"min,omitempty"`
+				} `json:"sfp-exp-delay,omitempty"`
+			} `json:"timers,omitempty"`
+			Capability *struct {
+				DbSummaryOpt    *string `json:"db-summary-opt,omitempty"`
+				Te              *string `json:"te,omitempty"`
+				Cspf            *string `json:"cspf,omitempty"`
+				GracefulRestart *string `json:"graceful-restart,omitempty"`
+			} `json:"capability,omitempty"`
+			DefaultMetric *int `json:"default-metric,omitempty"`
+			Distance      *struct {
+				Global *int `json:"global,omitempty"`
+				Ospfv3 *struct {
+					InterArea *int `json:"inter-area,omitempty"`
+					External  *int `json:"external,omitempty"`
+					IntraArea *int `json:"intra-area,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"distance,omitempty"`
+			LogAdjacencyChanges *struct {
+				Detail *string `json:"detail,omitempty"`
+			} `json:"log-adjacency-changes,omitempty"`
+			SummaryAddress *IPv6Net `json:"summary-address,omitempty"`
+			Cspf           *struct {
+				TieBreak             *string `json:"tie-break,omitempty"`
+				DefaultRetryInterval *int    `json:"default-retry-interval,omitempty"`
+			} `json:"cspf,omitempty"`
+			AutoCost *struct {
+				ReferenceBandwidth *int `json:"reference-bandwidth,omitempty"`
+			} `json:"auto-cost,omitempty"`
+			PassiveInterfaceExclude *string `json:"passive-interface-exclude,omitempty"`
+			Vrf                     *map[string]struct {
+				Bfd *struct {
+					AllInterfaces *string `json:"all-interfaces,omitempty"`
+				} `json:"bfd,omitempty"`
+				Area *map[string]struct {
+					ExportList *string `json:"export-list,omitempty"`
+					Interface  *string `json:"interface,omitempty"`
+					FilterList *map[string]struct {
+					} `json:".filter-list,omitempty"`
+					ImportList  *string `json:"import-list,omitempty"`
+					VirtualLink *map[string]struct {
+						Bfd *string `json:"bfd,omitempty"`
+					} `json:"virtual-link,omitempty"`
+					Range *map[string]struct {
+						Advertise    *string `json:"advertise,omitempty"`
+						NotAdvertise *string `json:"not-advertise,omitempty"`
+					} `json:"range,omitempty"`
+				} `json:"area,omitempty"`
+				Parameters *struct {
+					RouterId *IPv4 `json:"router-id,omitempty"`
+				} `json:"parameters,omitempty"`
+				Redistribute *struct {
+					Connected *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+					} `json:"connected,omitempty"`
+					Ripng *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+					} `json:"ripng,omitempty"`
+					Static *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+					} `json:"static,omitempty"`
+					Bgp *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+					} `json:"bgp,omitempty"`
+					Kernel *struct {
+						RouteMap *string `json:"route-map,omitempty"`
+					} `json:"kernel,omitempty"`
+				} `json:"redistribute,omitempty"`
+			} `json:".vrf,omitempty"`
+			Parameters *struct {
+				RouterId *IPv4   `json:"router-id,omitempty"`
+				AbrType  *string `json:"abr-type,omitempty"`
+			} `json:"parameters,omitempty"`
+			PassiveInterface *string `json:"passive-interface,omitempty"`
+			MaxConcurrentDd  *int    `json:"max-concurrent-dd,omitempty"`
+			Redistribute     *struct {
+				Connected *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"connected,omitempty"`
+				Ripng *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"ripng,omitempty"`
+				Static *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"static,omitempty"`
+				Bgp *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"bgp,omitempty"`
+				Kernel *struct {
+					RouteMap *string `json:"route-map,omitempty"`
+				} `json:"kernel,omitempty"`
+			} `json:"redistribute,omitempty"`
+			DistributeList *map[string]struct {
+				Out *struct {
+					Rip       *string `json:"rip,omitempty"`
+					Connected *string `json:"connected,omitempty"`
+					Static    *string `json:"static,omitempty"`
+					Bgp       *string `json:"bgp,omitempty"`
+					Kernel    *string `json:"kernel,omitempty"`
+					Ospf      *int    `json:"ospf,omitempty"`
+					Isis      *string `json:"isis,omitempty"`
+				} `json:"out,omitempty"`
+				In *string `json:"in,omitempty"`
+			} `json:"distribute-list,omitempty"`
+			DefaultInformation *struct {
+				Originate *struct {
+					Always     *string `json:"always,omitempty"`
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *string `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"originate,omitempty"`
+			} `json:"default-information,omitempty"`
+		} `json:"ospfv3,omitempty"`
+		Ospf *struct {
+			Neighbor *map[string]struct {
+				PollInterval *int `json:"poll-interval,omitempty"`
+				Priority     *int `json:"priority,omitempty"`
+			} `json:"neighbor,omitempty"`
+			Bfd *struct {
+				Interface     *string `json:"interface,omitempty"`
+				AllInterfaces *string `json:"all-interfaces,omitempty"`
+			} `json:"bfd,omitempty"`
+			Area *map[string]struct {
+				Shortcut *string  `json:"shortcut,omitempty"`
+				Network  *IPv4Net `json:"network,omitempty"`
+				AreaType *struct {
+					Stub *struct {
+						DefaultCost *int    `json:"default-cost,omitempty"`
+						NoSummary   *string `json:"no-summary,omitempty"`
+					} `json:"stub,omitempty"`
+					Normal *string `json:"normal,omitempty"`
+					Nssa   *struct {
+						DefaultCost *int    `json:"default-cost,omitempty"`
+						Translate   *string `json:"translate,omitempty"`
+						NoSummary   *string `json:"no-summary,omitempty"`
+					} `json:"nssa,omitempty"`
+				} `json:"area-type,omitempty"`
+				VirtualLink *map[string]struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Bfd                *string `json:"bfd,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"virtual-link,omitempty"`
+				Range *map[string]struct {
+					Cost         *int     `json:"cost,omitempty"`
+					Substitute   *IPv4Net `json:"substitute,omitempty"`
+					NotAdvertise *string  `json:"not-advertise,omitempty"`
+				} `json:"range,omitempty"`
+				Authentication *string `json:"authentication,omitempty"`
+			} `json:"area,omitempty"`
+			Refresh *struct {
+				Timers *int `json:"timers,omitempty"`
+			} `json:"refresh,omitempty"`
+			Timers *struct {
+				Throttle *struct {
+					Spf *struct {
+						MaxHoldtime     *int `json:"max-holdtime,omitempty"`
+						Delay           *int `json:"delay,omitempty"`
+						InitialHoldtime *int `json:"initial-holdtime,omitempty"`
+					} `json:"spf,omitempty"`
+				} `json:"throttle,omitempty"`
+			} `json:"timers,omitempty"`
+			DefaultMetric *int `json:"default-metric,omitempty"`
+			Distance      *struct {
+				Global *int `json:"global,omitempty"`
+				Ospf   *struct {
+					InterArea *int `json:"inter-area,omitempty"`
+					External  *int `json:"external,omitempty"`
+					IntraArea *int `json:"intra-area,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"distance,omitempty"`
+			LogAdjacencyChanges *struct {
+				Detail *string `json:"detail,omitempty"`
+			} `json:"log-adjacency-changes,omitempty"`
+			MplsTe *struct {
+				Enable        *string `json:"enable,omitempty"`
+				RouterAddress *IPv4   `json:"router-address,omitempty"`
+			} `json:"mpls-te,omitempty"`
+			AutoCost *struct {
+				ReferenceBandwidth *int `json:"reference-bandwidth,omitempty"`
+			} `json:"auto-cost,omitempty"`
+			PassiveInterfaceExclude *string `json:"passive-interface-exclude,omitempty"`
+			AccessList              *map[string]struct {
+				Export *string `json:"export,omitempty"`
+				Import *string `json:"import,omitempty"`
+			} `json:"access-list,omitempty"`
+			InstanceId *map[string]struct {
+				Vrf *map[string]struct {
+					Neighbor *map[string]struct {
+						PollInterval *int `json:"poll-interval,omitempty"`
+						Priority     *int `json:"priority,omitempty"`
+					} `json:"neighbor,omitempty"`
+					Bfd *struct {
+						AllInterfaces *string `json:"all-interfaces,omitempty"`
+					} `json:"bfd,omitempty"`
+					Area *map[string]struct {
+						Shortcut *string  `json:"shortcut,omitempty"`
+						Network  *IPv4Net `json:"network,omitempty"`
+						AreaType *struct {
+							Stub *struct {
+								DefaultCost *int    `json:"default-cost,omitempty"`
+								NoSummary   *string `json:"no-summary,omitempty"`
+							} `json:"stub,omitempty"`
+							Normal *string `json:"normal,omitempty"`
+							Nssa   *struct {
+								DefaultCost *int    `json:"default-cost,omitempty"`
+								Translate   *string `json:"translate,omitempty"`
+								NoSummary   *string `json:"no-summary,omitempty"`
+							} `json:"nssa,omitempty"`
+						} `json:"area-type,omitempty"`
+						VirtualLink *map[string]struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Bfd                *string `json:"bfd,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							Authentication     *struct {
+								Md5 *struct {
+									KeyId *map[string]struct {
+										Md5Key *string `json:"md5-key,omitempty"`
+									} `json:"key-id,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+							HelloInterval *int `json:"hello-interval,omitempty"`
+						} `json:"virtual-link,omitempty"`
+						Range *map[string]struct {
+							Cost         *int     `json:"cost,omitempty"`
+							Substitute   *IPv4Net `json:"substitute,omitempty"`
+							NotAdvertise *string  `json:"not-advertise,omitempty"`
+						} `json:"range,omitempty"`
+						Authentication *string `json:"authentication,omitempty"`
+					} `json:"area,omitempty"`
+					Refresh *struct {
+						Timers *int `json:"timers,omitempty"`
+					} `json:"refresh,omitempty"`
+					Timers *struct {
+						Throttle *struct {
+							Spf *struct {
+								MaxHoldtime     *int `json:"max-holdtime,omitempty"`
+								Delay           *int `json:"delay,omitempty"`
+								InitialHoldtime *int `json:"initial-holdtime,omitempty"`
+							} `json:"spf,omitempty"`
+						} `json:"throttle,omitempty"`
+					} `json:"timers,omitempty"`
+					Capability *struct {
+						Cspf *struct {
+							EnableBetterProtection *string `json:"enable-better-protection,omitempty"`
+							TieBreak               *struct {
+								MostFill  *string `json:"most-fill,omitempty"`
+								LeastFill *string `json:"least-fill,omitempty"`
+								Random    *string `json:"random,omitempty"`
+							} `json:"tie-break,omitempty"`
+							DisableBetterProtection *string `json:"disable-better-protection,omitempty"`
+							DefaultRetryInterval    *int    `json:"default-retry-interval,omitempty"`
+						} `json:"cspf,omitempty"`
+						TrafficEngineering *string `json:"traffic-engineering,omitempty"`
+					} `json:"capability,omitempty"`
+					DefaultMetric *int `json:"default-metric,omitempty"`
+					Distance      *struct {
+						Global *int `json:"global,omitempty"`
+						Ospf   *struct {
+							InterArea *int `json:"inter-area,omitempty"`
+							External  *int `json:"external,omitempty"`
+							IntraArea *int `json:"intra-area,omitempty"`
+						} `json:"ospf,omitempty"`
+					} `json:"distance,omitempty"`
+					LogAdjacencyChanges *struct {
+						Detail *string `json:"detail,omitempty"`
+					} `json:"log-adjacency-changes,omitempty"`
+					MplsTe *struct {
+						Enable        *string `json:"enable,omitempty"`
+						RouterAddress *IPv4   `json:"router-address,omitempty"`
+					} `json:"mpls-te,omitempty"`
+					AutoCost *struct {
+						ReferenceBandwidth *int `json:"reference-bandwidth,omitempty"`
+					} `json:"auto-cost,omitempty"`
+					PassiveInterfaceExclude *string `json:"passive-interface-exclude,omitempty"`
+					AccessList              *map[string]struct {
+						Export *string `json:"export,omitempty"`
+					} `json:"access-list,omitempty"`
+					Parameters *struct {
+						Rfc1583Compatibility *string `json:"rfc1583-compatibility,omitempty"`
+						RouterId             *IPv4   `json:"router-id,omitempty"`
+						AbrType              *string `json:"abr-type,omitempty"`
+						OpaqueLsa            *string `json:"opaque-lsa,omitempty"`
+					} `json:"parameters,omitempty"`
+					PassiveInterface *string `json:"passive-interface,omitempty"`
+					Redistribute     *struct {
+						Rip *struct {
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"rip,omitempty"`
+						Connected *struct {
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"connected,omitempty"`
+						Static *struct {
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"static,omitempty"`
+						Bgp *struct {
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"bgp,omitempty"`
+						Kernel *struct {
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"kernel,omitempty"`
+					} `json:"redistribute,omitempty"`
+					MaxMetric *struct {
+						RouterLsa *struct {
+							OnStartup      *int    `json:"on-startup,omitempty"`
+							Administrative *string `json:"administrative,omitempty"`
+							OnShutdown     *int    `json:"on-shutdown,omitempty"`
+						} `json:"router-lsa,omitempty"`
+					} `json:"max-metric,omitempty"`
+					DefaultInformation *struct {
+						Originate *struct {
+							Always     *string `json:"always,omitempty"`
+							RouteMap   *string `json:"route-map,omitempty"`
+							MetricType *int    `json:"metric-type,omitempty"`
+							Metric     *int    `json:"metric,omitempty"`
+						} `json:"originate,omitempty"`
+					} `json:"default-information,omitempty"`
+				} `json:"vrf,omitempty"`
+			} `json:".instance-id,omitempty"`
+			Parameters *struct {
+				Rfc1583Compatibility *string `json:"rfc1583-compatibility,omitempty"`
+				RouterId             *IPv4   `json:"router-id,omitempty"`
+				AbrType              *string `json:"abr-type,omitempty"`
+				OpaqueLsa            *string `json:"opaque-lsa,omitempty"`
+			} `json:"parameters,omitempty"`
+			PassiveInterface *string `json:"passive-interface,omitempty"`
+			Redistribute     *struct {
+				Rip *struct {
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"rip,omitempty"`
+				Connected *struct {
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"connected,omitempty"`
+				Static *struct {
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"static,omitempty"`
+				Bgp *struct {
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"bgp,omitempty"`
+				Kernel *struct {
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"kernel,omitempty"`
+			} `json:"redistribute,omitempty"`
+			MaxMetric *struct {
+				RouterLsa *struct {
+					OnStartup      *int    `json:"on-startup,omitempty"`
+					Administrative *string `json:"administrative,omitempty"`
+					OnShutdown     *int    `json:"on-shutdown,omitempty"`
+				} `json:"router-lsa,omitempty"`
+			} `json:"max-metric,omitempty"`
+			DefaultInformation *struct {
+				Originate *struct {
+					Always     *string `json:"always,omitempty"`
+					RouteMap   *string `json:"route-map,omitempty"`
+					MetricType *int    `json:"metric-type,omitempty"`
+					Metric     *int    `json:"metric,omitempty"`
+				} `json:"originate,omitempty"`
+			} `json:"default-information,omitempty"`
+		} `json:"ospf,omitempty"`
+	} `json:"protocols,omitempty"`
+	Policy *struct {
+		AsPathList *map[string]struct {
+			Rule *map[string]struct {
+				Regex       *string `json:"regex,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"as-path-list,omitempty"`
+		AccessList *map[string]struct {
+			Rule *map[string]struct {
+				Source *struct {
+					Host        *IPv4   `json:"host,omitempty"`
+					Network     *IPv4   `json:"network,omitempty"`
+					Any         *string `json:"any,omitempty"`
+					InverseMask *IPv4   `json:"inverse-mask,omitempty"`
+				} `json:"source,omitempty"`
+				Destination *struct {
+					Host        *IPv4   `json:"host,omitempty"`
+					Network     *IPv4   `json:"network,omitempty"`
+					Any         *string `json:"any,omitempty"`
+					InverseMask *IPv4   `json:"inverse-mask,omitempty"`
+				} `json:"destination,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"access-list,omitempty"`
+		RouteMap *map[string]struct {
+			Rule *map[string]struct {
+				Match *struct {
+					AsPath       *string `json:"as-path,omitempty"`
+					Interface    *string `json:"interface,omitempty"`
+					Extcommunity *struct {
+						ExactMatch       *string `json:"exact-match,omitempty"`
+						ExtcommunityList *int    `json:"extcommunity-list,omitempty"`
+					} `json:"extcommunity,omitempty"`
+					Peer      *string `json:"peer,omitempty"`
+					Origin    *string `json:"origin,omitempty"`
+					Community *struct {
+						ExactMatch    *string `json:"exact-match,omitempty"`
+						CommunityList *int    `json:"community-list,omitempty"`
+					} `json:"community,omitempty"`
+					Ip *struct {
+						RouteSource *struct {
+							AccessList *int    `json:"access-list,omitempty"`
+							PrefixList *string `json:"prefix-list,omitempty"`
+						} `json:"route-source,omitempty"`
+						Nexthop *struct {
+							AccessList *int    `json:"access-list,omitempty"`
+							PrefixList *string `json:"prefix-list,omitempty"`
+						} `json:"nexthop,omitempty"`
+						Address *struct {
+							AccessList *int    `json:"access-list,omitempty"`
+							PrefixList *string `json:"prefix-list,omitempty"`
+						} `json:"address,omitempty"`
+					} `json:"ip,omitempty"`
+					Metric *int `json:"metric,omitempty"`
+					Ipv6   *struct {
+						Nexthop *struct {
+							AccessList *string `json:"access-list,omitempty"`
+							PrefixList *string `json:"prefix-list,omitempty"`
+						} `json:"nexthop,omitempty"`
+						Address *struct {
+							AccessList *string `json:"access-list,omitempty"`
+							PrefixList *string `json:"prefix-list,omitempty"`
+						} `json:"address,omitempty"`
+					} `json:"ipv6,omitempty"`
+					Tag *int `json:"tag,omitempty"`
+				} `json:"match,omitempty"`
+				OnMatch *struct {
+					Next *string `json:"next,omitempty"`
+					Goto *int    `json:"goto,omitempty"`
+				} `json:"on-match,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Call        *string `json:"call,omitempty"`
+				Description *string `json:"description,omitempty"`
+				Set         *struct {
+					Weight        *int    `json:"weight,omitempty"`
+					AsPathPrepend *string `json:"as-path-prepend,omitempty"`
+					Ipv6NextHop   *struct {
+						Local  *IPv6 `json:"local,omitempty"`
+						Global *IPv6 `json:"global,omitempty"`
+					} `json:"ipv6-next-hop,omitempty"`
+					CommList *struct {
+						CommList *int    `json:"comm-list,omitempty"`
+						Delete   *string `json:"delete,omitempty"`
+					} `json:"comm-list,omitempty"`
+					OriginatorId *IPv4 `json:"originator-id,omitempty"`
+					Extcommunity *struct {
+						Rt *string `json:"rt,omitempty"`
+						Ro *string `json:"ro,omitempty"`
+					} `json:"extcommunity,omitempty"`
+					Aggregator *struct {
+						As *int  `json:"as,omitempty"`
+						Ip *IPv4 `json:"ip,omitempty"`
+					} `json:"aggregator,omitempty"`
+					AtomicAggregate *string `json:"atomic-aggregate,omitempty"`
+					LocalPreference *int    `json:"local-preference,omitempty"`
+					MetricType      *string `json:"metric-type,omitempty"`
+					Origin          *string `json:"origin,omitempty"`
+					Community       *string `json:"community,omitempty"`
+					Metric          *string `json:"metric,omitempty"`
+					IpNextHop       *IPv4   `json:"ip-next-hop,omitempty"`
+					Tag             *int    `json:"tag,omitempty"`
+				} `json:"set,omitempty"`
+				Continue *int `json:"continue,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"route-map,omitempty"`
+		AccessList6 *map[string]struct {
+			Rule *map[string]struct {
+				Source *struct {
+					Network    *IPv6Net `json:"network,omitempty"`
+					Any        *string  `json:"any,omitempty"`
+					ExactMatch *string  `json:"exact-match,omitempty"`
+				} `json:"source,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"access-list6,omitempty"`
+		PrefixList6 *map[string]struct {
+			Rule *map[string]struct {
+				Prefix      *IPv6Net `json:"prefix,omitempty"`
+				Le          *int     `json:"le,omitempty"`
+				Action      *string  `json:"action,omitempty"`
+				Description *string  `json:"description,omitempty"`
+				Ge          *int     `json:"ge,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"prefix-list6,omitempty"`
+		CommunityList *map[string]struct {
+			Rule *map[string]struct {
+				Regex       *string `json:"regex,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"community-list,omitempty"`
+		ExtcommunityList *map[string]struct {
+			Rule *map[string]struct {
+				Rt          *string `json:"rt,omitempty"`
+				Regex       *string `json:"regex,omitempty"`
+				Ro          *string `json:"ro,omitempty"`
+				Action      *string `json:"action,omitempty"`
+				Description *string `json:"description,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"extcommunity-list,omitempty"`
+		PrefixList *map[string]struct {
+			Rule *map[string]struct {
+				Prefix      *IPv4Net `json:"prefix,omitempty"`
+				Le          *int     `json:"le,omitempty"`
+				Action      *string  `json:"action,omitempty"`
+				Description *string  `json:"description,omitempty"`
+				Ge          *int     `json:"ge,omitempty"`
+			} `json:"rule,omitempty"`
+			Description *string `json:"description,omitempty"`
+		} `json:"prefix-list,omitempty"`
+	} `json:"policy,omitempty"`
+	Interfaces *struct {
+		Wirelessmodem *map[string]struct {
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Ondemand      *string `json:"ondemand,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			Network       *string `json:"network,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			NoDns             *string `json:"no-dns,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Redirect    *string `json:"redirect,omitempty"`
+			Device      *string `json:"device,omitempty"`
+			Backup      *struct {
+				Distance *int `json:"distance,omitempty"`
+			} `json:"backup,omitempty"`
+			Ip *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"wirelessmodem,omitempty"`
+		Ipv6Tunnel *map[string]struct {
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Encapsulation *string `json:"encapsulation,omitempty"`
+			Multicast     *string `json:"multicast,omitempty"`
+			Ttl           *int    `json:"ttl,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Key               *int    `json:"key,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Tos         *int    `json:"tos,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Address     *IPNet  `json:"address,omitempty"`
+			Redirect    *string `json:"redirect,omitempty"`
+			LocalIp     *IPv6   `json:"local-ip,omitempty"`
+			RemoteIp    *IPv6   `json:"remote-ip,omitempty"`
+			Ip          *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				Ripng *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"ipv6-tunnel,omitempty"`
+		Bonding *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			HashPolicy *string `json:"hash-policy,omitempty"`
+			Disable    *string `json:"disable,omitempty"`
+			Bandwidth  *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Mode          *string `json:"mode,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Vrrp *struct {
+				VrrpGroup *map[string]struct {
+					Disable              *string `json:"disable,omitempty"`
+					VirtualAddress       *string `json:"virtual-address,omitempty"`
+					AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+					SyncGroup            *string `json:"sync-group,omitempty"`
+					PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+					RunTransitionScripts *struct {
+						Master *string `json:"master,omitempty"`
+						Fault  *string `json:"fault,omitempty"`
+						Backup *string `json:"backup,omitempty"`
+					} `json:"run-transition-scripts,omitempty"`
+					Preempt            *bool   `json:"preempt,omitempty"`
+					Description        *string `json:"description,omitempty"`
+					HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					Authentication     *struct {
+						Password *string `json:"password,omitempty"`
+						Type     *string `json:"type,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"vrrp-group,omitempty"`
+			} `json:"vrrp,omitempty"`
+			Dhcpv6Pd *struct {
+				Pd *map[string]struct {
+					Interface *map[string]struct {
+						StaticMapping *map[string]struct {
+							Identifier  *string `json:"identifier,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+						} `json:"static-mapping,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						PrefixId    *string `json:"prefix-id,omitempty"`
+						HostAddress *string `json:"host-address,omitempty"`
+						Service     *string `json:"service,omitempty"`
+					} `json:"interface,omitempty"`
+					PrefixLength *string `json:"prefix-length,omitempty"`
+				} `json:"pd,omitempty"`
+				Duid        *string `json:"duid,omitempty"`
+				NoDns       *string `json:"no-dns,omitempty"`
+				RapidCommit *string `json:"rapid-commit,omitempty"`
+				PrefixOnly  *string `json:"prefix-only,omitempty"`
+			} `json:"dhcpv6-pd,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Mac         *MacAddr `json:"mac,omitempty"`
+			DhcpOptions *struct {
+				NameServer           *string `json:"name-server,omitempty"`
+				DefaultRoute         *string `json:"default-route,omitempty"`
+				ClientOption         *string `json:"client-option,omitempty"`
+				DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+				GlobalOption         *string `json:"global-option,omitempty"`
+			} `json:"dhcp-options,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Vif         *map[string]struct {
+				BridgeGroup *struct {
+					Bridge   *string `json:"bridge,omitempty"`
+					Cost     *int    `json:"cost,omitempty"`
+					Priority *int    `json:"priority,omitempty"`
+				} `json:"bridge-group,omitempty"`
+				Disable   *string `json:"disable,omitempty"`
+				Bandwidth *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Mtu           *int `json:"mtu,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				Vrrp *struct {
+					VrrpGroup *map[string]struct {
+						Disable              *string `json:"disable,omitempty"`
+						VirtualAddress       *string `json:"virtual-address,omitempty"`
+						AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+						SyncGroup            *string `json:"sync-group,omitempty"`
+						PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+						RunTransitionScripts *struct {
+							Master *string `json:"master,omitempty"`
+							Fault  *string `json:"fault,omitempty"`
+							Backup *string `json:"backup,omitempty"`
+						} `json:"run-transition-scripts,omitempty"`
+						Preempt            *bool   `json:"preempt,omitempty"`
+						Description        *string `json:"description,omitempty"`
+						HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						Authentication     *struct {
+							Password *string `json:"password,omitempty"`
+							Type     *string `json:"type,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"vrrp-group,omitempty"`
+				} `json:"vrrp,omitempty"`
+				Dhcpv6Pd *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+				Firewall          *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				DhcpOptions *struct {
+					NameServer           *string `json:"name-server,omitempty"`
+					DefaultRoute         *string `json:"default-route,omitempty"`
+					ClientOption         *string `json:"client-option,omitempty"`
+					DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+					GlobalOption         *string `json:"global-option,omitempty"`
+				} `json:"dhcp-options,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Address       *string `json:"address,omitempty"`
+				Redirect      *string `json:"redirect,omitempty"`
+				Dhcpv6Options *struct {
+					ParametersOnly *string `json:"parameters-only,omitempty"`
+					Temporary      *string `json:"temporary,omitempty"`
+				} `json:"dhcpv6-options,omitempty"`
+				Ip *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64    *IPv6Net `json:"eui64,omitempty"`
+						Autoconf *string  `json:"autoconf,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+			} `json:"vif,omitempty"`
+			Address    *string `json:"address,omitempty"`
+			Redirect   *string `json:"redirect,omitempty"`
+			ArpMonitor *struct {
+				Target   *IPv4 `json:"target,omitempty"`
+				Interval *int  `json:"interval,omitempty"`
+			} `json:"arp-monitor,omitempty"`
+			Dhcpv6Options *struct {
+				ParametersOnly *string `json:"parameters-only,omitempty"`
+				Temporary      *string `json:"temporary,omitempty"`
+			} `json:"dhcpv6-options,omitempty"`
+			Ip *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				EnableProxyArp   *string `json:"enable-proxy-arp,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			Primary *string `json:"primary,omitempty"`
+		} `json:"bonding,omitempty"`
+		L2tpv3 *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			Disable       *string `json:"disable,omitempty"`
+			PeerSessionId *int    `json:"peer-session-id,omitempty"`
+			Bandwidth     *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Encapsulation *string `json:"encapsulation,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			SourcePort *int `json:"source-port,omitempty"`
+			Firewall   *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			PeerTunnelId *int    `json:"peer-tunnel-id,omitempty"`
+			Description  *string `json:"description,omitempty"`
+			Address      *IPNet  `json:"address,omitempty"`
+			Redirect     *string `json:"redirect,omitempty"`
+			LocalIp      *IP     `json:"local-ip,omitempty"`
+			RemoteIp     *IP     `json:"remote-ip,omitempty"`
+			Ip           *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			DestinationPort *int `json:"destination-port,omitempty"`
+			Ipv6            *struct {
+				Ripng *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			TunnelId  *int `json:"tunnel-id,omitempty"`
+			SessionId *int `json:"session-id,omitempty"`
+		} `json:"l2tpv3,omitempty"`
+		Vti *map[string]struct {
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Mtu           *int `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Firewall *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Description *string  `json:"description,omitempty"`
+			Address     *IPv4Net `json:"address,omitempty"`
+			Redirect    *string  `json:"redirect,omitempty"`
+			Ip          *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				Ripng *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"vti,omitempty"`
+		Input *map[string]struct {
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Firewall *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Redirect    *string `json:"redirect,omitempty"`
+		} `json:"input,omitempty"`
+		Bridge *map[string]struct {
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Multicast *string `json:"multicast,omitempty"`
+			Pppoe     *map[string]struct {
+				ServiceName *string `json:"service-name,omitempty"`
+				Bandwidth   *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+				HostUniq      *string `json:"host-uniq,omitempty"`
+				Mtu           *int    `json:"mtu,omitempty"`
+				NameServer    *string `json:"name-server,omitempty"`
+				DefaultRoute  *string `json:"default-route,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				IdleTimeout *int `json:"idle-timeout,omitempty"`
+				Dhcpv6Pd    *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+				Firewall        *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				UserId       *string `json:"user-id,omitempty"`
+				Description  *string `json:"description,omitempty"`
+				LocalAddress *IPv4   `json:"local-address,omitempty"`
+				Redirect     *string `json:"redirect,omitempty"`
+				Ip           *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					Enable *struct {
+						RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+						LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+					} `json:"enable,omitempty"`
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64     *IPv6Net `json:"eui64,omitempty"`
+						Autoconf  *string  `json:"autoconf,omitempty"`
+						Secondary *IPv6Net `json:"secondary,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+				Multilink          *string `json:"multilink,omitempty"`
+				AccessConcentrator *string `json:"access-concentrator,omitempty"`
+			} `json:"pppoe,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Vrrp *struct {
+				VrrpGroup *map[string]struct {
+					Disable              *string `json:"disable,omitempty"`
+					VirtualAddress       *string `json:"virtual-address,omitempty"`
+					AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+					SyncGroup            *string `json:"sync-group,omitempty"`
+					PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+					RunTransitionScripts *struct {
+						Master *string `json:"master,omitempty"`
+						Fault  *string `json:"fault,omitempty"`
+						Backup *string `json:"backup,omitempty"`
+					} `json:"run-transition-scripts,omitempty"`
+					Preempt            *bool   `json:"preempt,omitempty"`
+					Description        *string `json:"description,omitempty"`
+					HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					Authentication     *struct {
+						Password *string `json:"password,omitempty"`
+						Type     *string `json:"type,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"vrrp-group,omitempty"`
+			} `json:"vrrp,omitempty"`
+			Dhcpv6Pd *struct {
+				Pd *map[string]struct {
+					Interface *map[string]struct {
+						StaticMapping *map[string]struct {
+							Identifier  *string `json:"identifier,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+						} `json:"static-mapping,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						PrefixId    *string `json:"prefix-id,omitempty"`
+						HostAddress *string `json:"host-address,omitempty"`
+						Service     *string `json:"service,omitempty"`
+					} `json:"interface,omitempty"`
+					PrefixLength *string `json:"prefix-length,omitempty"`
+				} `json:"pd,omitempty"`
+				Duid        *string `json:"duid,omitempty"`
+				NoDns       *string `json:"no-dns,omitempty"`
+				RapidCommit *string `json:"rapid-commit,omitempty"`
+				PrefixOnly  *string `json:"prefix-only,omitempty"`
+			} `json:"dhcpv6-pd,omitempty"`
+			Stp               *bool   `json:"stp,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			MaxAge           *int    `json:"max-age,omitempty"`
+			BridgedConntrack *string `json:"bridged-conntrack,omitempty"`
+			DhcpOptions      *struct {
+				NameServer           *string `json:"name-server,omitempty"`
+				DefaultRoute         *string `json:"default-route,omitempty"`
+				ClientOption         *string `json:"client-option,omitempty"`
+				DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+				GlobalOption         *string `json:"global-option,omitempty"`
+			} `json:"dhcp-options,omitempty"`
+			HelloTime   *int    `json:"hello-time,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Vif         *map[string]struct {
+				Disable   *string `json:"disable,omitempty"`
+				Bandwidth *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Pppoe *map[string]struct {
+					ServiceName *string `json:"service-name,omitempty"`
+					Bandwidth   *struct {
+						Maximum    *string `json:"maximum,omitempty"`
+						Reservable *string `json:"reservable,omitempty"`
+						Constraint *struct {
+							ClassType *map[string]struct {
+								Bandwidth *string `json:"bandwidth,omitempty"`
+							} `json:"class-type,omitempty"`
+						} `json:"constraint,omitempty"`
+					} `json:"bandwidth,omitempty"`
+					Password      *string `json:"password,omitempty"`
+					RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+					HostUniq      *string `json:"host-uniq,omitempty"`
+					Mtu           *int    `json:"mtu,omitempty"`
+					NameServer    *string `json:"name-server,omitempty"`
+					DefaultRoute  *string `json:"default-route,omitempty"`
+					TrafficPolicy *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"traffic-policy,omitempty"`
+					IdleTimeout *int `json:"idle-timeout,omitempty"`
+					Dhcpv6Pd    *struct {
+						Pd *map[string]struct {
+							Interface *map[string]struct {
+								StaticMapping *map[string]struct {
+									Identifier  *string `json:"identifier,omitempty"`
+									HostAddress *string `json:"host-address,omitempty"`
+								} `json:"static-mapping,omitempty"`
+								NoDns       *string `json:"no-dns,omitempty"`
+								PrefixId    *string `json:"prefix-id,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+								Service     *string `json:"service,omitempty"`
+							} `json:"interface,omitempty"`
+							PrefixLength *string `json:"prefix-length,omitempty"`
+						} `json:"pd,omitempty"`
+						Duid        *string `json:"duid,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						RapidCommit *string `json:"rapid-commit,omitempty"`
+						PrefixOnly  *string `json:"prefix-only,omitempty"`
+					} `json:"dhcpv6-pd,omitempty"`
+					ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+					Firewall        *struct {
+						Out *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"out,omitempty"`
+						In *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"in,omitempty"`
+						Local *struct {
+							Name     *string `json:"name,omitempty"`
+							Ipv6Name *string `json:"ipv6-name,omitempty"`
+						} `json:"local,omitempty"`
+					} `json:"firewall,omitempty"`
+					UserId       *string `json:"user-id,omitempty"`
+					Description  *string `json:"description,omitempty"`
+					LocalAddress *IPv4   `json:"local-address,omitempty"`
+					Redirect     *string `json:"redirect,omitempty"`
+					Ip           *struct {
+						Rip *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+							Authentication *struct {
+								Md5 *map[string]struct {
+									Password *string `json:"password,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+						} `json:"rip,omitempty"`
+						SourceValidation *string `json:"source-validation,omitempty"`
+						Ospf             *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Network            *string `json:"network,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							Authentication     *struct {
+								Md5 *struct {
+									KeyId *map[string]struct {
+										Md5Key *string `json:"md5-key,omitempty"`
+									} `json:"key-id,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+							HelloInterval *int `json:"hello-interval,omitempty"`
+						} `json:"ospf,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Enable *struct {
+							RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+							LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+						} `json:"enable,omitempty"`
+						DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+						DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+						Ripng                  *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+						} `json:"ripng,omitempty"`
+						Address *struct {
+							Eui64     *IPv6Net `json:"eui64,omitempty"`
+							Autoconf  *string  `json:"autoconf,omitempty"`
+							Secondary *IPv6Net `json:"secondary,omitempty"`
+						} `json:"address,omitempty"`
+						RouterAdvert *struct {
+							DefaultPreference *string `json:"default-preference,omitempty"`
+							MinInterval       *int    `json:"min-interval,omitempty"`
+							MaxInterval       *int    `json:"max-interval,omitempty"`
+							ReachableTime     *int    `json:"reachable-time,omitempty"`
+							Prefix            *map[string]struct {
+								AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+								OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+								ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+								PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+							} `json:"prefix,omitempty"`
+							NameServer      *IPv6   `json:"name-server,omitempty"`
+							RetransTimer    *int    `json:"retrans-timer,omitempty"`
+							SendAdvert      *bool   `json:"send-advert,omitempty"`
+							RadvdOptions    *string `json:"radvd-options,omitempty"`
+							ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+							OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+							DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+							CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+							LinkMtu         *int    `json:"link-mtu,omitempty"`
+						} `json:"router-advert,omitempty"`
+						Ospfv3 *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							Passive            *string `json:"passive,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							InstanceId         *int    `json:"instance-id,omitempty"`
+							Ifmtu              *int    `json:"ifmtu,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							HelloInterval      *int    `json:"hello-interval,omitempty"`
+						} `json:"ospfv3,omitempty"`
+					} `json:"ipv6,omitempty"`
+					Multilink          *string `json:"multilink,omitempty"`
+					AccessConcentrator *string `json:"access-concentrator,omitempty"`
+				} `json:"pppoe,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				Vrrp *struct {
+					VrrpGroup *map[string]struct {
+						Disable              *string `json:"disable,omitempty"`
+						VirtualAddress       *string `json:"virtual-address,omitempty"`
+						AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+						SyncGroup            *string `json:"sync-group,omitempty"`
+						PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+						RunTransitionScripts *struct {
+							Master *string `json:"master,omitempty"`
+							Fault  *string `json:"fault,omitempty"`
+							Backup *string `json:"backup,omitempty"`
+						} `json:"run-transition-scripts,omitempty"`
+						Preempt            *bool   `json:"preempt,omitempty"`
+						Description        *string `json:"description,omitempty"`
+						HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						Authentication     *struct {
+							Password *string `json:"password,omitempty"`
+							Type     *string `json:"type,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"vrrp-group,omitempty"`
+				} `json:"vrrp,omitempty"`
+				Dhcpv6Pd *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+				Firewall          *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				DhcpOptions *struct {
+					NameServer           *string `json:"name-server,omitempty"`
+					DefaultRoute         *string `json:"default-route,omitempty"`
+					ClientOption         *string `json:"client-option,omitempty"`
+					DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+					GlobalOption         *string `json:"global-option,omitempty"`
+				} `json:"dhcp-options,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Address       *string `json:"address,omitempty"`
+				Redirect      *string `json:"redirect,omitempty"`
+				Dhcpv6Options *struct {
+					ParametersOnly *string `json:"parameters-only,omitempty"`
+					Temporary      *string `json:"temporary,omitempty"`
+				} `json:"dhcpv6-options,omitempty"`
+				Ip *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64    *IPv6Net `json:"eui64,omitempty"`
+						Autoconf *string  `json:"autoconf,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+			} `json:"vif,omitempty"`
+			Address         *string `json:"address,omitempty"`
+			Redirect        *string `json:"redirect,omitempty"`
+			ForwardingDelay *int    `json:"forwarding-delay,omitempty"`
+			Dhcpv6Options   *struct {
+				ParametersOnly *string `json:"parameters-only,omitempty"`
+				Temporary      *string `json:"temporary,omitempty"`
+			} `json:"dhcpv6-options,omitempty"`
+			Priority    *int    `json:"priority,omitempty"`
+			Promiscuous *string `json:"promiscuous,omitempty"`
+			Ip          *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			Aging *int `json:"aging,omitempty"`
+		} `json:"bridge,omitempty"`
+		L2tpClient *map[string]struct {
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			NameServer    *string `json:"name-server,omitempty"`
+			DefaultRoute  *string `json:"default-route,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Firewall *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			ServerIp    *string `json:"server-ip,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Compression *struct {
+				ProtocolField *string `json:"protocol-field,omitempty"`
+				Bsd           *string `json:"bsd,omitempty"`
+				TcpHeader     *string `json:"tcp-header,omitempty"`
+				Deflate       *string `json:"deflate,omitempty"`
+				Control       *string `json:"control,omitempty"`
+			} `json:"compression,omitempty"`
+			Redirect     *string `json:"redirect,omitempty"`
+			RequireIpsec *string `json:"require-ipsec,omitempty"`
+			Ip           *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				Ripng *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			Authentication *struct {
+				Password    *string `json:"password,omitempty"`
+				Refuse      *string `json:"refuse,omitempty"`
+				UserId      *string `json:"user-id,omitempty"`
+				RequireMppe *string `json:"require-mppe,omitempty"`
+			} `json:"authentication,omitempty"`
+		} `json:"l2tp-client,omitempty"`
+		PptpClient *map[string]struct {
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Password      *string `json:"password,omitempty"`
+			RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			NameServer    *string `json:"name-server,omitempty"`
+			DefaultRoute  *string `json:"default-route,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			IdleTimeout     *int    `json:"idle-timeout,omitempty"`
+			ConnectOnDemand *string `json:".connect-on-demand,omitempty"`
+			Firewall        *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			UserId       *string `json:"user-id,omitempty"`
+			ServerIp     *string `json:"server-ip,omitempty"`
+			Description  *string `json:"description,omitempty"`
+			LocalAddress *IPv4   `json:"local-address,omitempty"`
+			RequireMppe  *string `json:"require-mppe,omitempty"`
+			Redirect     *string `json:"redirect,omitempty"`
+			Ip           *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				Enable *struct {
+					RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+					LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+				} `json:"enable,omitempty"`
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64     *IPv6Net `json:"eui64,omitempty"`
+					Autoconf  *string  `json:"autoconf,omitempty"`
+					Secondary *IPv6Net `json:"secondary,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"pptp-client,omitempty"`
+		Ethernet *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			Poe *struct {
+				Output   *string `json:"output,omitempty"`
+				Watchdog *struct {
+					Disable      *string `json:"disable,omitempty"`
+					FailureCount *int    `json:"failure-count,omitempty"`
+					OffDelay     *int    `json:"off-delay,omitempty"`
+					Interval     *int    `json:"interval,omitempty"`
+					StartDelay   *int    `json:"start-delay,omitempty"`
+					Address      *IP     `json:"address,omitempty"`
+				} `json:"watchdog,omitempty"`
+			} `json:"poe,omitempty"`
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Pppoe *map[string]struct {
+				ServiceName *string `json:"service-name,omitempty"`
+				Bandwidth   *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+				HostUniq      *string `json:"host-uniq,omitempty"`
+				Mtu           *int    `json:"mtu,omitempty"`
+				NameServer    *string `json:"name-server,omitempty"`
+				DefaultRoute  *string `json:"default-route,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				IdleTimeout *int `json:"idle-timeout,omitempty"`
+				Dhcpv6Pd    *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+				Firewall        *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				UserId       *string `json:"user-id,omitempty"`
+				Description  *string `json:"description,omitempty"`
+				LocalAddress *IPv4   `json:"local-address,omitempty"`
+				Redirect     *string `json:"redirect,omitempty"`
+				Ip           *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					Enable *struct {
+						RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+						LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+					} `json:"enable,omitempty"`
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64     *IPv6Net `json:"eui64,omitempty"`
+						Autoconf  *string  `json:"autoconf,omitempty"`
+						Secondary *IPv6Net `json:"secondary,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+				Multilink          *string `json:"multilink,omitempty"`
+				AccessConcentrator *string `json:"access-concentrator,omitempty"`
+			} `json:"pppoe,omitempty"`
+			Speed         *string `json:"speed,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Vrrp *struct {
+				VrrpGroup *map[string]struct {
+					Disable              *string `json:"disable,omitempty"`
+					VirtualAddress       *string `json:"virtual-address,omitempty"`
+					AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+					SyncGroup            *string `json:"sync-group,omitempty"`
+					PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+					RunTransitionScripts *struct {
+						Master *string `json:"master,omitempty"`
+						Fault  *string `json:"fault,omitempty"`
+						Backup *string `json:"backup,omitempty"`
+					} `json:"run-transition-scripts,omitempty"`
+					Preempt            *bool   `json:"preempt,omitempty"`
+					Description        *string `json:"description,omitempty"`
+					HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					Authentication     *struct {
+						Password *string `json:"password,omitempty"`
+						Type     *string `json:"type,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"vrrp-group,omitempty"`
+			} `json:"vrrp,omitempty"`
+			Dhcpv6Pd *struct {
+				Pd *map[string]struct {
+					Interface *map[string]struct {
+						StaticMapping *map[string]struct {
+							Identifier  *string `json:"identifier,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+						} `json:"static-mapping,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						PrefixId    *string `json:"prefix-id,omitempty"`
+						HostAddress *string `json:"host-address,omitempty"`
+						Service     *string `json:"service,omitempty"`
+					} `json:"interface,omitempty"`
+					PrefixLength *string `json:"prefix-length,omitempty"`
+				} `json:"pd,omitempty"`
+				Duid        *string `json:"duid,omitempty"`
+				NoDns       *string `json:"no-dns,omitempty"`
+				RapidCommit *string `json:"rapid-commit,omitempty"`
+				PrefixOnly  *string `json:"prefix-only,omitempty"`
+			} `json:"dhcpv6-pd,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Duplex            *string `json:"duplex,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			DisableFlowControl *string  `json:".disable-flow-control,omitempty"`
+			Mac                *MacAddr `json:"mac,omitempty"`
+			DhcpOptions        *struct {
+				NameServer           *string `json:"name-server,omitempty"`
+				DefaultRoute         *string `json:"default-route,omitempty"`
+				ClientOption         *string `json:"client-option,omitempty"`
+				DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+				GlobalOption         *string `json:"global-option,omitempty"`
+			} `json:"dhcp-options,omitempty"`
+			Description *string `json:"description,omitempty"`
+			BondGroup   *string `json:"bond-group,omitempty"`
+			Vif         *map[string]struct {
+				BridgeGroup *struct {
+					Bridge   *string `json:"bridge,omitempty"`
+					Cost     *int    `json:"cost,omitempty"`
+					Priority *int    `json:"priority,omitempty"`
+				} `json:"bridge-group,omitempty"`
+				Disable   *string `json:"disable,omitempty"`
+				Bandwidth *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				EgressQos *string `json:"egress-qos,omitempty"`
+				Pppoe     *map[string]struct {
+					ServiceName *string `json:"service-name,omitempty"`
+					Bandwidth   *struct {
+						Maximum    *string `json:"maximum,omitempty"`
+						Reservable *string `json:"reservable,omitempty"`
+						Constraint *struct {
+							ClassType *map[string]struct {
+								Bandwidth *string `json:"bandwidth,omitempty"`
+							} `json:"class-type,omitempty"`
+						} `json:"constraint,omitempty"`
+					} `json:"bandwidth,omitempty"`
+					Password      *string `json:"password,omitempty"`
+					RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+					HostUniq      *string `json:"host-uniq,omitempty"`
+					Mtu           *int    `json:"mtu,omitempty"`
+					NameServer    *string `json:"name-server,omitempty"`
+					DefaultRoute  *string `json:"default-route,omitempty"`
+					TrafficPolicy *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"traffic-policy,omitempty"`
+					IdleTimeout *int `json:"idle-timeout,omitempty"`
+					Dhcpv6Pd    *struct {
+						Pd *map[string]struct {
+							Interface *map[string]struct {
+								StaticMapping *map[string]struct {
+									Identifier  *string `json:"identifier,omitempty"`
+									HostAddress *string `json:"host-address,omitempty"`
+								} `json:"static-mapping,omitempty"`
+								NoDns       *string `json:"no-dns,omitempty"`
+								PrefixId    *string `json:"prefix-id,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+								Service     *string `json:"service,omitempty"`
+							} `json:"interface,omitempty"`
+							PrefixLength *string `json:"prefix-length,omitempty"`
+						} `json:"pd,omitempty"`
+						Duid        *string `json:"duid,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						RapidCommit *string `json:"rapid-commit,omitempty"`
+						PrefixOnly  *string `json:"prefix-only,omitempty"`
+					} `json:"dhcpv6-pd,omitempty"`
+					ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+					Firewall        *struct {
+						Out *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"out,omitempty"`
+						In *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"in,omitempty"`
+						Local *struct {
+							Name     *string `json:"name,omitempty"`
+							Ipv6Name *string `json:"ipv6-name,omitempty"`
+						} `json:"local,omitempty"`
+					} `json:"firewall,omitempty"`
+					UserId       *string `json:"user-id,omitempty"`
+					Description  *string `json:"description,omitempty"`
+					LocalAddress *IPv4   `json:"local-address,omitempty"`
+					Redirect     *string `json:"redirect,omitempty"`
+					Ip           *struct {
+						Rip *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+							Authentication *struct {
+								Md5 *map[string]struct {
+									Password *string `json:"password,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+						} `json:"rip,omitempty"`
+						SourceValidation *string `json:"source-validation,omitempty"`
+						Ospf             *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Network            *string `json:"network,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							Authentication     *struct {
+								Md5 *struct {
+									KeyId *map[string]struct {
+										Md5Key *string `json:"md5-key,omitempty"`
+									} `json:"key-id,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+							HelloInterval *int `json:"hello-interval,omitempty"`
+						} `json:"ospf,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Enable *struct {
+							RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+							LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+						} `json:"enable,omitempty"`
+						DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+						DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+						Ripng                  *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+						} `json:"ripng,omitempty"`
+						Address *struct {
+							Eui64     *IPv6Net `json:"eui64,omitempty"`
+							Autoconf  *string  `json:"autoconf,omitempty"`
+							Secondary *IPv6Net `json:"secondary,omitempty"`
+						} `json:"address,omitempty"`
+						RouterAdvert *struct {
+							DefaultPreference *string `json:"default-preference,omitempty"`
+							MinInterval       *int    `json:"min-interval,omitempty"`
+							MaxInterval       *int    `json:"max-interval,omitempty"`
+							ReachableTime     *int    `json:"reachable-time,omitempty"`
+							Prefix            *map[string]struct {
+								AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+								OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+								ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+								PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+							} `json:"prefix,omitempty"`
+							NameServer      *IPv6   `json:"name-server,omitempty"`
+							RetransTimer    *int    `json:"retrans-timer,omitempty"`
+							SendAdvert      *bool   `json:"send-advert,omitempty"`
+							RadvdOptions    *string `json:"radvd-options,omitempty"`
+							ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+							OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+							DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+							CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+							LinkMtu         *int    `json:"link-mtu,omitempty"`
+						} `json:"router-advert,omitempty"`
+						Ospfv3 *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							Passive            *string `json:"passive,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							InstanceId         *int    `json:"instance-id,omitempty"`
+							Ifmtu              *int    `json:"ifmtu,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							HelloInterval      *int    `json:"hello-interval,omitempty"`
+						} `json:"ospfv3,omitempty"`
+					} `json:"ipv6,omitempty"`
+					Multilink          *string `json:"multilink,omitempty"`
+					AccessConcentrator *string `json:"access-concentrator,omitempty"`
+				} `json:"pppoe,omitempty"`
+				Mtu           *int `json:"mtu,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				Vrrp *struct {
+					VrrpGroup *map[string]struct {
+						Disable              *string `json:"disable,omitempty"`
+						VirtualAddress       *string `json:"virtual-address,omitempty"`
+						AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+						SyncGroup            *string `json:"sync-group,omitempty"`
+						PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+						RunTransitionScripts *struct {
+							Master *string `json:"master,omitempty"`
+							Fault  *string `json:"fault,omitempty"`
+							Backup *string `json:"backup,omitempty"`
+						} `json:"run-transition-scripts,omitempty"`
+						Preempt            *bool   `json:"preempt,omitempty"`
+						Description        *string `json:"description,omitempty"`
+						HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						Authentication     *struct {
+							Password *string `json:"password,omitempty"`
+							Type     *string `json:"type,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"vrrp-group,omitempty"`
+				} `json:"vrrp,omitempty"`
+				Dhcpv6Pd *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+				Firewall          *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				Mac         *MacAddr `json:"mac,omitempty"`
+				DhcpOptions *struct {
+					NameServer           *string `json:"name-server,omitempty"`
+					DefaultRoute         *string `json:"default-route,omitempty"`
+					ClientOption         *string `json:"client-option,omitempty"`
+					DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+					GlobalOption         *string `json:"global-option,omitempty"`
+				} `json:"dhcp-options,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Address       *string `json:"address,omitempty"`
+				Redirect      *string `json:"redirect,omitempty"`
+				Dhcpv6Options *struct {
+					ParametersOnly *string `json:"parameters-only,omitempty"`
+					Temporary      *string `json:"temporary,omitempty"`
+				} `json:"dhcpv6-options,omitempty"`
+				Ip *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					EnableProxyArp   *string `json:"enable-proxy-arp,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64    *IPv6Net `json:"eui64,omitempty"`
+						Autoconf *string  `json:"autoconf,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+			} `json:"vif,omitempty"`
+			Address       *string `json:"address,omitempty"`
+			Redirect      *string `json:"redirect,omitempty"`
+			SmpAffinity   *string `json:".smp_affinity,omitempty"`
+			Dhcpv6Options *struct {
+				ParametersOnly *string `json:"parameters-only,omitempty"`
+				Temporary      *string `json:"temporary,omitempty"`
+			} `json:"dhcpv6-options,omitempty"`
+			Ip *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				EnableProxyArp   *string `json:"enable-proxy-arp,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			Mirror *string `json:"mirror,omitempty"`
+		} `json:"ethernet,omitempty"`
+		Tunnel *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Encapsulation *string `json:"encapsulation,omitempty"`
+			Multicast     *string `json:"multicast,omitempty"`
+			Ttl           *int    `json:"ttl,omitempty"`
+			Mtu           *int    `json:"mtu,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Key               *int     `json:"key,omitempty"`
+			DisableLinkDetect *string  `json:"disable-link-detect,omitempty"`
+			SixrdPrefix       *IPv6Net `json:"6rd-prefix,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Tos              *int     `json:"tos,omitempty"`
+			SixrdRelayPrefix *IPv4Net `json:"6rd-relay_prefix,omitempty"`
+			Description      *string  `json:"description,omitempty"`
+			Address          *IPNet   `json:"address,omitempty"`
+			Redirect         *string  `json:"redirect,omitempty"`
+			LocalIp          *IPv4    `json:"local-ip,omitempty"`
+			RemoteIp         *IPv4    `json:"remote-ip,omitempty"`
+			SixrdDefaultGw   *IPv6    `json:"6rd-default-gw,omitempty"`
+			Ip               *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"tunnel,omitempty"`
+		Openvpn *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			Encryption *string `json:"encryption,omitempty"`
+			Disable    *string `json:"disable,omitempty"`
+			RemoteHost *string `json:"remote-host,omitempty"`
+			Bandwidth  *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			ReplaceDefaultRoute *struct {
+				Local *string `json:"local,omitempty"`
+			} `json:"replace-default-route,omitempty"`
+			OpenvpnOption       *string `json:"openvpn-option,omitempty"`
+			RemoteAddress       *IPv4   `json:"remote-address,omitempty"`
+			Mode                *string `json:"mode,omitempty"`
+			Hash                *string `json:"hash,omitempty"`
+			DeviceType          *string `json:"device-type,omitempty"`
+			SharedSecretKeyFile *string `json:"shared-secret-key-file,omitempty"`
+			LocalHost           *IPv4   `json:"local-host,omitempty"`
+			TrafficPolicy       *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Server *struct {
+				PushRoute      *IPv4Net `json:"push-route,omitempty"`
+				Topology       *string  `json:"topology,omitempty"`
+				NameServer     *IPv4    `json:"name-server,omitempty"`
+				DomainName     *string  `json:"domain-name,omitempty"`
+				MaxConnections *int     `json:"max-connections,omitempty"`
+				Subnet         *IPv4Net `json:"subnet,omitempty"`
+				Client         *map[string]struct {
+					PushRoute *IPv4Net `json:"push-route,omitempty"`
+					Disable   *string  `json:"disable,omitempty"`
+					Ip        *IPv4    `json:"ip,omitempty"`
+					Subnet    *IPv4Net `json:"subnet,omitempty"`
+				} `json:"client,omitempty"`
+			} `json:"server,omitempty"`
+			Protocol *string `json:"protocol,omitempty"`
+			Firewall *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Tls *struct {
+				CrlFile    *string `json:"crl-file,omitempty"`
+				Role       *string `json:"role,omitempty"`
+				KeyFile    *string `json:"key-file,omitempty"`
+				DhFile     *string `json:"dh-file,omitempty"`
+				CaCertFile *string `json:"ca-cert-file,omitempty"`
+				CertFile   *string `json:"cert-file,omitempty"`
+			} `json:"tls,omitempty"`
+			Description  *string `json:"description,omitempty"`
+			LocalAddress *map[string]struct {
+				SubnetMask *IPv4 `json:"subnet-mask,omitempty"`
+			} `json:"local-address,omitempty"`
+			LocalPort *int    `json:"local-port,omitempty"`
+			Redirect  *string `json:"redirect,omitempty"`
+			Ip        *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+			RemotePort *int    `json:"remote-port,omitempty"`
+			ConfigFile *string `json:"config-file,omitempty"`
+		} `json:"openvpn,omitempty"`
+		Loopback *map[string]struct {
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Address     *IPNet  `json:"address,omitempty"`
+			Redirect    *string `json:"redirect,omitempty"`
+			Ip          *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				Ripng *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"loopback,omitempty"`
+		Switch *map[string]struct {
+			BridgeGroup *struct {
+				Bridge   *string `json:"bridge,omitempty"`
+				Cost     *int    `json:"cost,omitempty"`
+				Priority *int    `json:"priority,omitempty"`
+			} `json:"bridge-group,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Pppoe *map[string]struct {
+				ServiceName *string `json:"service-name,omitempty"`
+				Bandwidth   *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+				HostUniq      *string `json:"host-uniq,omitempty"`
+				Mtu           *int    `json:"mtu,omitempty"`
+				NameServer    *string `json:"name-server,omitempty"`
+				DefaultRoute  *string `json:"default-route,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				IdleTimeout *int `json:"idle-timeout,omitempty"`
+				Dhcpv6Pd    *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+				Firewall        *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				UserId       *string `json:"user-id,omitempty"`
+				Description  *string `json:"description,omitempty"`
+				LocalAddress *IPv4   `json:"local-address,omitempty"`
+				Redirect     *string `json:"redirect,omitempty"`
+				Ip           *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					Enable *struct {
+						RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+						LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+					} `json:"enable,omitempty"`
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64     *IPv6Net `json:"eui64,omitempty"`
+						Autoconf  *string  `json:"autoconf,omitempty"`
+						Secondary *IPv6Net `json:"secondary,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+				Multilink          *string `json:"multilink,omitempty"`
+				AccessConcentrator *string `json:"access-concentrator,omitempty"`
+			} `json:"pppoe,omitempty"`
+			Mtu        *int `json:"mtu,omitempty"`
+			SwitchPort *struct {
+				Interface *map[string]struct {
+					Vlan *struct {
+						Vid  *int `json:"vid,omitempty"`
+						Pvid *int `json:"pvid,omitempty"`
+					} `json:"vlan,omitempty"`
+				} `json:"interface,omitempty"`
+				VlanAware *string `json:"vlan-aware,omitempty"`
+			} `json:"switch-port,omitempty"`
+			TrafficPolicy *struct {
+				Out *string `json:"out,omitempty"`
+				In  *string `json:"in,omitempty"`
+			} `json:"traffic-policy,omitempty"`
+			Vrrp *struct {
+				VrrpGroup *map[string]struct {
+					Disable              *string `json:"disable,omitempty"`
+					VirtualAddress       *string `json:"virtual-address,omitempty"`
+					AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+					SyncGroup            *string `json:"sync-group,omitempty"`
+					PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+					RunTransitionScripts *struct {
+						Master *string `json:"master,omitempty"`
+						Fault  *string `json:"fault,omitempty"`
+						Backup *string `json:"backup,omitempty"`
+					} `json:"run-transition-scripts,omitempty"`
+					Preempt            *bool   `json:"preempt,omitempty"`
+					Description        *string `json:"description,omitempty"`
+					HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					Authentication     *struct {
+						Password *string `json:"password,omitempty"`
+						Type     *string `json:"type,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"vrrp-group,omitempty"`
+			} `json:"vrrp,omitempty"`
+			Dhcpv6Pd *struct {
+				Pd *map[string]struct {
+					Interface *map[string]struct {
+						StaticMapping *map[string]struct {
+							Identifier  *string `json:"identifier,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+						} `json:"static-mapping,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						PrefixId    *string `json:"prefix-id,omitempty"`
+						HostAddress *string `json:"host-address,omitempty"`
+						Service     *string `json:"service,omitempty"`
+					} `json:"interface,omitempty"`
+					PrefixLength *string `json:"prefix-length,omitempty"`
+				} `json:"pd,omitempty"`
+				Duid        *string `json:"duid,omitempty"`
+				NoDns       *string `json:"no-dns,omitempty"`
+				RapidCommit *string `json:"rapid-commit,omitempty"`
+				PrefixOnly  *string `json:"prefix-only,omitempty"`
+			} `json:"dhcpv6-pd,omitempty"`
+			Firewall *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			DhcpOptions *struct {
+				NameServer           *string `json:"name-server,omitempty"`
+				DefaultRoute         *string `json:"default-route,omitempty"`
+				ClientOption         *string `json:"client-option,omitempty"`
+				DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+				GlobalOption         *string `json:"global-option,omitempty"`
+			} `json:"dhcp-options,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Vif         *map[string]struct {
+				BridgeGroup *struct {
+					Bridge   *string `json:"bridge,omitempty"`
+					Cost     *int    `json:"cost,omitempty"`
+					Priority *int    `json:"priority,omitempty"`
+				} `json:"bridge-group,omitempty"`
+				Disable   *string `json:"disable,omitempty"`
+				Bandwidth *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Pppoe *map[string]struct {
+					ServiceName *string `json:"service-name,omitempty"`
+					Bandwidth   *struct {
+						Maximum    *string `json:"maximum,omitempty"`
+						Reservable *string `json:"reservable,omitempty"`
+						Constraint *struct {
+							ClassType *map[string]struct {
+								Bandwidth *string `json:"bandwidth,omitempty"`
+							} `json:"class-type,omitempty"`
+						} `json:"constraint,omitempty"`
+					} `json:"bandwidth,omitempty"`
+					Password      *string `json:"password,omitempty"`
+					RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+					HostUniq      *string `json:"host-uniq,omitempty"`
+					Mtu           *int    `json:"mtu,omitempty"`
+					NameServer    *string `json:"name-server,omitempty"`
+					DefaultRoute  *string `json:"default-route,omitempty"`
+					TrafficPolicy *struct {
+						Out *string `json:"out,omitempty"`
+						In  *string `json:"in,omitempty"`
+					} `json:"traffic-policy,omitempty"`
+					IdleTimeout *int `json:"idle-timeout,omitempty"`
+					Dhcpv6Pd    *struct {
+						Pd *map[string]struct {
+							Interface *map[string]struct {
+								StaticMapping *map[string]struct {
+									Identifier  *string `json:"identifier,omitempty"`
+									HostAddress *string `json:"host-address,omitempty"`
+								} `json:"static-mapping,omitempty"`
+								NoDns       *string `json:"no-dns,omitempty"`
+								PrefixId    *string `json:"prefix-id,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+								Service     *string `json:"service,omitempty"`
+							} `json:"interface,omitempty"`
+							PrefixLength *string `json:"prefix-length,omitempty"`
+						} `json:"pd,omitempty"`
+						Duid        *string `json:"duid,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						RapidCommit *string `json:"rapid-commit,omitempty"`
+						PrefixOnly  *string `json:"prefix-only,omitempty"`
+					} `json:"dhcpv6-pd,omitempty"`
+					ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+					Firewall        *struct {
+						Out *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"out,omitempty"`
+						In *struct {
+							Modify     *string `json:"modify,omitempty"`
+							Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+							Name       *string `json:"name,omitempty"`
+							Ipv6Name   *string `json:"ipv6-name,omitempty"`
+						} `json:"in,omitempty"`
+						Local *struct {
+							Name     *string `json:"name,omitempty"`
+							Ipv6Name *string `json:"ipv6-name,omitempty"`
+						} `json:"local,omitempty"`
+					} `json:"firewall,omitempty"`
+					UserId       *string `json:"user-id,omitempty"`
+					Description  *string `json:"description,omitempty"`
+					LocalAddress *IPv4   `json:"local-address,omitempty"`
+					Redirect     *string `json:"redirect,omitempty"`
+					Ip           *struct {
+						Rip *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+							Authentication *struct {
+								Md5 *map[string]struct {
+									Password *string `json:"password,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+						} `json:"rip,omitempty"`
+						SourceValidation *string `json:"source-validation,omitempty"`
+						Ospf             *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Network            *string `json:"network,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							Authentication     *struct {
+								Md5 *struct {
+									KeyId *map[string]struct {
+										Md5Key *string `json:"md5-key,omitempty"`
+									} `json:"key-id,omitempty"`
+								} `json:"md5,omitempty"`
+								PlaintextPassword *string `json:"plaintext-password,omitempty"`
+							} `json:"authentication,omitempty"`
+							HelloInterval *int `json:"hello-interval,omitempty"`
+						} `json:"ospf,omitempty"`
+					} `json:"ip,omitempty"`
+					Ipv6 *struct {
+						Enable *struct {
+							RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+							LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+						} `json:"enable,omitempty"`
+						DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+						DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+						Ripng                  *struct {
+							SplitHorizon *struct {
+								Disable       *string `json:"disable,omitempty"`
+								PoisonReverse *string `json:"poison-reverse,omitempty"`
+							} `json:"split-horizon,omitempty"`
+						} `json:"ripng,omitempty"`
+						Address *struct {
+							Eui64     *IPv6Net `json:"eui64,omitempty"`
+							Autoconf  *string  `json:"autoconf,omitempty"`
+							Secondary *IPv6Net `json:"secondary,omitempty"`
+						} `json:"address,omitempty"`
+						RouterAdvert *struct {
+							DefaultPreference *string `json:"default-preference,omitempty"`
+							MinInterval       *int    `json:"min-interval,omitempty"`
+							MaxInterval       *int    `json:"max-interval,omitempty"`
+							ReachableTime     *int    `json:"reachable-time,omitempty"`
+							Prefix            *map[string]struct {
+								AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+								OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+								ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+								PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+							} `json:"prefix,omitempty"`
+							NameServer      *IPv6   `json:"name-server,omitempty"`
+							RetransTimer    *int    `json:"retrans-timer,omitempty"`
+							SendAdvert      *bool   `json:"send-advert,omitempty"`
+							RadvdOptions    *string `json:"radvd-options,omitempty"`
+							ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+							OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+							DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+							CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+							LinkMtu         *int    `json:"link-mtu,omitempty"`
+						} `json:"router-advert,omitempty"`
+						Ospfv3 *struct {
+							RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+							TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+							Cost               *int    `json:"cost,omitempty"`
+							Passive            *string `json:"passive,omitempty"`
+							DeadInterval       *int    `json:"dead-interval,omitempty"`
+							InstanceId         *int    `json:"instance-id,omitempty"`
+							Ifmtu              *int    `json:"ifmtu,omitempty"`
+							Priority           *int    `json:"priority,omitempty"`
+							MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+							HelloInterval      *int    `json:"hello-interval,omitempty"`
+						} `json:"ospfv3,omitempty"`
+					} `json:"ipv6,omitempty"`
+					Multilink          *string `json:"multilink,omitempty"`
+					AccessConcentrator *string `json:"access-concentrator,omitempty"`
+				} `json:"pppoe,omitempty"`
+				Mtu           *int `json:"mtu,omitempty"`
+				TrafficPolicy *struct {
+					Out *string `json:"out,omitempty"`
+					In  *string `json:"in,omitempty"`
+				} `json:"traffic-policy,omitempty"`
+				Vrrp *struct {
+					VrrpGroup *map[string]struct {
+						Disable              *string `json:"disable,omitempty"`
+						VirtualAddress       *string `json:"virtual-address,omitempty"`
+						AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+						SyncGroup            *string `json:"sync-group,omitempty"`
+						PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+						RunTransitionScripts *struct {
+							Master *string `json:"master,omitempty"`
+							Fault  *string `json:"fault,omitempty"`
+							Backup *string `json:"backup,omitempty"`
+						} `json:"run-transition-scripts,omitempty"`
+						Preempt            *bool   `json:"preempt,omitempty"`
+						Description        *string `json:"description,omitempty"`
+						HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						Authentication     *struct {
+							Password *string `json:"password,omitempty"`
+							Type     *string `json:"type,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"vrrp-group,omitempty"`
+				} `json:"vrrp,omitempty"`
+				Dhcpv6Pd *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				Firewall *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				Mac         *MacAddr `json:"mac,omitempty"`
+				DhcpOptions *struct {
+					NameServer           *string `json:"name-server,omitempty"`
+					DefaultRoute         *string `json:"default-route,omitempty"`
+					ClientOption         *string `json:"client-option,omitempty"`
+					DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+					GlobalOption         *string `json:"global-option,omitempty"`
+				} `json:"dhcp-options,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Address       *string `json:"address,omitempty"`
+				Redirect      *string `json:"redirect,omitempty"`
+				Dhcpv6Options *struct {
+					ParametersOnly *string `json:"parameters-only,omitempty"`
+					Temporary      *string `json:"temporary,omitempty"`
+				} `json:"dhcpv6-options,omitempty"`
+				Ip *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					EnableProxyArp   *string `json:"enable-proxy-arp,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64    *IPv6Net `json:"eui64,omitempty"`
+						Autoconf *string  `json:"autoconf,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+			} `json:"vif,omitempty"`
+			Address       *string `json:"address,omitempty"`
+			Redirect      *string `json:"redirect,omitempty"`
+			Dhcpv6Options *struct {
+				ParametersOnly *string `json:"parameters-only,omitempty"`
+				Temporary      *string `json:"temporary,omitempty"`
+			} `json:"dhcpv6-options,omitempty"`
+			Ip *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				EnableProxyArp   *string `json:"enable-proxy-arp,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"switch,omitempty"`
+		PseudoEthernet *map[string]struct {
+			Disable   *string `json:"disable,omitempty"`
+			Bandwidth *struct {
+				Maximum    *string `json:"maximum,omitempty"`
+				Reservable *string `json:"reservable,omitempty"`
+				Constraint *struct {
+					ClassType *map[string]struct {
+						Bandwidth *string `json:"bandwidth,omitempty"`
+					} `json:"class-type,omitempty"`
+				} `json:"constraint,omitempty"`
+			} `json:"bandwidth,omitempty"`
+			Pppoe *map[string]struct {
+				ServiceName *string `json:"service-name,omitempty"`
+				Bandwidth   *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Password      *string `json:"password,omitempty"`
+				RemoteAddress *IPv4   `json:"remote-address,omitempty"`
+				HostUniq      *string `json:"host-uniq,omitempty"`
+				Mtu           *int    `json:"mtu,omitempty"`
+				NameServer    *string `json:"name-server,omitempty"`
+				DefaultRoute  *string `json:"default-route,omitempty"`
+				IdleTimeout   *int    `json:"idle-timeout,omitempty"`
+				Dhcpv6Pd      *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				ConnectOnDemand *string `json:"connect-on-demand,omitempty"`
+				Firewall        *struct {
+					Out *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"out,omitempty"`
+					In *struct {
+						Modify     *string `json:"modify,omitempty"`
+						Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+						Name       *string `json:"name,omitempty"`
+						Ipv6Name   *string `json:"ipv6-name,omitempty"`
+					} `json:"in,omitempty"`
+					Local *struct {
+						Name     *string `json:"name,omitempty"`
+						Ipv6Name *string `json:"ipv6-name,omitempty"`
+					} `json:"local,omitempty"`
+				} `json:"firewall,omitempty"`
+				UserId       *string `json:"user-id,omitempty"`
+				Description  *string `json:"description,omitempty"`
+				LocalAddress *IPv4   `json:"local-address,omitempty"`
+				Ip           *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					Enable *struct {
+						RemoteIdentifier *IPv6 `json:"remote-identifier,omitempty"`
+						LocalIdentifier  *IPv6 `json:"local-identifier,omitempty"`
+					} `json:"enable,omitempty"`
+					DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+					DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+					Ripng                  *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Address *struct {
+						Eui64     *IPv6Net `json:"eui64,omitempty"`
+						Autoconf  *string  `json:"autoconf,omitempty"`
+						Secondary *IPv6Net `json:"secondary,omitempty"`
+					} `json:"address,omitempty"`
+					RouterAdvert *struct {
+						DefaultPreference *string `json:"default-preference,omitempty"`
+						MinInterval       *int    `json:"min-interval,omitempty"`
+						MaxInterval       *int    `json:"max-interval,omitempty"`
+						ReachableTime     *int    `json:"reachable-time,omitempty"`
+						Prefix            *map[string]struct {
+							AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+							OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+							ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+							PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+						} `json:"prefix,omitempty"`
+						NameServer      *IPv6   `json:"name-server,omitempty"`
+						RetransTimer    *int    `json:"retrans-timer,omitempty"`
+						SendAdvert      *bool   `json:"send-advert,omitempty"`
+						RadvdOptions    *string `json:"radvd-options,omitempty"`
+						ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+						OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+						DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+						CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+						LinkMtu         *int    `json:"link-mtu,omitempty"`
+					} `json:"router-advert,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+				Multilink          *string `json:"multilink,omitempty"`
+				AccessConcentrator *string `json:"access-concentrator,omitempty"`
+			} `json:"pppoe,omitempty"`
+			Vrrp *struct {
+				VrrpGroup *map[string]struct {
+					Disable              *string `json:"disable,omitempty"`
+					VirtualAddress       *string `json:"virtual-address,omitempty"`
+					AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+					SyncGroup            *string `json:"sync-group,omitempty"`
+					PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+					RunTransitionScripts *struct {
+						Master *string `json:"master,omitempty"`
+						Fault  *string `json:"fault,omitempty"`
+						Backup *string `json:"backup,omitempty"`
+					} `json:"run-transition-scripts,omitempty"`
+					Preempt            *bool   `json:"preempt,omitempty"`
+					Description        *string `json:"description,omitempty"`
+					HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					Authentication     *struct {
+						Password *string `json:"password,omitempty"`
+						Type     *string `json:"type,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"vrrp-group,omitempty"`
+			} `json:"vrrp,omitempty"`
+			Dhcpv6Pd *struct {
+				Pd *map[string]struct {
+					Interface *map[string]struct {
+						StaticMapping *map[string]struct {
+							Identifier  *string `json:"identifier,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+						} `json:"static-mapping,omitempty"`
+						NoDns       *string `json:"no-dns,omitempty"`
+						PrefixId    *string `json:"prefix-id,omitempty"`
+						HostAddress *string `json:"host-address,omitempty"`
+						Service     *string `json:"service,omitempty"`
+					} `json:"interface,omitempty"`
+					PrefixLength *string `json:"prefix-length,omitempty"`
+				} `json:"pd,omitempty"`
+				Duid        *string `json:"duid,omitempty"`
+				NoDns       *string `json:"no-dns,omitempty"`
+				RapidCommit *string `json:"rapid-commit,omitempty"`
+				PrefixOnly  *string `json:"prefix-only,omitempty"`
+			} `json:"dhcpv6-pd,omitempty"`
+			DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+			Firewall          *struct {
+				Out *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"out,omitempty"`
+				In *struct {
+					Modify     *string `json:"modify,omitempty"`
+					Ipv6Modify *string `json:"ipv6-modify,omitempty"`
+					Name       *string `json:"name,omitempty"`
+					Ipv6Name   *string `json:"ipv6-name,omitempty"`
+				} `json:"in,omitempty"`
+				Local *struct {
+					Name     *string `json:"name,omitempty"`
+					Ipv6Name *string `json:"ipv6-name,omitempty"`
+				} `json:"local,omitempty"`
+			} `json:"firewall,omitempty"`
+			Mac         *MacAddr `json:"mac,omitempty"`
+			DhcpOptions *struct {
+				NameServer           *string `json:"name-server,omitempty"`
+				DefaultRoute         *string `json:"default-route,omitempty"`
+				ClientOption         *string `json:"client-option,omitempty"`
+				DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+				GlobalOption         *string `json:"global-option,omitempty"`
+			} `json:"dhcp-options,omitempty"`
+			Link        *string `json:"link,omitempty"`
+			Description *string `json:"description,omitempty"`
+			Vif         *map[string]struct {
+				Disable   *string `json:"disable,omitempty"`
+				Bandwidth *struct {
+					Maximum    *string `json:"maximum,omitempty"`
+					Reservable *string `json:"reservable,omitempty"`
+					Constraint *struct {
+						ClassType *map[string]struct {
+							Bandwidth *string `json:"bandwidth,omitempty"`
+						} `json:"class-type,omitempty"`
+					} `json:"constraint,omitempty"`
+				} `json:"bandwidth,omitempty"`
+				Vrrp *struct {
+					VrrpGroup *map[string]struct {
+						Disable              *string `json:"disable,omitempty"`
+						VirtualAddress       *string `json:"virtual-address,omitempty"`
+						AdvertiseInterval    *int    `json:"advertise-interval,omitempty"`
+						SyncGroup            *string `json:"sync-group,omitempty"`
+						PreemptDelay         *int    `json:"preempt-delay,omitempty"`
+						RunTransitionScripts *struct {
+							Master *string `json:"master,omitempty"`
+							Fault  *string `json:"fault,omitempty"`
+							Backup *string `json:"backup,omitempty"`
+						} `json:"run-transition-scripts,omitempty"`
+						Preempt            *bool   `json:"preempt,omitempty"`
+						Description        *string `json:"description,omitempty"`
+						HelloSourceAddress *IPv4   `json:"hello-source-address,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						Authentication     *struct {
+							Password *string `json:"password,omitempty"`
+							Type     *string `json:"type,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"vrrp-group,omitempty"`
+				} `json:"vrrp,omitempty"`
+				Dhcpv6Pd *struct {
+					Pd *map[string]struct {
+						Interface *map[string]struct {
+							StaticMapping *map[string]struct {
+								Identifier  *string `json:"identifier,omitempty"`
+								HostAddress *string `json:"host-address,omitempty"`
+							} `json:"static-mapping,omitempty"`
+							NoDns       *string `json:"no-dns,omitempty"`
+							PrefixId    *string `json:"prefix-id,omitempty"`
+							HostAddress *string `json:"host-address,omitempty"`
+							Service     *string `json:"service,omitempty"`
+						} `json:"interface,omitempty"`
+						PrefixLength *string `json:"prefix-length,omitempty"`
+					} `json:"pd,omitempty"`
+					Duid        *string `json:"duid,omitempty"`
+					NoDns       *string `json:"no-dns,omitempty"`
+					RapidCommit *string `json:"rapid-commit,omitempty"`
+					PrefixOnly  *string `json:"prefix-only,omitempty"`
+				} `json:"dhcpv6-pd,omitempty"`
+				DisableLinkDetect *string `json:"disable-link-detect,omitempty"`
+				DhcpOptions       *struct {
+					NameServer           *string `json:"name-server,omitempty"`
+					DefaultRoute         *string `json:"default-route,omitempty"`
+					ClientOption         *string `json:"client-option,omitempty"`
+					DefaultRouteDistance *int    `json:"default-route-distance,omitempty"`
+					GlobalOption         *string `json:"global-option,omitempty"`
+				} `json:"dhcp-options,omitempty"`
+				Description   *string `json:"description,omitempty"`
+				Address       *string `json:"address,omitempty"`
+				Dhcpv6Options *struct {
+					ParametersOnly *string `json:"parameters-only,omitempty"`
+					Temporary      *string `json:"temporary,omitempty"`
+				} `json:"dhcpv6-options,omitempty"`
+				Ip *struct {
+					Rip *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+						Authentication *struct {
+							Md5 *map[string]struct {
+								Password *string `json:"password,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+					} `json:"rip,omitempty"`
+					SourceValidation *string `json:"source-validation,omitempty"`
+					ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+					Ospf             *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Network            *string `json:"network,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						Authentication     *struct {
+							Md5 *struct {
+								KeyId *map[string]struct {
+									Md5Key *string `json:"md5-key,omitempty"`
+								} `json:"key-id,omitempty"`
+							} `json:"md5,omitempty"`
+							PlaintextPassword *string `json:"plaintext-password,omitempty"`
+						} `json:"authentication,omitempty"`
+						HelloInterval *int `json:"hello-interval,omitempty"`
+					} `json:"ospf,omitempty"`
+				} `json:"ip,omitempty"`
+				Ipv6 *struct {
+					Ripng *struct {
+						SplitHorizon *struct {
+							Disable       *string `json:"disable,omitempty"`
+							PoisonReverse *string `json:"poison-reverse,omitempty"`
+						} `json:"split-horizon,omitempty"`
+					} `json:"ripng,omitempty"`
+					Ospfv3 *struct {
+						RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+						TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+						Cost               *int    `json:"cost,omitempty"`
+						Passive            *string `json:"passive,omitempty"`
+						DeadInterval       *int    `json:"dead-interval,omitempty"`
+						InstanceId         *int    `json:"instance-id,omitempty"`
+						Ifmtu              *int    `json:"ifmtu,omitempty"`
+						Priority           *int    `json:"priority,omitempty"`
+						MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+						HelloInterval      *int    `json:"hello-interval,omitempty"`
+					} `json:"ospfv3,omitempty"`
+				} `json:"ipv6,omitempty"`
+			} `json:"vif,omitempty"`
+			Address       *string `json:"address,omitempty"`
+			Dhcpv6Options *struct {
+				ParametersOnly *string `json:"parameters-only,omitempty"`
+				Temporary      *string `json:"temporary,omitempty"`
+			} `json:"dhcpv6-options,omitempty"`
+			Ip *struct {
+				Rip *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+					Authentication *struct {
+						Md5 *map[string]struct {
+							Password *string `json:"password,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+				} `json:"rip,omitempty"`
+				SourceValidation *string `json:"source-validation,omitempty"`
+				ProxyArpPvlan    *string `json:"proxy-arp-pvlan,omitempty"`
+				Ospf             *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Network            *string `json:"network,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					Authentication     *struct {
+						Md5 *struct {
+							KeyId *map[string]struct {
+								Md5Key *string `json:"md5-key,omitempty"`
+							} `json:"key-id,omitempty"`
+						} `json:"md5,omitempty"`
+						PlaintextPassword *string `json:"plaintext-password,omitempty"`
+					} `json:"authentication,omitempty"`
+					HelloInterval *int `json:"hello-interval,omitempty"`
+				} `json:"ospf,omitempty"`
+			} `json:"ip,omitempty"`
+			Ipv6 *struct {
+				DupAddrDetectTransmits *int    `json:"dup-addr-detect-transmits,omitempty"`
+				DisableForwarding      *string `json:"disable-forwarding,omitempty"`
+				Ripng                  *struct {
+					SplitHorizon *struct {
+						Disable       *string `json:"disable,omitempty"`
+						PoisonReverse *string `json:"poison-reverse,omitempty"`
+					} `json:"split-horizon,omitempty"`
+				} `json:"ripng,omitempty"`
+				Address *struct {
+					Eui64    *IPv6Net `json:"eui64,omitempty"`
+					Autoconf *string  `json:"autoconf,omitempty"`
+				} `json:"address,omitempty"`
+				RouterAdvert *struct {
+					DefaultPreference *string `json:"default-preference,omitempty"`
+					MinInterval       *int    `json:"min-interval,omitempty"`
+					MaxInterval       *int    `json:"max-interval,omitempty"`
+					ReachableTime     *int    `json:"reachable-time,omitempty"`
+					Prefix            *map[string]struct {
+						AutonomousFlag    *bool   `json:"autonomous-flag,omitempty"`
+						OnLinkFlag        *bool   `json:"on-link-flag,omitempty"`
+						ValidLifetime     *string `json:"valid-lifetime,omitempty"`
+						PreferredLifetime *string `json:"preferred-lifetime,omitempty"`
+					} `json:"prefix,omitempty"`
+					NameServer      *IPv6   `json:"name-server,omitempty"`
+					RetransTimer    *int    `json:"retrans-timer,omitempty"`
+					SendAdvert      *bool   `json:"send-advert,omitempty"`
+					RadvdOptions    *string `json:"radvd-options,omitempty"`
+					ManagedFlag     *bool   `json:"managed-flag,omitempty"`
+					OtherConfigFlag *bool   `json:"other-config-flag,omitempty"`
+					DefaultLifetime *int    `json:"default-lifetime,omitempty"`
+					CurHopLimit     *int    `json:"cur-hop-limit,omitempty"`
+					LinkMtu         *int    `json:"link-mtu,omitempty"`
+				} `json:"router-advert,omitempty"`
+				Ospfv3 *struct {
+					RetransmitInterval *int    `json:"retransmit-interval,omitempty"`
+					TransmitDelay      *int    `json:"transmit-delay,omitempty"`
+					Cost               *int    `json:"cost,omitempty"`
+					Passive            *string `json:"passive,omitempty"`
+					DeadInterval       *int    `json:"dead-interval,omitempty"`
+					InstanceId         *int    `json:"instance-id,omitempty"`
+					Ifmtu              *int    `json:"ifmtu,omitempty"`
+					Priority           *int    `json:"priority,omitempty"`
+					MtuIgnore          *string `json:"mtu-ignore,omitempty"`
+					HelloInterval      *int    `json:"hello-interval,omitempty"`
+				} `json:"ospfv3,omitempty"`
+			} `json:"ipv6,omitempty"`
+		} `json:"pseudo-ethernet,omitempty"`
+	} `json:"interfaces,omitempty"`
+	CustomAttribute *map[string]struct {
+		Value *string `json:"value,omitempty"`
+	} `json:"custom-attribute,omitempty"`
 }
