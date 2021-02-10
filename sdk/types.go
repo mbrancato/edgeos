@@ -3,9 +3,9 @@ package sdk
 import (
 	"encoding/json"
 	"fmt"
-	"net"
-
 	libcalico "github.com/projectcalico/libcalico-go/lib/net"
+	"net"
+	"strconv"
 )
 
 type IP struct {
@@ -35,6 +35,8 @@ type IPv4Net struct {
 type MacAddr struct {
 	libcalico.MAC
 }
+
+type EdgeOSInt int
 
 func (i *IPv4) UnmarshalJSON(data []byte) error {
 	if err := i.UnmarshalText(data); err != nil {
@@ -119,3 +121,23 @@ func ParseCIDRv6(data string) (*net.IPNet, error) {
 
 	return netIPNet, nil
 }
+
+func (e EdgeOSInt) MarshalJSON() ([]byte, error) {
+	s := strconv.Itoa(int(e))
+	return json.Marshal(s)
+}
+
+func (e EdgeOSInt) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+
+	if i, err := strconv.Atoi(s); err != nil {
+		return fmt.Errorf("failed to parse integer value: %v", err)
+	} else {
+		e = EdgeOSInt(i)
+	}
+	return nil
+}
+
