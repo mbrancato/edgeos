@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./sdk"
 	"fmt"
 	"os"
 
+	"github.com/mbrancato/edgeos/sdk"
 	"github.com/jessevdk/go-flags"
 )
 
