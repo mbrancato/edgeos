@@ -8,6 +8,22 @@ import (
 
 var emptyString = []byte(`""`)
 
+type Config struct {
+	ZonePolicy      *ConfigZonePolicy                 `json:"zone-policy,omitempty"`
+	LoadBalance     *ConfigLoadBalance                `json:"load-balance,omitempty"`
+	PortForward     *ConfigPortForward                `json:"port-forward,omitempty"`
+	Vpn             *ConfigVpn                        `json:"vpn,omitempty"`
+	TrafficPolicy   *ConfigTrafficPolicy              `json:"traffic-policy,omitempty"`
+	Firewall        *ConfigFirewall                   `json:"firewall,omitempty"`
+	System          *ConfigSystem                     `json:"system,omitempty"`
+	TrafficControl  *ConfigTrafficControl             `json:"traffic-control,omitempty"`
+	Service         *ConfigService                    `json:"service,omitempty"`
+	Protocols       *ConfigProtocols                  `json:"protocols,omitempty"`
+	Policy          *ConfigPolicy                     `json:"policy,omitempty"`
+	Interfaces      *ConfigInterfaces                 `json:"interfaces,omitempty"`
+	CustomAttribute *map[string]ConfigCustomAttribute `json:"custom-attribute,omitempty"`
+}
+
 type ConfigZonePolicy struct {
 	Zone *map[string]ConfigZonePolicyZone `json:"zone,omitempty"`
 }
@@ -12146,27 +12162,7 @@ type ConfigInterfacesPseudoEthernetIpv6Ospfv3 struct {
 }
 
 type ConfigCustomAttribute struct {
-	NodeTag *ConfigCustomAttributeNodeTag `json:"node.tag,omitempty"`
-}
-
-type ConfigCustomAttributeNodeTag struct {
 	Value string `json:"value,omitempty"`
-}
-
-type Config struct {
-	ZonePolicy      *ConfigZonePolicy      `json:"zone-policy,omitempty"`
-	LoadBalance     *ConfigLoadBalance     `json:"load-balance,omitempty"`
-	PortForward     *ConfigPortForward     `json:"port-forward,omitempty"`
-	Vpn             *ConfigVpn             `json:"vpn,omitempty"`
-	TrafficPolicy   *ConfigTrafficPolicy   `json:"traffic-policy,omitempty"`
-	Firewall        *ConfigFirewall        `json:"firewall,omitempty"`
-	System          *ConfigSystem          `json:"system,omitempty"`
-	TrafficControl  *ConfigTrafficControl  `json:"traffic-control,omitempty"`
-	Service         *ConfigService         `json:"service,omitempty"`
-	Protocols       *ConfigProtocols       `json:"protocols,omitempty"`
-	Policy          *ConfigPolicy          `json:"policy,omitempty"`
-	Interfaces      *ConfigInterfaces      `json:"interfaces,omitempty"`
-	CustomAttribute *ConfigCustomAttribute `json:"custom-attribute,omitempty"`
 }
 
 func (e *ConfigZonePolicy) UnmarshalJSON(b []byte) error {
@@ -12199,6 +12195,30 @@ func (e *ConfigZonePolicyZoneFrom) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 	type t ConfigZonePolicyZoneFrom
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigZonePolicyZoneFromContentInspection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigZonePolicyZoneFromContentInspection{}
+		return nil
+	}
+	type t ConfigZonePolicyZoneFromContentInspection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigZonePolicyZoneFromFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigZonePolicyZoneFromFirewall{}
+		return nil
+	}
+	type t ConfigZonePolicyZoneFromFirewall
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12241,6 +12261,78 @@ func (e *ConfigLoadBalanceGroupInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigLoadBalanceGroupInterfaceRouteTest) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupInterfaceRouteTest{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupInterfaceRouteTest
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigLoadBalanceGroupInterfaceRouteTestCount) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupInterfaceRouteTestCount{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupInterfaceRouteTestCount
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigLoadBalanceGroupInterfaceRouteTestType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupInterfaceRouteTestType{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupInterfaceRouteTestType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigLoadBalanceGroupInterfaceRouteTestTypePing) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupInterfaceRouteTestTypePing{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupInterfaceRouteTestTypePing
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigLoadBalanceGroupInterfaceRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupInterfaceRoute{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupInterfaceRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigLoadBalanceGroupSticky) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigLoadBalanceGroupSticky{}
+		return nil
+	}
+	type t ConfigLoadBalanceGroupSticky
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigPortForward) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigPortForward{}
@@ -12265,12 +12357,48 @@ func (e *ConfigPortForwardRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigPortForwardRuleForwardTo) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPortForwardRuleForwardTo{}
+		return nil
+	}
+	type t ConfigPortForwardRuleForwardTo
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpn) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpn{}
 		return nil
 	}
 	type t ConfigVpn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnRsaKeys) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnRsaKeys{}
+		return nil
+	}
+	type t ConfigVpnRsaKeys
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnRsaKeysLocalKey) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnRsaKeysLocalKey{}
+		return nil
+	}
+	type t ConfigVpnRsaKeysLocalKey
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12289,24 +12417,24 @@ func (e *ConfigVpnRsaKeysRsaKeyName) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigVpnIpsecIkeGroup) UnmarshalJSON(b []byte) error {
+func (e *ConfigVpnIpsec) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigVpnIpsecIkeGroup{}
+		*e = ConfigVpnIpsec{}
 		return nil
 	}
-	type t ConfigVpnIpsecIkeGroup
+	type t ConfigVpnIpsec
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigVpnIpsecEspGroup) UnmarshalJSON(b []byte) error {
+func (e *ConfigVpnIpsecNatNetworks) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigVpnIpsecEspGroup{}
+		*e = ConfigVpnIpsecNatNetworks{}
 		return nil
 	}
-	type t ConfigVpnIpsecEspGroup
+	type t ConfigVpnIpsecNatNetworks
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12325,12 +12453,36 @@ func (e *ConfigVpnIpsecNatNetworksAllowedNetwork) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
+func (e *ConfigVpnIpsecSiteToSite) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSite{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSite
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpnIpsecSiteToSitePeer) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpnIpsecSiteToSitePeer{}
 		return nil
 	}
 	type t ConfigVpnIpsecSiteToSitePeer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecSiteToSitePeerVti) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerVti{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerVti
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12349,12 +12501,168 @@ func (e *ConfigVpnIpsecSiteToSitePeerTunnel) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigVpnIpsecSiteToSitePeerTunnelLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerTunnelLocal{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerTunnelLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecSiteToSitePeerTunnelRemote) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerTunnelRemote{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerTunnelRemote
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecSiteToSitePeerAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerAuthentication{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecSiteToSitePeerAuthenticationX509) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerAuthenticationX509{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerAuthenticationX509
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecSiteToSitePeerAuthenticationX509Key) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecSiteToSitePeerAuthenticationX509Key{}
+		return nil
+	}
+	type t ConfigVpnIpsecSiteToSitePeerAuthenticationX509Key
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccess) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccess{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccess
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessWinsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessWinsServers{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessWinsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessDnsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessDnsServers{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessDnsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessIkeSettings) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessIkeSettings{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessIkeSettings
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpnIpsecRemoteAccessIkeSettingsProposal) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpnIpsecRemoteAccessIkeSettingsProposal{}
 		return nil
 	}
 	type t ConfigVpnIpsecRemoteAccessIkeSettingsProposal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessIkeSettingsAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessIkeSettingsAuthentication{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessIkeSettingsAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessIkeSettingsAuthenticationX509) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessIkeSettingsAuthenticationX509{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessIkeSettingsAuthenticationX509
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessClientIpPool) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessClientIpPool{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessClientIpPool
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessEspSettings) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessEspSettings{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessEspSettings
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12373,12 +12681,24 @@ func (e *ConfigVpnIpsecRemoteAccessEspSettingsProposal) UnmarshalJSON(b []byte) 
 	return nil
 }
 
-func (e *ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+func (e *ConfigVpnIpsecRemoteAccessAuthentication) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer{}
+		*e = ConfigVpnIpsecRemoteAccessAuthentication{}
 		return nil
 	}
-	type t ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer
+	type t ConfigVpnIpsecRemoteAccessAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecRemoteAccessAuthenticationLocalUsers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessAuthenticationLocalUsers{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessAuthenticationLocalUsers
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12397,12 +12717,72 @@ func (e *ConfigVpnIpsecRemoteAccessAuthenticationLocalUsersUsername) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer{}
+		return nil
+	}
+	type t ConfigVpnIpsecRemoteAccessAuthenticationRadiusServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecIpsecInterfaces) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecIpsecInterfaces{}
+		return nil
+	}
+	type t ConfigVpnIpsecIpsecInterfaces
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecIkeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecIkeGroup{}
+		return nil
+	}
+	type t ConfigVpnIpsecIkeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecIkeGroupDeadPeerDetection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecIkeGroupDeadPeerDetection{}
+		return nil
+	}
+	type t ConfigVpnIpsecIkeGroupDeadPeerDetection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpnIpsecIkeGroupProposal) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpnIpsecIkeGroupProposal{}
 		return nil
 	}
 	type t ConfigVpnIpsecIkeGroupProposal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnIpsecEspGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecEspGroup{}
+		return nil
+	}
+	type t ConfigVpnIpsecEspGroup
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12421,6 +12801,54 @@ func (e *ConfigVpnIpsecEspGroupProposal) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigVpnIpsecLogging) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnIpsecLogging{}
+		return nil
+	}
+	type t ConfigVpnIpsecLogging
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptp{}
+		return nil
+	}
+	type t ConfigVpnPptp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccess) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccess{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccess
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccessAccounting) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessAccounting{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessAccounting
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpnPptpRemoteAccessAccountingRadiusServer) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpnPptpRemoteAccessAccountingRadiusServer{}
@@ -12433,12 +12861,60 @@ func (e *ConfigVpnPptpRemoteAccessAccountingRadiusServer) UnmarshalJSON(b []byte
 	return nil
 }
 
-func (e *ConfigVpnPptpRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+func (e *ConfigVpnPptpRemoteAccessWinsServers) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigVpnPptpRemoteAccessAuthenticationRadiusServer{}
+		*e = ConfigVpnPptpRemoteAccessWinsServers{}
 		return nil
 	}
-	type t ConfigVpnPptpRemoteAccessAuthenticationRadiusServer
+	type t ConfigVpnPptpRemoteAccessWinsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccessDnsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessDnsServers{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessDnsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccessClientIpPool) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessClientIpPool{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessClientIpPool
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccessAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessAuthentication{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnPptpRemoteAccessAuthenticationLocalUsers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessAuthenticationLocalUsers{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessAuthenticationLocalUsers
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12457,6 +12933,54 @@ func (e *ConfigVpnPptpRemoteAccessAuthenticationLocalUsersUsername) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigVpnPptpRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnPptpRemoteAccessAuthenticationRadiusServer{}
+		return nil
+	}
+	type t ConfigVpnPptpRemoteAccessAuthenticationRadiusServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tp{}
+		return nil
+	}
+	type t ConfigVpnL2tp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccess) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccess{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccess
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessAccounting) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessAccounting{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessAccounting
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigVpnL2tpRemoteAccessAccountingRadiusServer) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigVpnL2tpRemoteAccessAccountingRadiusServer{}
@@ -12469,12 +12993,96 @@ func (e *ConfigVpnL2tpRemoteAccessAccountingRadiusServer) UnmarshalJSON(b []byte
 	return nil
 }
 
-func (e *ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+func (e *ConfigVpnL2tpRemoteAccessWinsServers) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer{}
+		*e = ConfigVpnL2tpRemoteAccessWinsServers{}
 		return nil
 	}
-	type t ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer
+	type t ConfigVpnL2tpRemoteAccessWinsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessDnsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessDnsServers{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessDnsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessClientIpPool) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessClientIpPool{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessClientIpPool
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessIpsecSettings) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessIpsecSettings{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessIpsecSettings
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessIpsecSettingsAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessIpsecSettingsAuthentication{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessIpsecSettingsAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessIpsecSettingsAuthenticationX509) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessIpsecSettingsAuthenticationX509{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessIpsecSettingsAuthenticationX509
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessAuthentication{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessAuthenticationLocalUsers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessAuthenticationLocalUsers{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessAuthenticationLocalUsers
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12487,6 +13095,18 @@ func (e *ConfigVpnL2tpRemoteAccessAuthenticationLocalUsersUsername) UnmarshalJSO
 		return nil
 	}
 	type t ConfigVpnL2tpRemoteAccessAuthenticationLocalUsersUsername
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer{}
+		return nil
+	}
+	type t ConfigVpnL2tpRemoteAccessAuthenticationRadiusServer
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12541,12 +13161,252 @@ func (e *ConfigTrafficPolicyRoundRobin) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigTrafficPolicyRoundRobinDefault) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinDefault{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinDefault
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClass) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClass{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClass
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatch{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchEther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchEther{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchEther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIp{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIpSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIpSource{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIpSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIpDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIpDestination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIpDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIpv6{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIpv6Source) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIpv6Source{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIpv6Source
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRoundRobinClassMatchIpv6Destination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRoundRobinClassMatchIpv6Destination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRoundRobinClassMatchIpv6Destination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficPolicyLimiter) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficPolicyLimiter{}
 		return nil
 	}
 	type t ConfigTrafficPolicyLimiter
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterDefault) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterDefault{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterDefault
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClass) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClass{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClass
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatch{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchEther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchEther{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchEther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIp{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIpSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIpSource{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIpSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIpDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIpDestination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIpDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIpv6{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIpv6Source) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIpv6Source{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIpv6Source
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyLimiterClassMatchIpv6Destination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyLimiterClassMatchIpv6Destination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyLimiterClassMatchIpv6Destination
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12589,72 +13449,12 @@ func (e *ConfigTrafficPolicyShaper) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigTrafficPolicyPriorityQueue) UnmarshalJSON(b []byte) error {
+func (e *ConfigTrafficPolicyShaperDefault) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyPriorityQueue{}
+		*e = ConfigTrafficPolicyShaperDefault{}
 		return nil
 	}
-	type t ConfigTrafficPolicyPriorityQueue
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigTrafficPolicyRandomDetect) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyRandomDetect{}
-		return nil
-	}
-	type t ConfigTrafficPolicyRandomDetect
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigTrafficPolicyRoundRobinClass) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyRoundRobinClass{}
-		return nil
-	}
-	type t ConfigTrafficPolicyRoundRobinClass
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigTrafficPolicyRoundRobinClassMatch) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyRoundRobinClassMatch{}
-		return nil
-	}
-	type t ConfigTrafficPolicyRoundRobinClassMatch
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigTrafficPolicyLimiterClass) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyLimiterClass{}
-		return nil
-	}
-	type t ConfigTrafficPolicyLimiterClass
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigTrafficPolicyLimiterClassMatch) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigTrafficPolicyLimiterClassMatch{}
-		return nil
-	}
-	type t ConfigTrafficPolicyLimiterClassMatch
+	type t ConfigTrafficPolicyShaperDefault
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12685,6 +13485,114 @@ func (e *ConfigTrafficPolicyShaperClassMatch) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigTrafficPolicyShaperClassMatchEther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchEther{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchEther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIp{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIpSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIpSource{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIpSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIpDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIpDestination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIpDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIpv6{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIpv6Source) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIpv6Source{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIpv6Source
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyShaperClassMatchIpv6Destination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyShaperClassMatchIpv6Destination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyShaperClassMatchIpv6Destination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueue) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueue{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueDefault) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueDefault{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueDefault
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficPolicyPriorityQueueClass) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficPolicyPriorityQueueClass{}
@@ -12703,6 +13611,102 @@ func (e *ConfigTrafficPolicyPriorityQueueClassMatch) UnmarshalJSON(b []byte) err
 		return nil
 	}
 	type t ConfigTrafficPolicyPriorityQueueClassMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchEther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchEther{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchEther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIp{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIpSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIpSource{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIpSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIpDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIpDestination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIpDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIpv6{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIpv6Source) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIpv6Source{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIpv6Source
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyPriorityQueueClassMatchIpv6Destination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyPriorityQueueClassMatchIpv6Destination{}
+		return nil
+	}
+	type t ConfigTrafficPolicyPriorityQueueClassMatchIpv6Destination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficPolicyRandomDetect) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficPolicyRandomDetect{}
+		return nil
+	}
+	type t ConfigTrafficPolicyRandomDetect
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12733,48 +13737,48 @@ func (e *ConfigFirewall) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigFirewallModify) UnmarshalJSON(b []byte) error {
+func (e *ConfigFirewallOptions) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigFirewallModify{}
+		*e = ConfigFirewallOptions{}
 		return nil
 	}
-	type t ConfigFirewallModify
+	type t ConfigFirewallOptions
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigFirewallIpv6Modify) UnmarshalJSON(b []byte) error {
+func (e *ConfigFirewallOptionsMssClamp) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigFirewallIpv6Modify{}
+		*e = ConfigFirewallOptionsMssClamp{}
 		return nil
 	}
-	type t ConfigFirewallIpv6Modify
+	type t ConfigFirewallOptionsMssClamp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigFirewallName) UnmarshalJSON(b []byte) error {
+func (e *ConfigFirewallOptionsMssClamp6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigFirewallName{}
+		*e = ConfigFirewallOptionsMssClamp6{}
 		return nil
 	}
-	type t ConfigFirewallName
+	type t ConfigFirewallOptionsMssClamp6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigFirewallIpv6Name) UnmarshalJSON(b []byte) error {
+func (e *ConfigFirewallGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigFirewallIpv6Name{}
+		*e = ConfigFirewallGroup{}
 		return nil
 	}
-	type t ConfigFirewallIpv6Name
+	type t ConfigFirewallGroup
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12841,12 +13845,240 @@ func (e *ConfigFirewallGroupIpv6NetworkGroup) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigFirewallModify) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModify{}
+		return nil
+	}
+	type t ConfigFirewallModify
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigFirewallModifyRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigFirewallModifyRule{}
 		return nil
 	}
 	type t ConfigFirewallModifyRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleLimit) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleLimit{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleLimit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleSource{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleSourceGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleSourceGroup{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleSourceGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleModify) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleModify{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleModify
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleModifyConnmark) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleModifyConnmark{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleModifyConnmark
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleDestination{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleDestinationGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleDestinationGroup{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleDestinationGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleState) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleState{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleState
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleTime) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleTime{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleTime
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleIpsec) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleIpsec{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleIpsec
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleTcp{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleFragment) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleFragment{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleFragment
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleIcmp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleIcmp{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleIcmp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleP2p) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleP2p{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleP2p
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleApplication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleApplication{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleApplication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleStatistic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleStatistic{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleStatistic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallModifyRuleRecent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallModifyRuleRecent{}
+		return nil
+	}
+	type t ConfigFirewallModifyRuleRecent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6Modify) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6Modify{}
+		return nil
+	}
+	type t ConfigFirewallIpv6Modify
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12865,12 +14097,372 @@ func (e *ConfigFirewallIpv6ModifyRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigFirewallIpv6ModifyRuleIcmpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleIcmpv6{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleIcmpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleLimit) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleLimit{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleLimit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleSource{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleSourceGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleSourceGroup{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleSourceGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleModify) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleModify{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleModify
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleModifyConnmark) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleModifyConnmark{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleModifyConnmark
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleDestination{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleDestinationGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleDestinationGroup{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleDestinationGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleState) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleState{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleState
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleTime) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleTime{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleTime
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleIpsec) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleIpsec{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleIpsec
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleTcp{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleP2p) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleP2p{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleP2p
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6ModifyRuleRecent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6ModifyRuleRecent{}
+		return nil
+	}
+	type t ConfigFirewallIpv6ModifyRuleRecent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallName) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallName{}
+		return nil
+	}
+	type t ConfigFirewallName
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigFirewallNameRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigFirewallNameRule{}
 		return nil
 	}
 	type t ConfigFirewallNameRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleLimit) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleLimit{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleLimit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleSource{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleSourceGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleSourceGroup{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleSourceGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleDestination{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleDestinationGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleDestinationGroup{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleDestinationGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleState) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleState{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleState
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleTime) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleTime{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleTime
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleIpsec) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleIpsec{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleIpsec
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleTcp{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleFragment) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleFragment{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleFragment
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleIcmp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleIcmp{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleIcmp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleP2p) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleP2p{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleP2p
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleApplication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleApplication{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleApplication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallNameRuleRecent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallNameRuleRecent{}
+		return nil
+	}
+	type t ConfigFirewallNameRuleRecent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6Name) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6Name{}
+		return nil
+	}
+	type t ConfigFirewallIpv6Name
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12889,12 +14481,180 @@ func (e *ConfigFirewallIpv6NameRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigFirewallIpv6NameRuleIcmpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleIcmpv6{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleIcmpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleLimit) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleLimit{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleLimit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleSource{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleSourceGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleSourceGroup{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleSourceGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleDestination{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleDestinationGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleDestinationGroup{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleDestinationGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleState) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleState{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleState
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleTime) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleTime{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleTime
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleIpsec) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleIpsec{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleIpsec
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleTcp{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleP2p) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleP2p{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleP2p
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigFirewallIpv6NameRuleRecent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigFirewallIpv6NameRuleRecent{}
+		return nil
+	}
+	type t ConfigFirewallIpv6NameRuleRecent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystem) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystem{}
 		return nil
 	}
 	type t ConfigSystem
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemOptions{}
+		return nil
+	}
+	type t ConfigSystemOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemSyslog) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslog{}
+		return nil
+	}
+	type t ConfigSystemSyslog
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12913,6 +14673,18 @@ func (e *ConfigSystemSyslogHost) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemSyslogHostFacility) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslogHostFacility{}
+		return nil
+	}
+	type t ConfigSystemSyslogHostFacility
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemSyslogFile) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemSyslogFile{}
@@ -12925,24 +14697,12 @@ func (e *ConfigSystemSyslogFile) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigSystemSyslogUser) UnmarshalJSON(b []byte) error {
+func (e *ConfigSystemSyslogFileArchive) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigSystemSyslogUser{}
+		*e = ConfigSystemSyslogFileArchive{}
 		return nil
 	}
-	type t ConfigSystemSyslogUser
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigSystemSyslogHostFacility) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigSystemSyslogHostFacility{}
-		return nil
-	}
-	type t ConfigSystemSyslogHostFacility
+	type t ConfigSystemSyslogFileArchive
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12961,12 +14721,48 @@ func (e *ConfigSystemSyslogFileFacility) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemSyslogUser) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslogUser{}
+		return nil
+	}
+	type t ConfigSystemSyslogUser
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemSyslogUserFacility) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemSyslogUserFacility{}
 		return nil
 	}
 	type t ConfigSystemSyslogUserFacility
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemSyslogGlobal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslogGlobal{}
+		return nil
+	}
+	type t ConfigSystemSyslogGlobal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemSyslogGlobalArchive) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslogGlobalArchive{}
+		return nil
+	}
+	type t ConfigSystemSyslogGlobalArchive
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -12985,12 +14781,60 @@ func (e *ConfigSystemSyslogGlobalFacility) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemSyslogConsole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSyslogConsole{}
+		return nil
+	}
+	type t ConfigSystemSyslogConsole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemSyslogConsoleFacility) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemSyslogConsoleFacility{}
 		return nil
 	}
 	type t ConfigSystemSyslogConsoleFacility
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccounting) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccounting{}
+		return nil
+	}
+	type t ConfigSystemFlowAccounting
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccountingNetflow) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingNetflow{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingNetflow
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccountingNetflowTimeout) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingNetflowTimeout{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingNetflowTimeout
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13009,12 +14853,72 @@ func (e *ConfigSystemFlowAccountingNetflowServer) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
+func (e *ConfigSystemFlowAccountingNetflowEnableEgress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingNetflowEnableEgress{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingNetflowEnableEgress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccountingSflow) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingSflow{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingSflow
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemFlowAccountingSflowServer) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemFlowAccountingSflowServer{}
 		return nil
 	}
 	type t ConfigSystemFlowAccountingSflowServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccountingAggregate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingAggregate{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingAggregate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemFlowAccountingUnms) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemFlowAccountingUnms{}
+		return nil
+	}
+	type t ConfigSystemFlowAccountingUnms
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemTaskScheduler) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemTaskScheduler{}
+		return nil
+	}
+	type t ConfigSystemTaskScheduler
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13033,12 +14937,156 @@ func (e *ConfigSystemTaskSchedulerTask) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemTaskSchedulerTaskExecutable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemTaskSchedulerTaskExecutable{}
+		return nil
+	}
+	type t ConfigSystemTaskSchedulerTaskExecutable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemAnalyticsHandler) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemAnalyticsHandler{}
+		return nil
+	}
+	type t ConfigSystemAnalyticsHandler
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemSystemd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSystemd{}
+		return nil
+	}
+	type t ConfigSystemSystemd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemSystemdJournal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemSystemdJournal{}
+		return nil
+	}
+	type t ConfigSystemSystemdJournal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrack) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrack{}
+		return nil
+	}
+	type t ConfigSystemConntrack
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackIgnore) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackIgnore{}
+		return nil
+	}
+	type t ConfigSystemConntrackIgnore
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemConntrackIgnoreRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemConntrackIgnoreRule{}
 		return nil
 	}
 	type t ConfigSystemConntrackIgnoreRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackIgnoreRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackIgnoreRuleSource{}
+		return nil
+	}
+	type t ConfigSystemConntrackIgnoreRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackIgnoreRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackIgnoreRuleDestination{}
+		return nil
+	}
+	type t ConfigSystemConntrackIgnoreRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeout) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeout{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeout
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutUdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutUdp{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutUdp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutTcp{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutCustom) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustom{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustom
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13057,12 +15105,300 @@ func (e *ConfigSystemConntrackTimeoutCustomRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemConntrackTimeoutCustomRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustomRuleSource{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustomRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutCustomRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustomRuleDestination{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustomRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutCustomRuleProtocol) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustomRuleProtocol{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustomRuleProtocol
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutCustomRuleProtocolUdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustomRuleProtocolUdp{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustomRuleProtocolUdp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTimeoutCustomRuleProtocolTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTimeoutCustomRuleProtocolTcp{}
+		return nil
+	}
+	type t ConfigSystemConntrackTimeoutCustomRuleProtocolTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackTcp{}
+		return nil
+	}
+	type t ConfigSystemConntrackTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLog) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLog{}
+		return nil
+	}
+	type t ConfigSystemConntrackLog
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLogUdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLogUdp{}
+		return nil
+	}
+	type t ConfigSystemConntrackLogUdp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLogOther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLogOther{}
+		return nil
+	}
+	type t ConfigSystemConntrackLogOther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLogTcp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLogTcp{}
+		return nil
+	}
+	type t ConfigSystemConntrackLogTcp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLogTcpUpdate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLogTcpUpdate{}
+		return nil
+	}
+	type t ConfigSystemConntrackLogTcpUpdate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackLogIcmp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackLogIcmp{}
+		return nil
+	}
+	type t ConfigSystemConntrackLogIcmp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModules) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModules{}
+		return nil
+	}
+	type t ConfigSystemConntrackModules
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesFtp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesFtp{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesFtp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesNfs) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesNfs{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesNfs
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesRtsp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesRtsp{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesRtsp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesGre) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesGre{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesGre
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesTftp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesTftp{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesTftp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesPptp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesPptp{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesPptp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesSqlnet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesSqlnet{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesSqlnet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesSip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesSip{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesSip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConntrackModulesH323) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConntrackModulesH323{}
+		return nil
+	}
+	type t ConfigSystemConntrackModulesH323
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemStaticHostMapping) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemStaticHostMapping{}
+		return nil
+	}
+	type t ConfigSystemStaticHostMapping
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemStaticHostMappingHostName) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemStaticHostMappingHostName{}
 		return nil
 	}
 	type t ConfigSystemStaticHostMappingHostName
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemNtp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemNtp{}
+		return nil
+	}
+	type t ConfigSystemNtp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13081,12 +15417,156 @@ func (e *ConfigSystemNtpServer) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemCoredump) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemCoredump{}
+		return nil
+	}
+	type t ConfigSystemCoredump
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemDomainSearch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemDomainSearch{}
+		return nil
+	}
+	type t ConfigSystemDomainSearch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConfigManagement) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConfigManagement{}
+		return nil
+	}
+	type t ConfigSystemConfigManagement
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemConfigManagementCommitArchive) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemConfigManagementCommitArchive{}
+		return nil
+	}
+	type t ConfigSystemConfigManagementCommitArchive
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemTrafficAnalysis) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemTrafficAnalysis{}
+		return nil
+	}
+	type t ConfigSystemTrafficAnalysis
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemTrafficAnalysisSignatureUpdate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemTrafficAnalysisSignatureUpdate{}
+		return nil
+	}
+	type t ConfigSystemTrafficAnalysisSignatureUpdate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemTrafficAnalysisCustomCategory) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemTrafficAnalysisCustomCategory{}
 		return nil
 	}
 	type t ConfigSystemTrafficAnalysisCustomCategory
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemCrashHandler) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemCrashHandler{}
+		return nil
+	}
+	type t ConfigSystemCrashHandler
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemIp{}
+		return nil
+	}
+	type t ConfigSystemIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemIpArp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemIpArp{}
+		return nil
+	}
+	type t ConfigSystemIpArp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemIpv6{}
+		return nil
+	}
+	type t ConfigSystemIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemIpv6Neighbor) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemIpv6Neighbor{}
+		return nil
+	}
+	type t ConfigSystemIpv6Neighbor
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemLogin) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemLogin{}
+		return nil
+	}
+	type t ConfigSystemLogin
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13117,12 +15597,48 @@ func (e *ConfigSystemLoginUser) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemLoginUserAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemLoginUserAuthentication{}
+		return nil
+	}
+	type t ConfigSystemLoginUserAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigSystemLoginUserAuthenticationPublicKeys) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigSystemLoginUserAuthenticationPublicKeys{}
 		return nil
 	}
 	type t ConfigSystemLoginUserAuthenticationPublicKeys
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemLoginBanner) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemLoginBanner{}
+		return nil
+	}
+	type t ConfigSystemLoginBanner
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemPackage) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemPackage{}
+		return nil
+	}
+	type t ConfigSystemPackage
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13141,12 +15657,60 @@ func (e *ConfigSystemPackageRepository) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigSystemOffload) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemOffload{}
+		return nil
+	}
+	type t ConfigSystemOffload
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemOffloadIpv4) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemOffloadIpv4{}
+		return nil
+	}
+	type t ConfigSystemOffloadIpv4
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigSystemOffloadIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigSystemOffloadIpv6{}
+		return nil
+	}
+	type t ConfigSystemOffloadIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficControl) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficControl{}
 		return nil
 	}
 	type t ConfigTrafficControl
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlOptimizedQueue) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlOptimizedQueue{}
+		return nil
+	}
+	type t ConfigTrafficControlOptimizedQueue
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13165,12 +15729,132 @@ func (e *ConfigTrafficControlSmartQueue) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigTrafficControlSmartQueueDownload) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlSmartQueueDownload{}
+		return nil
+	}
+	type t ConfigTrafficControlSmartQueueDownload
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlSmartQueueUpload) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlSmartQueueUpload{}
+		return nil
+	}
+	type t ConfigTrafficControlSmartQueueUpload
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueue) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueue{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFilters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFilters{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFilters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficControlAdvancedQueueFiltersMatch) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficControlAdvancedQueueFiltersMatch{}
 		return nil
 	}
 	type t ConfigTrafficControlAdvancedQueueFiltersMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFiltersMatchEther) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFiltersMatchEther{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFiltersMatchEther
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFiltersMatchApplication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFiltersMatchApplication{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFiltersMatchApplication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFiltersMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFiltersMatchIp{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFiltersMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFiltersMatchIpSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFiltersMatchIpSource{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFiltersMatchIpSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueFiltersMatchIpDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueFiltersMatchIpDestination{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueFiltersMatchIpDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueLeaf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueLeaf{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueLeaf
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13189,12 +15873,48 @@ func (e *ConfigTrafficControlAdvancedQueueLeafQueue) UnmarshalJSON(b []byte) err
 	return nil
 }
 
+func (e *ConfigTrafficControlAdvancedQueueLeafQueueBurst) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueLeafQueueBurst{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueLeafQueueBurst
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueBranch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueBranch{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueBranch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficControlAdvancedQueueBranchQueue) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficControlAdvancedQueueBranchQueue{}
 		return nil
 	}
 	type t ConfigTrafficControlAdvancedQueueBranchQueue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueQueueType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueQueueType{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueQueueType
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13225,6 +15945,18 @@ func (e *ConfigTrafficControlAdvancedQueueQueueTypeHfq) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigTrafficControlAdvancedQueueQueueTypeHfqBurst) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueQueueTypeHfqBurst{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueQueueTypeHfqBurst
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigTrafficControlAdvancedQueueQueueTypeFqCodel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigTrafficControlAdvancedQueueQueueTypeFqCodel{}
@@ -13243,6 +15975,18 @@ func (e *ConfigTrafficControlAdvancedQueueQueueTypeSfq) UnmarshalJSON(b []byte) 
 		return nil
 	}
 	type t ConfigTrafficControlAdvancedQueueQueueTypeSfq
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigTrafficControlAdvancedQueueRoot) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigTrafficControlAdvancedQueueRoot{}
+		return nil
+	}
+	type t ConfigTrafficControlAdvancedQueueRoot
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13273,6 +16017,18 @@ func (e *ConfigService) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigServiceUbntDiscover) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUbntDiscover{}
+		return nil
+	}
+	type t ConfigServiceUbntDiscover
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceUbntDiscoverInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceUbntDiscoverInterface{}
@@ -13285,12 +16041,156 @@ func (e *ConfigServiceUbntDiscoverInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigServiceSnmp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmp{}
+		return nil
+	}
+	type t ConfigServiceSnmp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceSnmpListenAddress) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceSnmpListenAddress{}
 		return nil
 	}
 	type t ConfigServiceSnmpListenAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3Group) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3Group{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3Group
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3Tsm) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3Tsm{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3Tsm
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3User) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3User{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3User
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3UserPrivacy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3UserPrivacy{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3UserPrivacy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3UserAuth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3UserAuth{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3UserAuth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3View) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3View{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3View
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3ViewOid) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3ViewOid{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3ViewOid
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3TrapTarget) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3TrapTarget{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3TrapTarget
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3TrapTargetPrivacy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3TrapTargetPrivacy{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3TrapTargetPrivacy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSnmpV3TrapTargetAuth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSnmpV3TrapTargetAuth{}
+		return nil
+	}
+	type t ConfigServiceSnmpV3TrapTargetAuth
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13321,60 +16221,12 @@ func (e *ConfigServiceSnmpCommunity) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigServiceSnmpV3Group) UnmarshalJSON(b []byte) error {
+func (e *ConfigServiceDhcpv6Server) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceSnmpV3Group{}
+		*e = ConfigServiceDhcpv6Server{}
 		return nil
 	}
-	type t ConfigServiceSnmpV3Group
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigServiceSnmpV3User) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceSnmpV3User{}
-		return nil
-	}
-	type t ConfigServiceSnmpV3User
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigServiceSnmpV3View) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceSnmpV3View{}
-		return nil
-	}
-	type t ConfigServiceSnmpV3View
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigServiceSnmpV3TrapTarget) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceSnmpV3TrapTarget{}
-		return nil
-	}
-	type t ConfigServiceSnmpV3TrapTarget
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigServiceSnmpV3ViewOid) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceSnmpV3ViewOid{}
-		return nil
-	}
-	type t ConfigServiceSnmpV3ViewOid
+	type t ConfigServiceDhcpv6Server
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13417,6 +16269,18 @@ func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetStaticMapping) Unmarsha
 	return nil
 }
 
+func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegation{}
+		return nil
+	}
+	type t ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegationStart) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegationStart{}
@@ -13435,6 +16299,30 @@ func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegationStartSt
 		return nil
 	}
 	type t ConfigServiceDhcpv6ServerSharedNetworkNameSubnetPrefixDelegationStartStop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetLeaseTime) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpv6ServerSharedNetworkNameSubnetLeaseTime{}
+		return nil
+	}
+	type t ConfigServiceDhcpv6ServerSharedNetworkNameSubnetLeaseTime
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetAddressRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpv6ServerSharedNetworkNameSubnetAddressRange{}
+		return nil
+	}
+	type t ConfigServiceDhcpv6ServerSharedNetworkNameSubnetAddressRange
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13465,12 +16353,48 @@ func (e *ConfigServiceDhcpv6ServerSharedNetworkNameSubnetAddressRangeStart) Unma
 	return nil
 }
 
+func (e *ConfigServiceUpnp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUpnp{}
+		return nil
+	}
+	type t ConfigServiceUpnp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceUpnpListenOn) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceUpnpListenOn{}
 		return nil
 	}
 	type t ConfigServiceUpnpListenOn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceLldp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceLldp{}
+		return nil
+	}
+	type t ConfigServiceLldp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceLldpLegacyProtocols) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceLldpLegacyProtocols{}
+		return nil
+	}
+	type t ConfigServiceLldpLegacyProtocols
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13489,12 +16413,60 @@ func (e *ConfigServiceLldpInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigServiceLldpInterfaceLocation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceLldpInterfaceLocation{}
+		return nil
+	}
+	type t ConfigServiceLldpInterfaceLocation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceLldpInterfaceLocationCivicBased) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceLldpInterfaceLocationCivicBased{}
+		return nil
+	}
+	type t ConfigServiceLldpInterfaceLocationCivicBased
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceLldpInterfaceLocationCivicBasedCaType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceLldpInterfaceLocationCivicBasedCaType{}
 		return nil
 	}
 	type t ConfigServiceLldpInterfaceLocationCivicBasedCaType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceLldpInterfaceLocationCoordinateBased) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceLldpInterfaceLocationCoordinateBased{}
+		return nil
+	}
+	type t ConfigServiceLldpInterfaceLocationCoordinateBased
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNat) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNat{}
+		return nil
+	}
+	type t ConfigServiceNat
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13513,12 +16485,132 @@ func (e *ConfigServiceNatRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigServiceNatRuleOutsideAddress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleOutsideAddress{}
+		return nil
+	}
+	type t ConfigServiceNatRuleOutsideAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNatRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleSource{}
+		return nil
+	}
+	type t ConfigServiceNatRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNatRuleSourceGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleSourceGroup{}
+		return nil
+	}
+	type t ConfigServiceNatRuleSourceGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNatRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleDestination{}
+		return nil
+	}
+	type t ConfigServiceNatRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNatRuleDestinationGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleDestinationGroup{}
+		return nil
+	}
+	type t ConfigServiceNatRuleDestinationGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceNatRuleInsideAddress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceNatRuleInsideAddress{}
+		return nil
+	}
+	type t ConfigServiceNatRuleInsideAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceWebproxy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceWebproxy{}
+		return nil
+	}
+	type t ConfigServiceWebproxy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceWebproxyListenAddress) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceWebproxyListenAddress{}
 		return nil
 	}
 	type t ConfigServiceWebproxyListenAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceWebproxyUrlFiltering) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceWebproxyUrlFiltering{}
+		return nil
+	}
+	type t ConfigServiceWebproxyUrlFiltering
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceWebproxyUrlFilteringSquidguard) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceWebproxyUrlFilteringSquidguard{}
+		return nil
+	}
+	type t ConfigServiceWebproxyUrlFilteringSquidguard
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceWebproxyUrlFilteringSquidguardAutoUpdate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceWebproxyUrlFilteringSquidguardAutoUpdate{}
+		return nil
+	}
+	type t ConfigServiceWebproxyUrlFilteringSquidguardAutoUpdate
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13549,6 +16641,18 @@ func (e *ConfigServiceWebproxyUrlFilteringSquidguardTimePeriod) UnmarshalJSON(b 
 	return nil
 }
 
+func (e *ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays{}
+		return nil
+	}
+	type t ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceWebproxyUrlFilteringSquidguardRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceWebproxyUrlFilteringSquidguardRule{}
@@ -13561,12 +16665,120 @@ func (e *ConfigServiceWebproxyUrlFilteringSquidguardRule) UnmarshalJSON(b []byte
 	return nil
 }
 
-func (e *ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays) UnmarshalJSON(b []byte) error {
+func (e *ConfigServiceSuspend) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays{}
+		*e = ConfigServiceSuspend{}
 		return nil
 	}
-	type t ConfigServiceWebproxyUrlFilteringSquidguardTimePeriodDays
+	type t ConfigServiceSuspend
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSuspendForwardTo) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSuspendForwardTo{}
+		return nil
+	}
+	type t ConfigServiceSuspendForwardTo
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSuspendRedirect) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSuspendRedirect{}
+		return nil
+	}
+	type t ConfigServiceSuspendRedirect
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUnms) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUnms{}
+		return nil
+	}
+	type t ConfigServiceUnms
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUnmsLldp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUnmsLldp{}
+		return nil
+	}
+	type t ConfigServiceUnmsLldp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUnmsRestApi) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUnmsRestApi{}
+		return nil
+	}
+	type t ConfigServiceUnmsRestApi
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceMdns) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceMdns{}
+		return nil
+	}
+	type t ConfigServiceMdns
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceMdnsRepeater) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceMdnsRepeater{}
+		return nil
+	}
+	type t ConfigServiceMdnsRepeater
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUbntDiscoverServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUbntDiscoverServer{}
+		return nil
+	}
+	type t ConfigServiceUbntDiscoverServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpServer{}
+		return nil
+	}
+	type t ConfigServiceDhcpServer
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13609,12 +16821,180 @@ func (e *ConfigServiceDhcpServerSharedNetworkNameSubnetStaticMapping) UnmarshalJ
 	return nil
 }
 
+func (e *ConfigServiceDhcpServerSharedNetworkNameSubnetStaticRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpServerSharedNetworkNameSubnetStaticRoute{}
+		return nil
+	}
+	type t ConfigServiceDhcpServerSharedNetworkNameSubnetStaticRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceDhcpServerSharedNetworkNameSubnetStart) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceDhcpServerSharedNetworkNameSubnetStart{}
 		return nil
 	}
 	type t ConfigServiceDhcpServerSharedNetworkNameSubnetStart
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpServerSharedNetworkNameSubnetIpForwarding) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpServerSharedNetworkNameSubnetIpForwarding{}
+		return nil
+	}
+	type t ConfigServiceDhcpServerSharedNetworkNameSubnetIpForwarding
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpServerSharedNetworkNameSubnetFailover) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpServerSharedNetworkNameSubnetFailover{}
+		return nil
+	}
+	type t ConfigServiceDhcpServerSharedNetworkNameSubnetFailover
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpServerDynamicDnsUpdate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpServerDynamicDnsUpdate{}
+		return nil
+	}
+	type t ConfigServiceDhcpServerDynamicDnsUpdate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceSsh) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceSsh{}
+		return nil
+	}
+	type t ConfigServiceSsh
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceGui) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceGui{}
+		return nil
+	}
+	type t ConfigServiceGui
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServer{}
+		return nil
+	}
+	type t ConfigServicePppoeServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerWinsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerWinsServers{}
+		return nil
+	}
+	type t ConfigServicePppoeServerWinsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerDnsServers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerDnsServers{}
+		return nil
+	}
+	type t ConfigServicePppoeServerDnsServers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerClientIpPool) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerClientIpPool{}
+		return nil
+	}
+	type t ConfigServicePppoeServerClientIpPool
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerRadius) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerRadius{}
+		return nil
+	}
+	type t ConfigServicePppoeServerRadius
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerAuthentication{}
+		return nil
+	}
+	type t ConfigServicePppoeServerAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerAuthenticationLocalUsers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerAuthenticationLocalUsers{}
+		return nil
+	}
+	type t ConfigServicePppoeServerAuthenticationLocalUsers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServicePppoeServerAuthenticationLocalUsersUsername) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServicePppoeServerAuthenticationLocalUsersUsername{}
+		return nil
+	}
+	type t ConfigServicePppoeServerAuthenticationLocalUsersUsername
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13633,12 +17013,36 @@ func (e *ConfigServicePppoeServerAuthenticationRadiusServer) UnmarshalJSON(b []b
 	return nil
 }
 
-func (e *ConfigServicePppoeServerAuthenticationLocalUsersUsername) UnmarshalJSON(b []byte) error {
+func (e *ConfigServiceSshRecovery) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigServicePppoeServerAuthenticationLocalUsersUsername{}
+		*e = ConfigServiceSshRecovery{}
 		return nil
 	}
-	type t ConfigServicePppoeServerAuthenticationLocalUsersUsername
+	type t ConfigServiceSshRecovery
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDns) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDns{}
+		return nil
+	}
+	type t ConfigServiceDns
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDnsDynamic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDnsDynamic{}
+		return nil
+	}
+	type t ConfigServiceDnsDynamic
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13669,12 +17073,108 @@ func (e *ConfigServiceDnsDynamicInterfaceService) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
+func (e *ConfigServiceDnsForwarding) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDnsForwarding{}
+		return nil
+	}
+	type t ConfigServiceDnsForwarding
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpRelay) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpRelay{}
+		return nil
+	}
+	type t ConfigServiceDhcpRelay
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpRelayRelayOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpRelayRelayOptions{}
+		return nil
+	}
+	type t ConfigServiceDhcpRelayRelayOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUpnp2) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUpnp2{}
+		return nil
+	}
+	type t ConfigServiceUpnp2
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUpnp2BitRate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUpnp2BitRate{}
+		return nil
+	}
+	type t ConfigServiceUpnp2BitRate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceUpnp2Acl) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceUpnp2Acl{}
+		return nil
+	}
+	type t ConfigServiceUpnp2Acl
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigServiceUpnp2AclRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigServiceUpnp2AclRule{}
 		return nil
 	}
 	type t ConfigServiceUpnp2AclRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceTelnet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceTelnet{}
+		return nil
+	}
+	type t ConfigServiceTelnet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigServiceDhcpv6Relay) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigServiceDhcpv6Relay{}
+		return nil
+	}
+	type t ConfigServiceDhcpv6Relay
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13717,48 +17217,24 @@ func (e *ConfigProtocols) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsVrf) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRip) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVrf{}
+		*e = ConfigProtocolsRip{}
 		return nil
 	}
-	type t ConfigProtocolsVrf
+	type t ConfigProtocolsRip
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsBgp) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipBfd) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgp{}
+		*e = ConfigProtocolsRipBfd{}
 		return nil
 	}
-	type t ConfigProtocolsBgp
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsRipVrf) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRipVrf{}
-		return nil
-	}
-	type t ConfigProtocolsRipVrf
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsRipNetworkDistance) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRipNetworkDistance{}
-		return nil
-	}
-	type t ConfigProtocolsRipNetworkDistance
+	type t ConfigProtocolsRipBfd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13777,12 +17253,36 @@ func (e *ConfigProtocolsRipBfdNeighbor) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsRipVrfNetworkDistance) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipTimers) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRipVrfNetworkDistance{}
+		*e = ConfigProtocolsRipTimers{}
 		return nil
 	}
-	type t ConfigProtocolsRipVrfNetworkDistance
+	type t ConfigProtocolsRipTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrf{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfBfd{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfBfd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13801,12 +17301,252 @@ func (e *ConfigProtocolsRipVrfBfdNeighbor) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsRipVrfNetworkDistance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfNetworkDistance{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfNetworkDistance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfRedistributeOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfRedistributeOspf{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfRedistributeOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRipVrfDistributeListInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRipVrfDistributeListInterface{}
 		return nil
 	}
 	type t ConfigProtocolsRipVrfDistributeListInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDistributeListInterfaceAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDistributeListInterfaceAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDistributeListInterfaceAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDistributeListInterfacePrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDistributeListInterfacePrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDistributeListInterfacePrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDistributeListAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDistributeListAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDistributeListAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDistributeListPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDistributeListPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDistributeListPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipVrfDefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipVrfDefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsRipVrfDefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipNetworkDistance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipNetworkDistance{}
+		return nil
+	}
+	type t ConfigProtocolsRipNetworkDistance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipRedistributeOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipRedistributeOspf{}
+		return nil
+	}
+	type t ConfigProtocolsRipRedistributeOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsRipDistributeList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -13825,168 +17565,84 @@ func (e *ConfigProtocolsRipDistributeListInterface) UnmarshalJSON(b []byte) erro
 	return nil
 }
 
-func (e *ConfigProtocolsMplsAcGroup) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipDistributeListInterfaceAccessList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsAcGroup{}
+		*e = ConfigProtocolsRipDistributeListInterfaceAccessList{}
 		return nil
 	}
-	type t ConfigProtocolsMplsAcGroup
+	type t ConfigProtocolsRipDistributeListInterfaceAccessList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsInterface) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipDistributeListInterfacePrefixList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsInterface{}
+		*e = ConfigProtocolsRipDistributeListInterfacePrefixList{}
 		return nil
 	}
-	type t ConfigProtocolsMplsInterface
+	type t ConfigProtocolsRipDistributeListInterfacePrefixList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitFibEntry) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipDistributeListAccessList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitFibEntry{}
+		*e = ConfigProtocolsRipDistributeListAccessList{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitFibEntry
+	type t ConfigProtocolsRipDistributeListAccessList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsMsPw) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipDistributeListPrefixList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsMsPw{}
+		*e = ConfigProtocolsRipDistributeListPrefixList{}
 		return nil
 	}
-	type t ConfigProtocolsMplsMsPw
+	type t ConfigProtocolsRipDistributeListPrefixList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsTeClass) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRipDefaultInformation) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsTeClass{}
+		*e = ConfigProtocolsRipDefaultInformation{}
 		return nil
 	}
-	type t ConfigProtocolsMplsTeClass
+	type t ConfigProtocolsRipDefaultInformation
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsClassToExp) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMpls) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsClassToExp{}
+		*e = ConfigProtocolsMpls{}
 		return nil
 	}
-	type t ConfigProtocolsMplsClassToExp
+	type t ConfigProtocolsMpls
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2Circuit) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsLspTunneling) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2Circuit{}
+		*e = ConfigProtocolsMplsLspTunneling{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2Circuit
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsMinLabelValue) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsMinLabelValue{}
-		return nil
-	}
-	type t ConfigProtocolsMplsMinLabelValue
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsAdminGroup) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsAdminGroup{}
-		return nil
-	}
-	type t ConfigProtocolsMplsAdminGroup
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsMsPwStitch) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsMsPwStitch{}
-		return nil
-	}
-	type t ConfigProtocolsMplsMsPwStitch
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsClassType) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsClassType{}
-		return nil
-	}
-	type t ConfigProtocolsMplsClassType
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsIlmEntry) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsIlmEntry{}
-		return nil
-	}
-	type t ConfigProtocolsMplsIlmEntry
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsMapRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsMapRoute{}
-		return nil
-	}
-	type t ConfigProtocolsMplsMapRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsMaxLabelValue) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsMaxLabelValue{}
-		return nil
-	}
-	type t ConfigProtocolsMplsMaxLabelValue
+	type t ConfigProtocolsMplsLspTunneling
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14029,12 +17685,156 @@ func (e *ConfigProtocolsMplsLspTunnelingInterfaceInLabelOutLabel) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigProtocolsMplsAcGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsAcGroup{}
+		return nil
+	}
+	type t ConfigProtocolsMplsAcGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterface) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterface{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceVcMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceVcMode{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceVcMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceLdpIgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceLdpIgp{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceLdpIgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceLdpIgpSync) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceLdpIgpSync{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceLdpIgpSync
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceLdpIgpSyncOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceLdpIgpSyncOspf{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceLdpIgpSyncOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceLabelRetentionMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceLabelRetentionMode{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceLabelRetentionMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsMplsInterfaceL2Circuit) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsInterfaceL2Circuit{}
 		return nil
 	}
 	type t ConfigProtocolsMplsInterfaceL2Circuit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceL2CircuitHdlc) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceL2CircuitHdlc{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceL2CircuitHdlc
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceL2CircuitPpp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceL2CircuitPpp{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceL2CircuitPpp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceL2CircuitEthernet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceL2CircuitEthernet{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceL2CircuitEthernet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsInterfaceAdvertisementMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsInterfaceAdvertisementMode{}
+		return nil
+	}
+	type t ConfigProtocolsMplsInterfaceAdvertisementMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitFibEntry) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitFibEntry{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitFibEntry
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14077,24 +17877,24 @@ func (e *ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv4) UnmarshalJSON(
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6{}
-		return nil
-	}
-	type t ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv4Int) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv4Int{}
 		return nil
 	}
 	type t ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv4Int
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14113,12 +17913,60 @@ func (e *ConfigProtocolsMplsL2CircuitFibEntryInLabelOutLabelIpv6Int) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigProtocolsMplsMsPw) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsMsPw{}
+		return nil
+	}
+	type t ConfigProtocolsMplsMsPw
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsTeClass) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsTeClass{}
+		return nil
+	}
+	type t ConfigProtocolsMplsTeClass
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsMplsTeClassName) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsTeClassName{}
 		return nil
 	}
 	type t ConfigProtocolsMplsTeClassName
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsLspModel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsLspModel{}
+		return nil
+	}
+	type t ConfigProtocolsMplsLspModel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsFtnEntry) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsFtnEntry{}
+		return nil
+	}
+	type t ConfigProtocolsMplsFtnEntry
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14143,30 +17991,6 @@ func (e *ConfigProtocolsMplsFtnEntryTunnelIdIp) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 	type t ConfigProtocolsMplsFtnEntryTunnelIdIp
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask{}
-		return nil
-	}
-	type t ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask{}
-		return nil
-	}
-	type t ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14221,6 +18045,18 @@ func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpMaskOutLabelNexthopInterface) Unma
 	return nil
 }
 
+func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask{}
+		return nil
+	}
+	type t ConfigProtocolsMplsFtnEntryTunnelIdIpv6mask
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv6maskOutLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsFtnEntryTunnelIdIpv6maskOutLabel{}
@@ -14251,6 +18087,18 @@ func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv6maskOutLabelNexthopInterface) Un
 		return nil
 	}
 	type t ConfigProtocolsMplsFtnEntryTunnelIdIpv6maskOutLabelNexthopInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask{}
+		return nil
+	}
+	type t ConfigProtocolsMplsFtnEntryTunnelIdIpv4mask
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14293,24 +18141,36 @@ func (e *ConfigProtocolsMplsFtnEntryTunnelIdIpv4maskOutLabelNexthopInterface) Un
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitIpv4) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsClassToExp) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitIpv4{}
+		*e = ConfigProtocolsMplsClassToExp{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitIpv4
+	type t ConfigProtocolsMplsClassToExp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitId) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsL2Circuit) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitId{}
+		*e = ConfigProtocolsMplsL2Circuit{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitId
+	type t ConfigProtocolsMplsL2Circuit
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIpv4) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIpv4{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIpv4
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14365,12 +18225,12 @@ func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiGroupname) UnmarshalJSON(b [
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWord) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId{}
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWord{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWord
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14389,24 +18249,84 @@ func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelId) Unmarsh
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitIdIpv4) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdReverse) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitIdIpv4{}
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdReverse{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitIdIpv4
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdReverse
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitIdIpv6) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdForward) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitIdIpv6{}
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdForward{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitIdIpv6
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiControlWordTunnelIdForward
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdReverse) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdReverse{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdReverse
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdForward) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdForward{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIpv4AgiSaiiTaiiTunnelIdForward
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitId{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14425,12 +18345,24 @@ func (e *ConfigProtocolsMplsL2CircuitIdIpv4Groupname) UnmarshalJSON(b []byte) er
 	return nil
 }
 
-func (e *ConfigProtocolsMplsL2CircuitIdIpv4TunnelId) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4GroupnameControlWord) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsMplsL2CircuitIdIpv4TunnelId{}
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4GroupnameControlWord{}
 		return nil
 	}
-	type t ConfigProtocolsMplsL2CircuitIdIpv4TunnelId
+	type t ConfigProtocolsMplsL2CircuitIdIpv4GroupnameControlWord
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4ControlWord) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4ControlWord{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4ControlWord
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14443,6 +18375,114 @@ func (e *ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelId) UnmarshalJSON(b 
 		return nil
 	}
 	type t ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdReverse) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdReverse{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdReverse
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdForward) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdForward{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4ControlWordTunnelIdForward
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4TunnelId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4TunnelId{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4TunnelId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdReverse) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdReverse{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdReverse
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdForward) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdForward{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv4TunnelIdForward
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsL2CircuitIdIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsL2CircuitIdIpv6{}
+		return nil
+	}
+	type t ConfigProtocolsMplsL2CircuitIdIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsMinLabelValue) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsMinLabelValue{}
+		return nil
+	}
+	type t ConfigProtocolsMplsMinLabelValue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsAdminGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsAdminGroup{}
+		return nil
+	}
+	type t ConfigProtocolsMplsAdminGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsMsPwStitch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsMsPwStitch{}
+		return nil
+	}
+	type t ConfigProtocolsMplsMsPwStitch
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14479,6 +18519,30 @@ func (e *ConfigProtocolsMplsMsPwStitchVc1Vc2Mtu) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 	type t ConfigProtocolsMplsMsPwStitchVc1Vc2Mtu
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsClassType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsClassType{}
+		return nil
+	}
+	type t ConfigProtocolsMplsClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsIlmEntry) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsIlmEntry{}
+		return nil
+	}
+	type t ConfigProtocolsMplsIlmEntry
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14545,6 +18609,30 @@ func (e *ConfigProtocolsMplsIlmEntryInterfaceSwapInterfaceIpFec) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigProtocolsMplsMapRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsMapRoute{}
+		return nil
+	}
+	type t ConfigProtocolsMplsMapRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsRsvp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsRsvp{}
+		return nil
+	}
+	type t ConfigProtocolsMplsRsvp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsMplsRsvpMinLabelValue) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsRsvpMinLabelValue{}
@@ -14563,6 +18651,18 @@ func (e *ConfigProtocolsMplsRsvpMaxLabelValue) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 	type t ConfigProtocolsMplsRsvpMaxLabelValue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsMplsLdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsLdp{}
+		return nil
+	}
+	type t ConfigProtocolsMplsLdp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14593,6 +18693,18 @@ func (e *ConfigProtocolsMplsLdpMaxLabelValue) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsMplsBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsBgp{}
+		return nil
+	}
+	type t ConfigProtocolsMplsBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsMplsBgpMinLabelValue) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsMplsBgpMinLabelValue{}
@@ -14617,6 +18729,30 @@ func (e *ConfigProtocolsMplsBgpMaxLabelValue) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsMplsMaxLabelValue) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsMplsMaxLabelValue{}
+		return nil
+	}
+	type t ConfigProtocolsMplsMaxLabelValue
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfd{}
+		return nil
+	}
+	type t ConfigProtocolsBfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBfdInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBfdInterface{}
@@ -14629,12 +18765,24 @@ func (e *ConfigProtocolsBfdInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsBfdMultihopPeer) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBfdInterfaceEcho) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBfdMultihopPeer{}
+		*e = ConfigProtocolsBfdInterfaceEcho{}
 		return nil
 	}
-	type t ConfigProtocolsBfdMultihopPeer
+	type t ConfigProtocolsBfdInterfaceEcho
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceAuth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceAuth{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceAuth
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14665,6 +18813,18 @@ func (e *ConfigProtocolsBfdInterfaceIntervalMinrx) UnmarshalJSON(b []byte) error
 	return nil
 }
 
+func (e *ConfigProtocolsBfdInterfaceSession) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSession{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSession
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBfdInterfaceSessionSource) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBfdInterfaceSessionSource{}
@@ -14683,6 +18843,126 @@ func (e *ConfigProtocolsBfdInterfaceSessionSourceDest) UnmarshalJSON(b []byte) e
 		return nil
 	}
 	type t ConfigProtocolsBfdInterfaceSessionSourceDest
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestMultihop) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestMultihop{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestMultihop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandMode{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandModeNonPersistent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandModeNonPersistent{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestMultihopDemandModeNonPersistent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestDemandMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestDemandMode{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestDemandMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestDemandModeNonPersistent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestDemandModeNonPersistent{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestDemandModeNonPersistent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdInterfaceSessionSourceDestNonPersistent) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdInterfaceSessionSourceDestNonPersistent{}
+		return nil
+	}
+	type t ConfigProtocolsBfdInterfaceSessionSourceDestNonPersistent
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdNotification) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdNotification{}
+		return nil
+	}
+	type t ConfigProtocolsBfdNotification
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdGtsm) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdGtsm{}
+		return nil
+	}
+	type t ConfigProtocolsBfdGtsm
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdMultihopPeer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdMultihopPeer{}
+		return nil
+	}
+	type t ConfigProtocolsBfdMultihopPeer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBfdMultihopPeerAuth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBfdMultihopPeerAuth{}
+		return nil
+	}
+	type t ConfigProtocolsBfdMultihopPeerAuth
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14713,12 +18993,120 @@ func (e *ConfigProtocolsBfdMultihopPeerIntervalMinrx) UnmarshalJSON(b []byte) er
 	return nil
 }
 
+func (e *ConfigProtocolsRipng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipng{}
+		return nil
+	}
+	type t ConfigProtocolsRipng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngTimers{}
+		return nil
+	}
+	type t ConfigProtocolsRipngTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRipngVrf) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRipngVrf{}
 		return nil
 	}
 	type t ConfigProtocolsRipngVrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfTimers{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfRedistributeOspfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfRedistributeOspfv3{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfRedistributeOspfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDistributeList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14737,12 +19125,276 @@ func (e *ConfigProtocolsRipngVrfDistributeListInterface) UnmarshalJSON(b []byte)
 	return nil
 }
 
+func (e *ConfigProtocolsRipngVrfDistributeListInterfaceAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDistributeListInterfaceAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDistributeListInterfaceAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfDistributeListInterfacePrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDistributeListInterfacePrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDistributeListInterfacePrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfDistributeListAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDistributeListAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDistributeListAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfDistributeListPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDistributeListPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDistributeListPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngVrfDefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngVrfDefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsRipngVrfDefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistributeOspfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistributeOspfv3{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistributeOspfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsRipngRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRipngDistributeListInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRipngDistributeListInterface{}
 		return nil
 	}
 	type t ConfigProtocolsRipngDistributeListInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDistributeListInterfaceAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDistributeListInterfaceAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDistributeListInterfaceAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDistributeListInterfacePrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDistributeListInterfacePrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDistributeListInterfacePrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDistributeListAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDistributeListAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDistributeListAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDistributeListPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDistributeListPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDistributeListPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRipngDefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRipngDefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsRipngDefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVrf{}
+		return nil
+	}
+	type t ConfigProtocolsVrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVrfRouteTarget) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVrfRouteTarget{}
+		return nil
+	}
+	type t ConfigProtocolsVrfRouteTarget
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVrfImport) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVrfImport{}
+		return nil
+	}
+	type t ConfigProtocolsVrfImport
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVrfRd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVrfRd{}
+		return nil
+	}
+	type t ConfigProtocolsVrfRd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStatic{}
+		return nil
+	}
+	type t ConfigProtocolsStatic
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14761,84 +19413,24 @@ func (e *ConfigProtocolsStaticInterfaceRoute6) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsStaticRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticVrf) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticVrf{}
-		return nil
-	}
-	type t ConfigProtocolsStaticVrf
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticTable) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticTable{}
-		return nil
-	}
-	type t ConfigProtocolsStaticTable
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticInterfaceRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticInterfaceRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticInterfaceRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticArp) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticArp{}
-		return nil
-	}
-	type t ConfigProtocolsStaticArp
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticRoute6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticRoute6{}
-		return nil
-	}
-	type t ConfigProtocolsStaticRoute6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigProtocolsStaticInterfaceRoute6NextHopInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticInterfaceRoute6NextHopInterface{}
 		return nil
 	}
 	type t ConfigProtocolsStaticInterfaceRoute6NextHopInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticRoute
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14857,6 +19449,30 @@ func (e *ConfigProtocolsStaticRouteNextHop) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsStaticRouteBlackhole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticRouteBlackhole{}
+		return nil
+	}
+	type t ConfigProtocolsStaticRouteBlackhole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticBfd{}
+		return nil
+	}
+	type t ConfigProtocolsStaticBfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticBfdInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticBfdInterface{}
@@ -14869,48 +19485,36 @@ func (e *ConfigProtocolsStaticBfdInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsStaticBfdAllInterfaces) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticBfdAllInterfaces{}
+		return nil
+	}
+	type t ConfigProtocolsStaticBfdAllInterfaces
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticVrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrf{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticVrfInterfaceRoute6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticVrfInterfaceRoute6{}
 		return nil
 	}
 	type t ConfigProtocolsStaticVrfInterfaceRoute6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticVrfRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticVrfRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticVrfRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticVrfInterfaceRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticVrfInterfaceRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticVrfInterfaceRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticVrfRoute6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticVrfRoute6{}
-		return nil
-	}
-	type t ConfigProtocolsStaticVrfRoute6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14941,12 +19545,48 @@ func (e *ConfigProtocolsStaticVrfInterfaceRoute6NextHopInterfaceGw) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigProtocolsStaticVrfRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrfRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrfRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticVrfRouteNextHop) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticVrfRouteNextHop{}
 		return nil
 	}
 	type t ConfigProtocolsStaticVrfRouteNextHop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticVrfRouteBlackhole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrfRouteBlackhole{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrfRouteBlackhole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticVrfInterfaceRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrfInterfaceRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrfInterfaceRoute
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14965,12 +19605,48 @@ func (e *ConfigProtocolsStaticVrfInterfaceRouteNextHopInterface) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigProtocolsStaticVrfIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrfIp{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrfIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticVrfRoute6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticVrfRoute6{}
+		return nil
+	}
+	type t ConfigProtocolsStaticVrfRoute6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticVrfRoute6NextHop) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticVrfRoute6NextHop{}
 		return nil
 	}
 	type t ConfigProtocolsStaticVrfRoute6NextHop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticTable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTable{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTable
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -14989,48 +19665,24 @@ func (e *ConfigProtocolsStaticTableInterfaceRoute6) UnmarshalJSON(b []byte) erro
 	return nil
 }
 
-func (e *ConfigProtocolsStaticTableRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticTableRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticTableRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticTableInterfaceRoute) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticTableInterfaceRoute{}
-		return nil
-	}
-	type t ConfigProtocolsStaticTableInterfaceRoute
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsStaticTableRoute6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsStaticTableRoute6{}
-		return nil
-	}
-	type t ConfigProtocolsStaticTableRoute6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigProtocolsStaticTableInterfaceRoute6NextHopInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticTableInterfaceRoute6NextHopInterface{}
 		return nil
 	}
 	type t ConfigProtocolsStaticTableInterfaceRoute6NextHopInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticTableRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTableRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTableRoute
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15049,12 +19701,48 @@ func (e *ConfigProtocolsStaticTableRouteNextHop) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsStaticTableRouteBlackhole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTableRouteBlackhole{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTableRouteBlackhole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticTableInterfaceRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTableInterfaceRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTableInterfaceRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticTableInterfaceRouteNextHopInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticTableInterfaceRouteNextHopInterface{}
 		return nil
 	}
 	type t ConfigProtocolsStaticTableInterfaceRouteNextHopInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticTableRoute6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTableRoute6{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTableRoute6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15073,6 +19761,30 @@ func (e *ConfigProtocolsStaticTableRoute6NextHop) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
+func (e *ConfigProtocolsStaticTableRoute6Blackhole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticTableRoute6Blackhole{}
+		return nil
+	}
+	type t ConfigProtocolsStaticTableRoute6Blackhole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticInterfaceRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticInterfaceRoute{}
+		return nil
+	}
+	type t ConfigProtocolsStaticInterfaceRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticInterfaceRouteNextHopInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticInterfaceRouteNextHopInterface{}
@@ -15085,12 +19797,60 @@ func (e *ConfigProtocolsStaticInterfaceRouteNextHopInterface) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigProtocolsStaticArp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticArp{}
+		return nil
+	}
+	type t ConfigProtocolsStaticArp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticRoute6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticRoute6{}
+		return nil
+	}
+	type t ConfigProtocolsStaticRoute6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsStaticRoute6NextHop) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsStaticRoute6NextHop{}
 		return nil
 	}
 	type t ConfigProtocolsStaticRoute6NextHop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsStaticRoute6Blackhole) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsStaticRoute6Blackhole{}
+		return nil
+	}
+	type t ConfigProtocolsStaticRoute6Blackhole
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvp{}
+		return nil
+	}
+	type t ConfigProtocolsRsvp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15121,12 +19881,12 @@ func (e *ConfigProtocolsRsvpPath) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsRsvpTrunk) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRsvpPathMpls) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRsvpTrunk{}
+		*e = ConfigProtocolsRsvpPathMpls{}
 		return nil
 	}
-	type t ConfigProtocolsRsvpTrunk
+	type t ConfigProtocolsRsvpPathMpls
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15145,12 +19905,120 @@ func (e *ConfigProtocolsRsvpPathMplsUnnumbered) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpPathGmpls) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpPathGmpls{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpPathGmpls
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpPathGmplsUnnumbered) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpPathGmplsUnnumbered{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpPathGmplsUnnumbered
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpGracefulRestart) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpGracefulRestart{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpGracefulRestart
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunk) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunk{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunk
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmpls) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmpls{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmpls
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsLspMetric) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsLspMetric{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsLspMetric
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsCapability{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsGpid) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsGpid{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsGpid
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsGmplsLabelSet{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsGmplsLabelSet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetRange
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15169,12 +20037,96 @@ func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetRangeStartRange) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacket
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRangeStartRange) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRangeStartRange{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkGmplsGmplsLabelSetPacketRangeStartRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsDirection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsDirection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsDirection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsUpdateType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsUpdateType{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsUpdateType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsPrimary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsPrimary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsPrimary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryTraffic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsPrimaryTraffic{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsPrimaryTraffic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsPrimaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsPrimaryProtection
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15193,12 +20145,72 @@ func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryClassToExpBit) UnmarshalJSON(b []by
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryFilter) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsPrimaryFilter{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsPrimaryFilter
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsPrimaryExplicitLabelPacket
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsSecondary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsSecondary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsSecondary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryTraffic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsSecondaryTraffic{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsSecondaryTraffic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsSecondaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsSecondaryProtection
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15217,12 +20229,84 @@ func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryClassToExpBit) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryFilter) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsSecondaryFilter{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsSecondaryFilter
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkGmplsSecondaryExplicitLabelPacket
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4LspMetric) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4LspMetric{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4LspMetric
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4Capability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4Capability{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4Capability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4Direction) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4Direction{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4Direction
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15241,12 +20325,48 @@ func (e *ConfigProtocolsRsvpTrunkIpv4MapRoute) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv4Primary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4Primary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4Primary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4PrimaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4PrimaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4PrimaryProtection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4PrimaryExplicitLabelPacket
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15265,12 +20385,48 @@ func (e *ConfigProtocolsRsvpTrunkIpv4PrimaryClassToExp) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv4Secondary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4Secondary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4Secondary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4SecondaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4SecondaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4SecondaryProtection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4SecondaryExplicitLabelPacket
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15289,12 +20445,60 @@ func (e *ConfigProtocolsRsvpTrunkIpv4SecondaryClassToExp) UnmarshalJSON(b []byte
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4GmplsLabelSet{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4GmplsLabelSet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRangeStartRange) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRangeStartRange{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetRangeStartRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacket
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacketRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacketRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacketRange
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15313,24 +20517,72 @@ func (e *ConfigProtocolsRsvpTrunkIpv4GmplsLabelSetPacketRangeStartRange) Unmarsh
 	return nil
 }
 
-func (e *ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRsvpTrunkIpv6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix{}
+		*e = ConfigProtocolsRsvpTrunkIpv6{}
 		return nil
 	}
-	type t ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix
+	type t ConfigProtocolsRsvpTrunkIpv6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsRsvpTrunkIpv6MapRouteMask) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsRsvpTrunkIpv6LspMetric) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsRsvpTrunkIpv6MapRouteMask{}
+		*e = ConfigProtocolsRsvpTrunkIpv6LspMetric{}
 		return nil
 	}
-	type t ConfigProtocolsRsvpTrunkIpv6MapRouteMask
+	type t ConfigProtocolsRsvpTrunkIpv6LspMetric
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6Capability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6Capability{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6Capability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6Direction) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6Direction{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6Direction
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6MapRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6MapRoute{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6MapRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6MapRoutePrefix
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15349,12 +20601,84 @@ func (e *ConfigProtocolsRsvpTrunkIpv6MapRoutePrefixMask) UnmarshalJSON(b []byte)
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv6MapRouteMask) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6MapRouteMask{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6MapRouteMask
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6UpdateType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6UpdateType{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6UpdateType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6Primary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6Primary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6Primary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryTraffic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6PrimaryTraffic{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6PrimaryTraffic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6PrimaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6PrimaryProtection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6PrimaryExplicitLabelPacket
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15373,12 +20697,72 @@ func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryClassToExpBit) UnmarshalJSON(b []byt
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv6PrimaryFilter) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6PrimaryFilter{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6PrimaryFilter
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6Secondary) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6Secondary{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6Secondary
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryTraffic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6SecondaryTraffic{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6SecondaryTraffic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryProtection) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6SecondaryProtection{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6SecondaryProtection
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabel{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabelPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabelPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6SecondaryExplicitLabelPacket
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15397,12 +20781,72 @@ func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryClassToExpBit) UnmarshalJSON(b []b
 	return nil
 }
 
+func (e *ConfigProtocolsRsvpTrunkIpv6SecondaryFilter) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6SecondaryFilter{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6SecondaryFilter
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6GmplsLabelSet{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6GmplsLabelSet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRangeStartRange) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRangeStartRange{}
 		return nil
 	}
 	type t ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetRangeStartRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacket) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacket{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacket
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacketRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacketRange{}
+		return nil
+	}
+	type t ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacketRange
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15421,36 +20865,24 @@ func (e *ConfigProtocolsRsvpTrunkIpv6GmplsLabelSetPacketRangeStartRange) Unmarsh
 	return nil
 }
 
+func (e *ConfigProtocolsVpls) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVpls{}
+		return nil
+	}
+	type t ConfigProtocolsVpls
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsVplsInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsVplsInterface{}
 		return nil
 	}
 	type t ConfigProtocolsVplsInterface
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsVplsFibEntry) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsFibEntry{}
-		return nil
-	}
-	type t ConfigProtocolsVplsFibEntry
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsVplsInstance) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsInstance{}
-		return nil
-	}
-	type t ConfigProtocolsVplsInstance
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15481,24 +20913,24 @@ func (e *ConfigProtocolsVplsInterfaceVlanInstanceVlan) UnmarshalJSON(b []byte) e
 	return nil
 }
 
-func (e *ConfigProtocolsVplsFibEntryPeer) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsVplsFibEntry) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsFibEntryPeer{}
+		*e = ConfigProtocolsVplsFibEntry{}
 		return nil
 	}
-	type t ConfigProtocolsVplsFibEntryPeer
+	type t ConfigProtocolsVplsFibEntry
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsVplsFibEntrySpokeVc) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsVplsFibEntryPeer) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsFibEntrySpokeVc{}
+		*e = ConfigProtocolsVplsFibEntryPeer{}
 		return nil
 	}
-	type t ConfigProtocolsVplsFibEntrySpokeVc
+	type t ConfigProtocolsVplsFibEntryPeer
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15529,6 +20961,18 @@ func (e *ConfigProtocolsVplsFibEntryPeerInLabelOutInterface) UnmarshalJSON(b []b
 	return nil
 }
 
+func (e *ConfigProtocolsVplsFibEntrySpokeVc) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsFibEntrySpokeVc{}
+		return nil
+	}
+	type t ConfigProtocolsVplsFibEntrySpokeVc
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsVplsFibEntrySpokeVcInLabel) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsVplsFibEntrySpokeVcInLabel{}
@@ -15547,6 +20991,18 @@ func (e *ConfigProtocolsVplsFibEntrySpokeVcInLabelOutInterface) UnmarshalJSON(b 
 		return nil
 	}
 	type t ConfigProtocolsVplsFibEntrySpokeVcInLabelOutInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstance{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstance
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15577,6 +21033,54 @@ func (e *ConfigProtocolsVplsInstanceIdVplsPeer) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsVplsInstanceIdVplsPeerTunnelId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdVplsPeerTunnelId{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdVplsPeerTunnelId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdReverse) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdReverse{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdReverse
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdForward) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdForward{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdVplsPeerTunnelIdForward
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstanceIdLearning) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdLearning{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdLearning
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsVplsInstanceIdVplsVc) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsVplsInstanceIdVplsVc{}
@@ -15589,12 +21093,24 @@ func (e *ConfigProtocolsVplsInstanceIdVplsVc) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsVplsInstanceIdVplsPeerTunnelId) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsVplsInstanceIdSignaling) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsInstanceIdVplsPeerTunnelId{}
+		*e = ConfigProtocolsVplsInstanceIdSignaling{}
 		return nil
 	}
-	type t ConfigProtocolsVplsInstanceIdVplsPeerTunnelId
+	type t ConfigProtocolsVplsInstanceIdSignaling
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstanceIdSignalingLdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdSignalingLdp{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdSignalingLdp
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15619,18 +21135,6 @@ func (e *ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerAgi) UnmarshalJSON(b [
 		return nil
 	}
 	type t ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerAgi
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId{}
-		return nil
-	}
-	type t ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15673,12 +21177,84 @@ func (e *ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerAgiSaiiTaiiTunnelId) U
 	return nil
 }
 
+func (e *ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdSignalingLdpVplsPeerTunnelId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsVplsInstanceIdSignalingBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsVplsInstanceIdSignalingBgp{}
+		return nil
+	}
+	type t ConfigProtocolsVplsInstanceIdSignalingBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdp{}
+		return nil
+	}
+	type t ConfigProtocolsLdp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsLdpInterface) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsLdpInterface{}
 		return nil
 	}
 	type t ConfigProtocolsLdpInterface
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpInterfaceEnable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpInterfaceEnable{}
+		return nil
+	}
+	type t ConfigProtocolsLdpInterfaceEnable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpInterfaceLabelRetentionMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpInterfaceLabelRetentionMode{}
+		return nil
+	}
+	type t ConfigProtocolsLdpInterfaceLabelRetentionMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpInterfaceAdvertisementMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpInterfaceAdvertisementMode{}
+		return nil
+	}
+	type t ConfigProtocolsLdpInterfaceAdvertisementMode
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15697,12 +21273,48 @@ func (e *ConfigProtocolsLdpNeighbor) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsLdpNeighborAuth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpNeighborAuth{}
+		return nil
+	}
+	type t ConfigProtocolsLdpNeighborAuth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpNeighborAuthMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpNeighborAuthMd5{}
+		return nil
+	}
+	type t ConfigProtocolsLdpNeighborAuthMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsLdpNeighborAuthMd5Password) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsLdpNeighborAuthMd5Password{}
 		return nil
 	}
 	type t ConfigProtocolsLdpNeighborAuthMd5Password
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertiseLabels) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabels{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabels
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15721,12 +21333,84 @@ func (e *ConfigProtocolsLdpAdvertiseLabelsForAcl) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
+func (e *ConfigProtocolsLdpAdvertiseLabelsForAclTo) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabelsForAclTo{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabelsForAclTo
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertiseLabelsFor) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabelsFor{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabelsFor
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsLdpAdvertiseLabelsForPeerAcl) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsLdpAdvertiseLabelsForPeerAcl{}
 		return nil
 	}
 	type t ConfigProtocolsLdpAdvertiseLabelsForPeerAcl
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertiseLabelsForPeerAclTo) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabelsForPeerAclTo{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabelsForPeerAclTo
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertiseLabelsForAny) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabelsForAny{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabelsForAny
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertiseLabelsForAnyTo) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertiseLabelsForAnyTo{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertiseLabelsForAnyTo
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpTransportAddress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpTransportAddress{}
+		return nil
+	}
+	type t ConfigProtocolsLdpTransportAddress
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15757,12 +21441,108 @@ func (e *ConfigProtocolsLdpTransportAddressIpv6) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsLdpControlMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpControlMode{}
+		return nil
+	}
+	type t ConfigProtocolsLdpControlMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpLabelRetentionMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpLabelRetentionMode{}
+		return nil
+	}
+	type t ConfigProtocolsLdpLabelRetentionMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpGracefulRestart) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpGracefulRestart{}
+		return nil
+	}
+	type t ConfigProtocolsLdpGracefulRestart
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpGracefulRestartTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpGracefulRestartTimers{}
+		return nil
+	}
+	type t ConfigProtocolsLdpGracefulRestartTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpTargetedPeer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpTargetedPeer{}
+		return nil
+	}
+	type t ConfigProtocolsLdpTargetedPeer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsLdpTargetedPeerIpv4) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsLdpTargetedPeerIpv4{}
 		return nil
 	}
 	type t ConfigProtocolsLdpTargetedPeerIpv4
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpGlobalMergeCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpGlobalMergeCapability{}
+		return nil
+	}
+	type t ConfigProtocolsLdpGlobalMergeCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsLdpAdvertisementMode) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsLdpAdvertisementMode{}
+		return nil
+	}
+	type t ConfigProtocolsLdpAdvertisementMode
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsIgmpProxy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsIgmpProxy{}
+		return nil
+	}
+	type t ConfigProtocolsIgmpProxy
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15781,12 +21561,444 @@ func (e *ConfigProtocolsIgmpProxyInterface) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgp{}
+		return nil
+	}
+	type t ConfigProtocolsBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBgpNeighbor) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBgpNeighbor{}
 		return nil
 	}
 	type t ConfigProtocolsBgpNeighbor
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborFilterList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborFilterList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAllowasIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAllowasIn{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborDisableSendCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborDisableSendCommunity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborDisableSendCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborTimers{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborTtlSecurity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborTtlSecurity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborTtlSecurity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborFallOver) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborFallOver{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborFallOver
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborFallOverBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborFallOverBfd{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborFallOverBfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamily) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamily{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamily
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6Unicast) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6Unicast{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6Unicast
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastFilterList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastFilterList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAllowasIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAllowasIn{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastNexthopLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastNexthopLocal{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastNexthopLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDisableSendCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDisableSendCommunity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDisableSendCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastSoftReconfiguration
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAddressFamilyIpv6UnicastDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborSoftReconfiguration
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborLocalAs) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborLocalAs{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborLocalAs
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpNeighborDistributeListWord) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpNeighborDistributeListWord{}
+		return nil
+	}
+	type t ConfigProtocolsBgpNeighborDistributeListWord
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpTimers{}
+		return nil
+	}
+	type t ConfigProtocolsBgpTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpMaximumPaths) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpMaximumPaths{}
+		return nil
+	}
+	type t ConfigProtocolsBgpMaximumPaths
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15817,36 +22029,48 @@ func (e *ConfigProtocolsBgpAggregateAddress) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsBgpPeerGroup) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBgpAddressFamily) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgpPeerGroup{}
+		*e = ConfigProtocolsBgpAddressFamily{}
 		return nil
 	}
-	type t ConfigProtocolsBgpPeerGroup
+	type t ConfigProtocolsBgpAddressFamily
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsBgpNeighborLocalAs) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBgpAddressFamilyL2vpn) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgpNeighborLocalAs{}
+		*e = ConfigProtocolsBgpAddressFamilyL2vpn{}
 		return nil
 	}
-	type t ConfigProtocolsBgpNeighborLocalAs
+	type t ConfigProtocolsBgpAddressFamilyL2vpn
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsBgpNeighborDistributeListWord) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBgpAddressFamilyL2vpnVpls) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgpNeighborDistributeListWord{}
+		*e = ConfigProtocolsBgpAddressFamilyL2vpnVpls{}
 		return nil
 	}
-	type t ConfigProtocolsBgpNeighborDistributeListWord
+	type t ConfigProtocolsBgpAddressFamilyL2vpnVpls
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyL2vpnVplsNeighbor) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyL2vpnVplsNeighbor{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyL2vpnVplsNeighbor
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15889,6 +22113,18 @@ func (e *ConfigProtocolsBgpAddressFamilyL2vpnVplsNeighborTag) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigProtocolsBgpAddressFamilyIpv4Unicast) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4Unicast{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4Unicast
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrf) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrf{}
@@ -15913,24 +22149,96 @@ func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighbor) UnmarshalJSON(b 
 	return nil
 }
 
-func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborFilterList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork{}
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborFilterList{}
 		return nil
 	}
-	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborFilterList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAllowasIn) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup{}
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAllowasIn{}
 		return nil
 	}
-	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborTimers{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborSoftReconfiguration
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15949,6 +22257,54 @@ func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborLocalAs) Unmarshal
 	return nil
 }
 
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeListWord) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeListWord{}
@@ -15961,12 +22317,312 @@ func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNeighborDistributeListWord
 	return nil
 }
 
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfNetwork
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParameters{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersDampening) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersDampening{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersDampening
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersConfederation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersConfederation{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfParametersConfederation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeRip{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeOspf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfRedistributeOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupFilterList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupFilterList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAllowasIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAllowasIn{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDisableSendCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDisableSendCommunity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDisableSendCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupTimers{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupSoftReconfiguration
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupLocalAs) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupLocalAs{}
 		return nil
 	}
 	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupLocalAs
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv4UnicastVrfPeerGroupDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6Unicast) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6Unicast{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6Unicast
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -15991,6 +22647,90 @@ func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastAggregateAddress) UnmarshalJS
 		return nil
 	}
 	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastAggregateAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeRipng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeRipng{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeRipng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeOspfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeOspfv3{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeOspfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsBgpAddressFamilyIpv6UnicastRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpDampening) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpDampening{}
+		return nil
+	}
+	type t ConfigProtocolsBgpDampening
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16045,12 +22785,516 @@ func (e *ConfigProtocolsBgpDampeningHalfLifeReuseRouteSupRouteTime) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigProtocolsBgpParameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParameters{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersDistance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersDistance{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersDistance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsBgpParametersDistancePrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsBgpParametersDistancePrefix{}
 		return nil
 	}
 	type t ConfigProtocolsBgpParametersDistancePrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersDistanceGlobal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersDistanceGlobal{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersDistanceGlobal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersDefault) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersDefault{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersDefault
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersGracefulRestart) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersGracefulRestart{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersGracefulRestart
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersDampening) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersDampening{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersDampening
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersBestpath) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersBestpath{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersBestpath
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersBestpathAsPath) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersBestpathAsPath{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersBestpathAsPath
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersBestpathMed) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersBestpathMed{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersBestpathMed
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpParametersConfederation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpParametersConfederation{}
+		return nil
+	}
+	type t ConfigProtocolsBgpParametersConfederation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistributeRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistributeRip{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistributeRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpRedistributeOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpRedistributeOspf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpRedistributeOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroup{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupFilterList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupFilterList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAllowasIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAllowasIn{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupDisableSendCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupDisableSendCommunity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupDisableSendCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupTtlSecurity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupTtlSecurity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupTtlSecurity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupTimers{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamily) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamily{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamily
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6Unicast) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6Unicast{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6Unicast
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastFilterList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastFilterList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAllowasIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAllowasIn{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAllowasIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastNexthopLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastNexthopLocal{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastNexthopLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDisableSendCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDisableSendCommunity{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDisableSendCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDefaultOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDefaultOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDefaultOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapability{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrf{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrfPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrfPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastCapabilityOrfPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastSoftReconfiguration
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAddressFamilyIpv6UnicastDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupSoftReconfiguration) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupSoftReconfiguration{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupSoftReconfiguration
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16069,6 +23313,78 @@ func (e *ConfigProtocolsBgpPeerGroupLocalAs) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsBgpPeerGroupAttributeUnchanged) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupAttributeUnchanged{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupAttributeUnchanged
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupRouteMap{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupPrefixList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupPrefixList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsBgpPeerGroupDistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsBgpPeerGroupDistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsBgpPeerGroupDistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Bfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Bfd{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Bfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsOspfv3Area) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfv3Area{}
@@ -16081,36 +23397,72 @@ func (e *ConfigProtocolsOspfv3Area) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsOspfv3Vrf) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfv3Vrf{}
-		return nil
-	}
-	type t ConfigProtocolsOspfv3Vrf
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsOspfv3DistributeList) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfv3DistributeList{}
-		return nil
-	}
-	type t ConfigProtocolsOspfv3DistributeList
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigProtocolsOspfv3AreaFilterList) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfv3AreaFilterList{}
 		return nil
 	}
 	type t ConfigProtocolsOspfv3AreaFilterList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AreaAreaType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AreaAreaType{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AreaAreaType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AreaAreaTypeStub) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AreaAreaTypeStub{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AreaAreaTypeStub
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AreaAreaTypeNssa) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AreaAreaTypeNssa{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AreaAreaTypeNssa
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16141,12 +23493,24 @@ func (e *ConfigProtocolsOspfv3AreaRange) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsOspfv3Timers) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric{}
+		*e = ConfigProtocolsOspfv3Timers{}
 		return nil
 	}
-	type t ConfigProtocolsOspfv3AreaAreaTypeNssaDefaultInformationOriginateMetric
+	type t ConfigProtocolsOspfv3Timers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3TimersSfpExpDelay) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3TimersSfpExpDelay{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3TimersSfpExpDelay
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16159,6 +23523,102 @@ func (e *ConfigProtocolsOspfv3TimersSfpExpDelayMin) UnmarshalJSON(b []byte) erro
 		return nil
 	}
 	type t ConfigProtocolsOspfv3TimersSfpExpDelayMin
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Capability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Capability{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Capability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Distance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Distance{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Distance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3DistanceOspfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3DistanceOspfv3{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3DistanceOspfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3LogAdjacencyChanges) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3LogAdjacencyChanges{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3LogAdjacencyChanges
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Cspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Cspf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Cspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3AutoCost) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3AutoCost{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3AutoCost
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Vrf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Vrf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Vrf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfBfd{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfBfd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16213,6 +23673,234 @@ func (e *ConfigProtocolsOspfv3VrfAreaRange) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsOspfv3VrfParameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfParameters{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfParameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistributeRipng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistributeRipng{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistributeRipng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3VrfRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3VrfRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3VrfRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Parameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Parameters{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Parameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3Redistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3Redistribute{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3Redistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3RedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3RedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3RedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3RedistributeRipng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3RedistributeRipng{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3RedistributeRipng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3RedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3RedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3RedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3RedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3RedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3RedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3RedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3RedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3RedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3DistributeList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3DistributeList{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3DistributeList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3DistributeListOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3DistributeListOut{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3DistributeListOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3DefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3DefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3DefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfv3DefaultInformationOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfv3DefaultInformationOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsOspfv3DefaultInformationOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspf{}
+		return nil
+	}
+	type t ConfigProtocolsOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsOspfNeighbor) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfNeighbor{}
@@ -16225,12 +23913,228 @@ func (e *ConfigProtocolsOspfNeighbor) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigProtocolsOspfBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfBfd{}
+		return nil
+	}
+	type t ConfigProtocolsOspfBfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsOspfArea) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfArea{}
 		return nil
 	}
 	type t ConfigProtocolsOspfArea
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaAreaType) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaAreaType{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaAreaType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaAreaTypeStub) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaAreaTypeStub{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaAreaTypeStub
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaAreaTypeNssa) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaAreaTypeNssa{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaAreaTypeNssa
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaVirtualLink) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaVirtualLink{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaVirtualLink
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaVirtualLinkAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaVirtualLinkAuthentication{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaVirtualLinkAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAreaRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAreaRange{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAreaRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRefresh) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRefresh{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRefresh
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfTimers{}
+		return nil
+	}
+	type t ConfigProtocolsOspfTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfTimersThrottle) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfTimersThrottle{}
+		return nil
+	}
+	type t ConfigProtocolsOspfTimersThrottle
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfTimersThrottleSpf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfTimersThrottleSpf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfTimersThrottleSpf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfDistance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfDistance{}
+		return nil
+	}
+	type t ConfigProtocolsOspfDistance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfDistanceOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfDistanceOspf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfDistanceOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfLogAdjacencyChanges) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfLogAdjacencyChanges{}
+		return nil
+	}
+	type t ConfigProtocolsOspfLogAdjacencyChanges
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfMplsTe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfMplsTe{}
+		return nil
+	}
+	type t ConfigProtocolsOspfMplsTe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfAutoCost) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfAutoCost{}
+		return nil
+	}
+	type t ConfigProtocolsOspfAutoCost
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16261,42 +24165,6 @@ func (e *ConfigProtocolsOspfInstanceId) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsOspfAreaVirtualLink) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfAreaVirtualLink{}
-		return nil
-	}
-	type t ConfigProtocolsOspfAreaVirtualLink
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsOspfAreaRange) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfAreaRange{}
-		return nil
-	}
-	type t ConfigProtocolsOspfAreaRange
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId{}
-		return nil
-	}
-	type t ConfigProtocolsOspfAreaVirtualLinkAuthenticationMd5KeyId
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigProtocolsOspfInstanceIdVrf) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfInstanceIdVrf{}
@@ -16321,6 +24189,18 @@ func (e *ConfigProtocolsOspfInstanceIdVrfNeighbor) UnmarshalJSON(b []byte) error
 	return nil
 }
 
+func (e *ConfigProtocolsOspfInstanceIdVrfBfd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfBfd{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfBfd
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigProtocolsOspfInstanceIdVrfArea) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigProtocolsOspfInstanceIdVrfArea{}
@@ -16333,12 +24213,36 @@ func (e *ConfigProtocolsOspfInstanceIdVrfArea) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigProtocolsOspfInstanceIdVrfAccessList) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaAreaType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfInstanceIdVrfAccessList{}
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaAreaType{}
 		return nil
 	}
-	type t ConfigProtocolsOspfInstanceIdVrfAccessList
+	type t ConfigProtocolsOspfInstanceIdVrfAreaAreaType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeStub) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeStub{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeStub
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeNssa) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeNssa{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAreaAreaTypeNssa
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16357,12 +24261,24 @@ func (e *ConfigProtocolsOspfInstanceIdVrfAreaVirtualLink) UnmarshalJSON(b []byte
 	return nil
 }
 
-func (e *ConfigProtocolsOspfInstanceIdVrfAreaRange) UnmarshalJSON(b []byte) error {
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthentication) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigProtocolsOspfInstanceIdVrfAreaRange{}
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthentication{}
 		return nil
 	}
-	type t ConfigProtocolsOspfInstanceIdVrfAreaRange
+	type t ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16375,6 +24291,438 @@ func (e *ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthenticationMd5KeyId) 
 		return nil
 	}
 	type t ConfigProtocolsOspfInstanceIdVrfAreaVirtualLinkAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAreaRange) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAreaRange{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAreaRange
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRefresh) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRefresh{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRefresh
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfTimers) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfTimers{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfTimers
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfTimersThrottle) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfTimersThrottle{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfTimersThrottle
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfTimersThrottleSpf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfTimersThrottleSpf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfTimersThrottleSpf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfCapability) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfCapability{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfCapability
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfCapabilityCspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfCapabilityCspf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfCapabilityCspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfCapabilityCspfTieBreak) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfCapabilityCspfTieBreak{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfCapabilityCspfTieBreak
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfDistance) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfDistance{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfDistance
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfDistanceOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfDistanceOspf{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfDistanceOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfLogAdjacencyChanges) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfLogAdjacencyChanges{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfLogAdjacencyChanges
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfMplsTe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfMplsTe{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfMplsTe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAutoCost) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAutoCost{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAutoCost
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfAccessList{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfAccessList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfParameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfParameters{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfParameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistributeRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistributeRip{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistributeRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfMaxMetric) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfMaxMetric{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfMaxMetric
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfMaxMetricRouterLsa) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfMaxMetricRouterLsa{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfMaxMetricRouterLsa
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfDefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfDefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfDefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfInstanceIdVrfDefaultInformationOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfInstanceIdVrfDefaultInformationOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsOspfInstanceIdVrfDefaultInformationOriginate
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfParameters) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfParameters{}
+		return nil
+	}
+	type t ConfigProtocolsOspfParameters
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistribute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistribute{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistribute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistributeRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistributeRip{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistributeRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistributeConnected) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistributeConnected{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistributeConnected
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistributeStatic) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistributeStatic{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistributeStatic
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistributeBgp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistributeBgp{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistributeBgp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfRedistributeKernel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfRedistributeKernel{}
+		return nil
+	}
+	type t ConfigProtocolsOspfRedistributeKernel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfMaxMetric) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfMaxMetric{}
+		return nil
+	}
+	type t ConfigProtocolsOspfMaxMetric
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfMaxMetricRouterLsa) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfMaxMetricRouterLsa{}
+		return nil
+	}
+	type t ConfigProtocolsOspfMaxMetricRouterLsa
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfDefaultInformation) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfDefaultInformation{}
+		return nil
+	}
+	type t ConfigProtocolsOspfDefaultInformation
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigProtocolsOspfDefaultInformationOriginate) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigProtocolsOspfDefaultInformationOriginate{}
+		return nil
+	}
+	type t ConfigProtocolsOspfDefaultInformationOriginate
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16405,96 +24753,24 @@ func (e *ConfigPolicyAsPathList) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigPolicyAccessList) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyAccessList{}
-		return nil
-	}
-	type t ConfigPolicyAccessList
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyRouteMap) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyRouteMap{}
-		return nil
-	}
-	type t ConfigPolicyRouteMap
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyAccessList6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyAccessList6{}
-		return nil
-	}
-	type t ConfigPolicyAccessList6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyPrefixList6) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyPrefixList6{}
-		return nil
-	}
-	type t ConfigPolicyPrefixList6
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyCommunityList) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyCommunityList{}
-		return nil
-	}
-	type t ConfigPolicyCommunityList
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyExtcommunityList) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyExtcommunityList{}
-		return nil
-	}
-	type t ConfigPolicyExtcommunityList
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigPolicyPrefixList) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigPolicyPrefixList{}
-		return nil
-	}
-	type t ConfigPolicyPrefixList
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
 func (e *ConfigPolicyAsPathListRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigPolicyAsPathListRule{}
 		return nil
 	}
 	type t ConfigPolicyAsPathListRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyAccessList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyAccessList{}
+		return nil
+	}
+	type t ConfigPolicyAccessList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16513,12 +24789,252 @@ func (e *ConfigPolicyAccessListRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigPolicyAccessListRuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyAccessListRuleSource{}
+		return nil
+	}
+	type t ConfigPolicyAccessListRuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyAccessListRuleDestination) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyAccessListRuleDestination{}
+		return nil
+	}
+	type t ConfigPolicyAccessListRuleDestination
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMap) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMap{}
+		return nil
+	}
+	type t ConfigPolicyRouteMap
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigPolicyRouteMapRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigPolicyRouteMapRule{}
 		return nil
 	}
 	type t ConfigPolicyRouteMapRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatch{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchExtcommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchExtcommunity{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchExtcommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchCommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchCommunity{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchCommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIp{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpRouteSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpRouteSource{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpRouteSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpNexthop) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpNexthop{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpNexthop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpAddress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpAddress{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpv6{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpv6Nexthop) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpv6Nexthop{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpv6Nexthop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleMatchIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleMatchIpv6Address{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleMatchIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleOnMatch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleOnMatch{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleOnMatch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleSet) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleSet{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleSet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleSetIpv6NextHop) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleSetIpv6NextHop{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleSetIpv6NextHop
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleSetCommList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleSetCommList{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleSetCommList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleSetExtcommunity) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleSetExtcommunity{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleSetExtcommunity
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyRouteMapRuleSetAggregator) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyRouteMapRuleSetAggregator{}
+		return nil
+	}
+	type t ConfigPolicyRouteMapRuleSetAggregator
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyAccessList6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyAccessList6{}
+		return nil
+	}
+	type t ConfigPolicyAccessList6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16537,12 +25053,48 @@ func (e *ConfigPolicyAccessList6Rule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigPolicyAccessList6RuleSource) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyAccessList6RuleSource{}
+		return nil
+	}
+	type t ConfigPolicyAccessList6RuleSource
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyPrefixList6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyPrefixList6{}
+		return nil
+	}
+	type t ConfigPolicyPrefixList6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigPolicyPrefixList6Rule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigPolicyPrefixList6Rule{}
 		return nil
 	}
 	type t ConfigPolicyPrefixList6Rule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyCommunityList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyCommunityList{}
+		return nil
+	}
+	type t ConfigPolicyCommunityList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16561,12 +25113,36 @@ func (e *ConfigPolicyCommunityListRule) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (e *ConfigPolicyExtcommunityList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyExtcommunityList{}
+		return nil
+	}
+	type t ConfigPolicyExtcommunityList
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigPolicyExtcommunityListRule) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigPolicyExtcommunityListRule{}
 		return nil
 	}
 	type t ConfigPolicyExtcommunityListRule
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigPolicyPrefixList) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigPolicyPrefixList{}
+		return nil
+	}
+	type t ConfigPolicyPrefixList
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16609,168 +25185,24 @@ func (e *ConfigInterfacesWirelessmodem) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (e *ConfigInterfacesIpv6Tunnel) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesWirelessmodemBandwidth) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesIpv6Tunnel{}
+		*e = ConfigInterfacesWirelessmodemBandwidth{}
 		return nil
 	}
-	type t ConfigInterfacesIpv6Tunnel
+	type t ConfigInterfacesWirelessmodemBandwidth
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigInterfacesBonding) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesWirelessmodemBandwidthConstraint) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBonding{}
+		*e = ConfigInterfacesWirelessmodemBandwidthConstraint{}
 		return nil
 	}
-	type t ConfigInterfacesBonding
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesL2tpv3) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesL2tpv3{}
-		return nil
-	}
-	type t ConfigInterfacesL2tpv3
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesVti) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesVti{}
-		return nil
-	}
-	type t ConfigInterfacesVti
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesInput) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesInput{}
-		return nil
-	}
-	type t ConfigInterfacesInput
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesBridge) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBridge{}
-		return nil
-	}
-	type t ConfigInterfacesBridge
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesL2tpClient) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesL2tpClient{}
-		return nil
-	}
-	type t ConfigInterfacesL2tpClient
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesPptpClient) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesPptpClient{}
-		return nil
-	}
-	type t ConfigInterfacesPptpClient
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesEthernet) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesEthernet{}
-		return nil
-	}
-	type t ConfigInterfacesEthernet
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesTunnel) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesTunnel{}
-		return nil
-	}
-	type t ConfigInterfacesTunnel
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesOpenvpn) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesOpenvpn{}
-		return nil
-	}
-	type t ConfigInterfacesOpenvpn
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesLoopback) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesLoopback{}
-		return nil
-	}
-	type t ConfigInterfacesLoopback
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesSwitch) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesSwitch{}
-		return nil
-	}
-	type t ConfigInterfacesSwitch
-	if err := json.Unmarshal(b, (*t)(e)); err != nil {
-		return fmt.Errorf("failed to parse nested structure: %w", err)
-	}
-	return nil
-}
-
-func (e *ConfigInterfacesPseudoEthernet) UnmarshalJSON(b []byte) error {
-	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesPseudoEthernet{}
-		return nil
-	}
-	type t ConfigInterfacesPseudoEthernet
+	type t ConfigInterfacesWirelessmodemBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16789,12 +25221,168 @@ func (e *ConfigInterfacesWirelessmodemBandwidthConstraintClassType) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesWirelessmodemTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemBackup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemBackup{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemBackup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIp{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesWirelessmodemIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesWirelessmodemIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesWirelessmodemIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16813,12 +25401,120 @@ func (e *ConfigInterfacesWirelessmodemIpOspfAuthenticationMd5KeyId) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesWirelessmodemIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesWirelessmodemIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesWirelessmodemIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesWirelessmodemIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesWirelessmodemIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesWirelessmodemIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesWirelessmodemIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6Tunnel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6Tunnel{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6Tunnel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16837,12 +25533,156 @@ func (e *ConfigInterfacesIpv6TunnelBandwidthConstraintClassType) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesIpv6TunnelTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIp{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesIpv6TunnelIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesIpv6TunnelIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesIpv6TunnelIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16861,12 +25701,96 @@ func (e *ConfigInterfacesIpv6TunnelIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b
 	return nil
 }
 
-func (e *ConfigInterfacesBondingVif) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesIpv6TunnelIpv6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBondingVif{}
+		*e = ConfigInterfacesIpv6TunnelIpv6{}
 		return nil
 	}
-	type t ConfigInterfacesBondingVif
+	type t ConfigInterfacesIpv6TunnelIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesIpv6TunnelIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesIpv6TunnelIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesIpv6TunnelIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBonding) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBonding{}
+		return nil
+	}
+	type t ConfigInterfacesBonding
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesBondingBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBondingBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBondingBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16885,12 +25809,72 @@ func (e *ConfigInterfacesBondingBandwidthConstraintClassType) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigInterfacesBondingTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBondingTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesBondingVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBondingDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16933,6 +25917,114 @@ func (e *ConfigInterfacesBondingDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigInterfacesBondingFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesBondingFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBondingFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBondingFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBondingFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesBondingDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVif) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVif{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVif
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingVifBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingVifBandwidthConstraintClassType{}
@@ -16945,12 +26037,72 @@ func (e *ConfigInterfacesBondingVifBandwidthConstraintClassType) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesBondingVifTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingVifVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingVifVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesBondingVifVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -16993,12 +26145,168 @@ func (e *ConfigInterfacesBondingVifDhcpv6PdPdInterfaceStaticMapping) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigInterfacesBondingVifFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIp{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingVifIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingVifIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesBondingVifIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17017,12 +26325,156 @@ func (e *ConfigInterfacesBondingVifIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesBondingVifIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingVifIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingVifIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesBondingVifIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingVifIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingVifIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBondingVifIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingArpMonitor) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingArpMonitor{}
+		return nil
+	}
+	type t ConfigInterfacesBondingArpMonitor
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesBondingDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIp{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17041,12 +26493,108 @@ func (e *ConfigInterfacesBondingIpRipAuthenticationMd5) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigInterfacesBondingIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBondingIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBondingIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesBondingIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBondingIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17065,12 +26613,180 @@ func (e *ConfigInterfacesBondingIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigInterfacesBondingIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBondingIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBondingIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3BridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3BridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3BridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Bandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Bandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Bandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3BandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3BandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3BandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesL2tpv3BandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesL2tpv3BandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesL2tpv3BandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3TrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3TrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3TrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Firewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Firewall{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Firewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3FirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3FirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3FirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3FirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3FirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3FirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3FirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3FirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3FirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Ip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Ip{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Ip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3IpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpRip{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3IpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3IpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17089,12 +26805,132 @@ func (e *ConfigInterfacesL2tpv3IpRipAuthenticationMd5) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+func (e *ConfigInterfacesL2tpv3IpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3IpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3IpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3IpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3IpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesL2tpv3IpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesL2tpv3IpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesL2tpv3IpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Ipv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Ipv6{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Ipv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Ipv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Ipv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Ipv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Ipv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Ipv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Ipv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpv3Ipv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpv3Ipv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpv3Ipv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVti) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVti{}
+		return nil
+	}
+	type t ConfigInterfacesVti
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesVtiBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesVtiBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17113,12 +26949,156 @@ func (e *ConfigInterfacesVtiBandwidthConstraintClassType) UnmarshalJSON(b []byte
 	return nil
 }
 
+func (e *ConfigInterfacesVtiTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesVtiTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesVtiFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesVtiFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesVtiFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesVtiFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIp{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesVtiIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesVtiIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesVtiIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17137,24 +27117,156 @@ func (e *ConfigInterfacesVtiIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte
 	return nil
 }
 
-func (e *ConfigInterfacesBridgePppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesVtiIpv6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBridgePppoe{}
+		*e = ConfigInterfacesVtiIpv6{}
 		return nil
 	}
-	type t ConfigInterfacesBridgePppoe
+	type t ConfigInterfacesVtiIpv6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigInterfacesBridgeVif) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesVtiIpv6Ripng) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBridgeVif{}
+		*e = ConfigInterfacesVtiIpv6Ripng{}
 		return nil
 	}
-	type t ConfigInterfacesBridgeVif
+	type t ConfigInterfacesVtiIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesVtiIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesVtiIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesVtiIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInput) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInput{}
+		return nil
+	}
+	type t ConfigInterfacesInput
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInputTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInputTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesInputTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInputFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInputFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesInputFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInputFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInputFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesInputFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInputFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInputFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesInputFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesInputFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesInputFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesInputFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridge) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridge{}
+		return nil
+	}
+	type t ConfigInterfacesBridge
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17173,12 +27285,72 @@ func (e *ConfigInterfacesBridgeBandwidthConstraintClassType) UnmarshalJSON(b []b
 	return nil
 }
 
+func (e *ConfigInterfacesBridgePppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoe{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgePppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgePppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesBridgePppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17221,12 +27393,144 @@ func (e *ConfigInterfacesBridgePppoeDhcpv6PdPdInterfaceStaticMapping) UnmarshalJ
 	return nil
 }
 
+func (e *ConfigInterfacesBridgePppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgePppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgePppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesBridgePppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17245,6 +27549,78 @@ func (e *ConfigInterfacesBridgePppoeIpOspfAuthenticationMd5KeyId) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigInterfacesBridgePppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgePppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgePppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgePppoeIpv6RouterAdvertPrefix{}
@@ -17257,12 +27633,84 @@ func (e *ConfigInterfacesBridgePppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []by
 	return nil
 }
 
+func (e *ConfigInterfacesBridgePppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgePppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBridgePppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17305,12 +27753,96 @@ func (e *ConfigInterfacesBridgeDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSON(b
 	return nil
 }
 
-func (e *ConfigInterfacesBridgeVifPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesBridgeFirewall) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesBridgeVifPppoe{}
+		*e = ConfigInterfacesBridgeFirewall{}
 		return nil
 	}
-	type t ConfigInterfacesBridgeVifPppoe
+	type t ConfigInterfacesBridgeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVif) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVif{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVif
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17329,12 +27861,72 @@ func (e *ConfigInterfacesBridgeVifBandwidthConstraintClassType) UnmarshalJSON(b 
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVifPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17377,12 +27969,144 @@ func (e *ConfigInterfacesBridgeVifPppoeDhcpv6PdPdInterfaceStaticMapping) Unmarsh
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVifPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17401,6 +28125,78 @@ func (e *ConfigInterfacesBridgeVifPppoeIpOspfAuthenticationMd5KeyId) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifPppoeIpv6RouterAdvertPrefix{}
@@ -17413,12 +28209,84 @@ func (e *ConfigInterfacesBridgeVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b [
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVifVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17461,12 +28329,168 @@ func (e *ConfigInterfacesBridgeVifDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVifIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17485,12 +28509,144 @@ func (e *ConfigInterfacesBridgeVifIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b 
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeVifIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeVifIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeVifIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeVifIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeVifIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeVifIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeVifIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIp{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17509,12 +28665,108 @@ func (e *ConfigInterfacesBridgeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesBridgeIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesBridgeIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesBridgeIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesBridgeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17533,12 +28785,180 @@ func (e *ConfigInterfacesBridgeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+func (e *ConfigInterfacesBridgeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesBridgeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesBridgeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClient) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClient{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClient
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesL2tpClientBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesL2tpClientBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesL2tpClientBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientCompression) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientCompression{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientCompression
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIp{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17557,12 +28977,144 @@ func (e *ConfigInterfacesL2tpClientIpRipAuthenticationMd5) UnmarshalJSON(b []byt
 	return nil
 }
 
+func (e *ConfigInterfacesL2tpClientIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesL2tpClientIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesL2tpClientIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesL2tpClientIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesL2tpClientAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesL2tpClientAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesL2tpClientAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClient) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClient{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClient
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17581,12 +29133,156 @@ func (e *ConfigInterfacesPptpClientBandwidthConstraintClassType) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesPptpClientTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIp{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPptpClientIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPptpClientIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesPptpClientIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17605,6 +29301,78 @@ func (e *ConfigInterfacesPptpClientIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesPptpClientIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPptpClientIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPptpClientIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesPptpClientIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPptpClientIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPptpClientIpv6RouterAdvertPrefix{}
@@ -17617,24 +29385,84 @@ func (e *ConfigInterfacesPptpClientIpv6RouterAdvertPrefix) UnmarshalJSON(b []byt
 	return nil
 }
 
-func (e *ConfigInterfacesEthernetPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesPptpClientIpv6Ospfv3) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesEthernetPppoe{}
+		*e = ConfigInterfacesPptpClientIpv6Ospfv3{}
 		return nil
 	}
-	type t ConfigInterfacesEthernetPppoe
+	type t ConfigInterfacesPptpClientIpv6Ospfv3
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigInterfacesEthernetVif) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesEthernet) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesEthernetVif{}
+		*e = ConfigInterfacesEthernet{}
 		return nil
 	}
-	type t ConfigInterfacesEthernetVif
+	type t ConfigInterfacesEthernet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPoe{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPoeWatchdog) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPoeWatchdog{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPoeWatchdog
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17653,12 +29481,72 @@ func (e *ConfigInterfacesEthernetBandwidthConstraintClassType) UnmarshalJSON(b [
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17701,12 +29589,144 @@ func (e *ConfigInterfacesEthernetPppoeDhcpv6PdPdInterfaceStaticMapping) Unmarsha
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17725,6 +29745,78 @@ func (e *ConfigInterfacesEthernetPppoeIpOspfAuthenticationMd5KeyId) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetPppoeIpv6RouterAdvertPrefix{}
@@ -17737,12 +29829,84 @@ func (e *ConfigInterfacesEthernetPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17785,12 +29949,108 @@ func (e *ConfigInterfacesEthernetDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSON
 	return nil
 }
 
-func (e *ConfigInterfacesEthernetVifPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesEthernetFirewall) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesEthernetVifPppoe{}
+		*e = ConfigInterfacesEthernetFirewall{}
 		return nil
 	}
-	type t ConfigInterfacesEthernetVifPppoe
+	type t ConfigInterfacesEthernetFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVif) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVif{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVif
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17809,12 +30069,72 @@ func (e *ConfigInterfacesEthernetVifBandwidthConstraintClassType) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVifPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17857,12 +30177,144 @@ func (e *ConfigInterfacesEthernetVifPppoeDhcpv6PdPdInterfaceStaticMapping) Unmar
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVifPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17881,6 +30333,78 @@ func (e *ConfigInterfacesEthernetVifPppoeIpOspfAuthenticationMd5KeyId) Unmarshal
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifPppoeIpv6RouterAdvertPrefix{}
@@ -17893,12 +30417,84 @@ func (e *ConfigInterfacesEthernetVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVifVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17941,12 +30537,168 @@ func (e *ConfigInterfacesEthernetVifDhcpv6PdPdInterfaceStaticMapping) UnmarshalJ
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVifIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17965,12 +30717,144 @@ func (e *ConfigInterfacesEthernetVifIpOspfAuthenticationMd5KeyId) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetVifIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetVifIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetVifIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetVifIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetVifIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetVifIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetVifIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIp{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -17989,12 +30873,108 @@ func (e *ConfigInterfacesEthernetIpRipAuthenticationMd5) UnmarshalJSON(b []byte)
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesEthernetIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesEthernetIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesEthernetIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesEthernetIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18013,12 +30993,180 @@ func (e *ConfigInterfacesEthernetIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte)
 	return nil
 }
 
+func (e *ConfigInterfacesEthernetIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesEthernetIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesEthernetIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnel) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnel{}
+		return nil
+	}
+	type t ConfigInterfacesTunnel
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesTunnelBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesTunnelBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesTunnelBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIp{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18037,12 +31185,108 @@ func (e *ConfigInterfacesTunnelIpRipAuthenticationMd5) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+func (e *ConfigInterfacesTunnelIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesTunnelIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesTunnelIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesTunnelIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesTunnelIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesTunnelIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesTunnelIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18061,12 +31305,60 @@ func (e *ConfigInterfacesTunnelIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) e
 	return nil
 }
 
-func (e *ConfigInterfacesOpenvpnLocalAddress) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesTunnelIpv6Ospfv3) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesOpenvpnLocalAddress{}
+		*e = ConfigInterfacesTunnelIpv6Ospfv3{}
 		return nil
 	}
-	type t ConfigInterfacesOpenvpnLocalAddress
+	type t ConfigInterfacesTunnelIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpn{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18085,12 +31377,168 @@ func (e *ConfigInterfacesOpenvpnBandwidthConstraintClassType) UnmarshalJSON(b []
 	return nil
 }
 
+func (e *ConfigInterfacesOpenvpnReplaceDefaultRoute) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnReplaceDefaultRoute{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnReplaceDefaultRoute
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnServer) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnServer{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnServer
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesOpenvpnServerClient) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesOpenvpnServerClient{}
 		return nil
 	}
 	type t ConfigInterfacesOpenvpnServerClient
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnTls) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnTls{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnTls
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnLocalAddress) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnLocalAddress{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnLocalAddress
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIp{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18109,12 +31557,108 @@ func (e *ConfigInterfacesOpenvpnIpRipAuthenticationMd5) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigInterfacesOpenvpnIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesOpenvpnIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesOpenvpnIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesOpenvpnIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesOpenvpnIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18133,12 +31677,120 @@ func (e *ConfigInterfacesOpenvpnIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) 
 	return nil
 }
 
+func (e *ConfigInterfacesOpenvpnIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesOpenvpnIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesOpenvpnIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopback) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopback{}
+		return nil
+	}
+	type t ConfigInterfacesLoopback
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesLoopbackBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesLoopbackBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesLoopbackBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIp{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18157,6 +31809,42 @@ func (e *ConfigInterfacesLoopbackIpRipAuthenticationMd5) UnmarshalJSON(b []byte)
 	return nil
 }
 
+func (e *ConfigInterfacesLoopbackIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesLoopbackIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesLoopbackIpOspfAuthenticationMd5KeyId{}
@@ -18169,24 +31857,96 @@ func (e *ConfigInterfacesLoopbackIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b [
 	return nil
 }
 
-func (e *ConfigInterfacesSwitchPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesLoopbackIpv6) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesSwitchPppoe{}
+		*e = ConfigInterfacesLoopbackIpv6{}
 		return nil
 	}
-	type t ConfigInterfacesSwitchPppoe
+	type t ConfigInterfacesLoopbackIpv6
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigInterfacesSwitchVif) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesLoopbackIpv6Ripng) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesSwitchVif{}
+		*e = ConfigInterfacesLoopbackIpv6Ripng{}
 		return nil
 	}
-	type t ConfigInterfacesSwitchVif
+	type t ConfigInterfacesLoopbackIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesLoopbackIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesLoopbackIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesLoopbackIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitch) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitch{}
+		return nil
+	}
+	type t ConfigInterfacesSwitch
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18205,12 +31965,72 @@ func (e *ConfigInterfacesSwitchBandwidthConstraintClassType) UnmarshalJSON(b []b
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18253,12 +32073,144 @@ func (e *ConfigInterfacesSwitchPppoeDhcpv6PdPdInterfaceStaticMapping) UnmarshalJ
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18277,12 +32229,108 @@ func (e *ConfigInterfacesSwitchPppoeIpOspfAuthenticationMd5KeyId) UnmarshalJSON(
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchPppoeIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchPppoeIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchSwitchPort) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchSwitchPort{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchSwitchPort
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18301,12 +32349,84 @@ func (e *ConfigInterfacesSwitchSwitchPortInterface) UnmarshalJSON(b []byte) erro
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchSwitchPortInterfaceVlan) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchSwitchPortInterfaceVlan{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchSwitchPortInterfaceVlan
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18349,12 +32469,108 @@ func (e *ConfigInterfacesSwitchDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSON(b
 	return nil
 }
 
-func (e *ConfigInterfacesSwitchVifPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesSwitchFirewall) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesSwitchVifPppoe{}
+		*e = ConfigInterfacesSwitchFirewall{}
 		return nil
 	}
-	type t ConfigInterfacesSwitchVifPppoe
+	type t ConfigInterfacesSwitchFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVif) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVif{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVif
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifBridgeGroup) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifBridgeGroup{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifBridgeGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18373,12 +32589,72 @@ func (e *ConfigInterfacesSwitchVifBandwidthConstraintClassType) UnmarshalJSON(b 
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVifPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18421,12 +32697,144 @@ func (e *ConfigInterfacesSwitchVifPppoeDhcpv6PdPdInterfaceStaticMapping) Unmarsh
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVifPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18445,6 +32853,78 @@ func (e *ConfigInterfacesSwitchVifPppoeIpOspfAuthenticationMd5KeyId) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifPppoeIpv6RouterAdvertPrefix{}
@@ -18457,12 +32937,84 @@ func (e *ConfigInterfacesSwitchVifPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b [
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifTrafficPolicy) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifTrafficPolicy{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifTrafficPolicy
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVifVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18505,12 +33057,168 @@ func (e *ConfigInterfacesSwitchVifDhcpv6PdPdInterfaceStaticMapping) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVifIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18529,12 +33237,144 @@ func (e *ConfigInterfacesSwitchVifIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b 
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchVifIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchVifIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchVifIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchVifIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchVifIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchVifIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchVifIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIp{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpRipAuthentication
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18553,12 +33393,108 @@ func (e *ConfigInterfacesSwitchIpRipAuthenticationMd5) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+func (e *ConfigInterfacesSwitchIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpOspfAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesSwitchIpOspfAuthenticationMd5KeyId) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesSwitchIpOspfAuthenticationMd5KeyId{}
 		return nil
 	}
 	type t ConfigInterfacesSwitchIpOspfAuthenticationMd5KeyId
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesSwitchIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesSwitchIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesSwitchIpv6RouterAdvert
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18577,24 +33513,48 @@ func (e *ConfigInterfacesSwitchIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) e
 	return nil
 }
 
-func (e *ConfigInterfacesPseudoEthernetPppoe) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesSwitchIpv6Ospfv3) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesPseudoEthernetPppoe{}
+		*e = ConfigInterfacesSwitchIpv6Ospfv3{}
 		return nil
 	}
-	type t ConfigInterfacesPseudoEthernetPppoe
+	type t ConfigInterfacesSwitchIpv6Ospfv3
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
 	return nil
 }
 
-func (e *ConfigInterfacesPseudoEthernetVif) UnmarshalJSON(b []byte) error {
+func (e *ConfigInterfacesPseudoEthernet) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
-		*e = ConfigInterfacesPseudoEthernetVif{}
+		*e = ConfigInterfacesPseudoEthernet{}
 		return nil
 	}
-	type t ConfigInterfacesPseudoEthernetVif
+	type t ConfigInterfacesPseudoEthernet
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetBandwidthConstraint
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18613,12 +33573,60 @@ func (e *ConfigInterfacesPseudoEthernetBandwidthConstraintClassType) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetPppoe) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoe{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoe
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetPppoeBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetPppoeBandwidthConstraintClassType{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetPppoeBandwidthConstraintClassType
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18661,12 +33669,144 @@ func (e *ConfigInterfacesPseudoEthernetPppoeDhcpv6PdPdInterfaceStaticMapping) Un
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetPppoeFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIp{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetPppoeIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetPppoeIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetPppoeIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18685,6 +33825,78 @@ func (e *ConfigInterfacesPseudoEthernetPppoeIpOspfAuthenticationMd5KeyId) Unmars
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6Enable) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6Enable{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6Enable
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvertPrefix{}
@@ -18697,12 +33909,72 @@ func (e *ConfigInterfacesPseudoEthernetPppoeIpv6RouterAdvertPrefix) UnmarshalJSO
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetPppoeIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetPppoeIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetPppoeIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18745,6 +34017,102 @@ func (e *ConfigInterfacesPseudoEthernetDhcpv6PdPdInterfaceStaticMapping) Unmarsh
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetFirewall) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetFirewall{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetFirewall
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetFirewallOut) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetFirewallOut{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetFirewallOut
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetFirewallIn) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetFirewallIn{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetFirewallIn
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetFirewallLocal) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetFirewallLocal{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetFirewallLocal
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVif) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVif{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVif
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifBandwidth) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifBandwidth{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifBandwidth
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifBandwidthConstraint) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifBandwidthConstraint{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifBandwidthConstraint
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetVifBandwidthConstraintClassType) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetVifBandwidthConstraintClassType{}
@@ -18757,12 +34125,60 @@ func (e *ConfigInterfacesPseudoEthernetVifBandwidthConstraintClassType) Unmarsha
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetVifVrrp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifVrrp{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifVrrp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetVifVrrpVrrpGroup) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetVifVrrpVrrpGroup{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetVifVrrpVrrpGroup
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupRunTransitionScripts) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupRunTransitionScripts{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupRunTransitionScripts
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifVrrpVrrpGroupAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifDhcpv6Pd) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifDhcpv6Pd{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifDhcpv6Pd
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18805,12 +34221,120 @@ func (e *ConfigInterfacesPseudoEthernetVifDhcpv6PdPdInterfaceStaticMapping) Unma
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetVifDhcpOptions) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifDhcpOptions{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifDhcpOptions
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIp{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetVifIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetVifIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetVifIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18829,12 +34353,156 @@ func (e *ConfigInterfacesPseudoEthernetVifIpOspfAuthenticationMd5KeyId) Unmarsha
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetVifIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetVifIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetVifIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetVifIpv6Ospfv3
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetDhcpv6Options) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetDhcpv6Options{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetDhcpv6Options
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIp) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIp{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIp
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpRip) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpRip{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpRip
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpRipSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpRipSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpRipSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpRipAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpRipAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpRipAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetIpRipAuthenticationMd5) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetIpRipAuthenticationMd5{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetIpRipAuthenticationMd5
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpOspf) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpOspf{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpOspf
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpOspfAuthentication) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpOspfAuthentication{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpOspfAuthentication
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpOspfAuthenticationMd5) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpOspfAuthenticationMd5{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpOspfAuthenticationMd5
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}
@@ -18853,12 +34521,84 @@ func (e *ConfigInterfacesPseudoEthernetIpOspfAuthenticationMd5KeyId) UnmarshalJS
 	return nil
 }
 
+func (e *ConfigInterfacesPseudoEthernetIpv6) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpv6Ripng) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6Ripng{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6Ripng
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpv6RipngSplitHorizon) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6RipngSplitHorizon{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6RipngSplitHorizon
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpv6Address) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6Address{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6Address
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpv6RouterAdvert) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6RouterAdvert{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6RouterAdvert
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
 func (e *ConfigInterfacesPseudoEthernetIpv6RouterAdvertPrefix) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, emptyString) {
 		*e = ConfigInterfacesPseudoEthernetIpv6RouterAdvertPrefix{}
 		return nil
 	}
 	type t ConfigInterfacesPseudoEthernetIpv6RouterAdvertPrefix
+	if err := json.Unmarshal(b, (*t)(e)); err != nil {
+		return fmt.Errorf("failed to parse nested structure: %w", err)
+	}
+	return nil
+}
+
+func (e *ConfigInterfacesPseudoEthernetIpv6Ospfv3) UnmarshalJSON(b []byte) error {
+	if bytes.Equal(b, emptyString) {
+		*e = ConfigInterfacesPseudoEthernetIpv6Ospfv3{}
+		return nil
+	}
+	type t ConfigInterfacesPseudoEthernetIpv6Ospfv3
 	if err := json.Unmarshal(b, (*t)(e)); err != nil {
 		return fmt.Errorf("failed to parse nested structure: %w", err)
 	}

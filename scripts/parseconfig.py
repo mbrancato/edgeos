@@ -1,13 +1,13 @@
 import os
 import re
+import sys
 from glob import glob
-from typing import List, Any, Tuple
-from dataclasses import dataclass
-
+from typing import List, Any, Tuple, Optional
+from dataclasses import dataclass, field
 
 os.walk(".", topdown=True, followlinks=False)
 
-header = """package sdk
+sdkHeader = """package sdk
 
 import (
 	"bytes"
@@ -17,6 +17,19 @@ import (
 
 var emptyString = []byte(`""`)
 """
+
+cliHeader = """package sdk
+
+"""
+
+
+@dataclass
+class Node:
+    field_name: str
+    name: str
+    path: str = ""
+    type: str = ""
+    children: List["Node"] = field(default_factory=list)
 
 
 def get_field_name(name: str) -> str:
@@ -29,26 +42,26 @@ def get_field_name(name: str) -> str:
     return field_name
 
 
-def print_unmarshal_type(child_type):
-    print(
-        f"\nfunc (e *{child_type}) UnmarshalJSON(b []byte) error {{\n"
-        f"	if bytes.Equal(b, emptyString) {{\n"
-        f"		*e = {child_type}{{}}\n"
-        f"		return nil\n"
-        f"	}}\n"
-        f"	type t {child_type}\n"
-        f"	if err := json.Unmarshal(b, (*t)(e)); err != nil {{\n"
-        f"		return fmt.Errorf(\"failed to parse nested structure: %w\", err)\n"
-        f"	}}\n"
-        f"	return nil\n"
-        f"}}\n"
-    )
+def get_unmarshal_for_type(node: Node) -> str:
+
+    return f"""
+func (e *Config{node.field_name}) UnmarshalJSON(b []byte) error {{
+    if bytes.Equal(b, emptyString) {{
+        *e = Config{node.field_name}{{}}
+        return nil
+    }}
+    type t Config{node.field_name}
+    if err := json.Unmarshal(b, (*t)(e)); err != nil {{
+        return fmt.Errorf("failed to parse nested structure: %w", err)
+    }}
+    return nil
+}}
+"""
 
 
 def get_field_type(path: str, name: str) -> str:
     node_def = f"{path}/node.def"
     multi: bool = False
-    defined_type: str = ""
 
     if os.path.exists(node_def):
         with open(node_def, "r") as f:
@@ -86,96 +99,181 @@ def get_field_type(path: str, name: str) -> str:
         return defined_type
 
 
-@dataclass()
-class Node:
-    head: str
-    tail: str
-    prefix: str
-    path: str
+def get_simple_type(name: str) -> str:
+    type_map = {
+        "map": "name",
+        "string": "string",
+        "bool": "bool",
+        "EdgeOSInt": "integer",
+        "IPv4": "ipv4",
+        "ipIPv6v6": "ipv6",
+        "IP": "ip",
+        "IPv4Net": "ipv4 network",
+        "IPv6Net": "ipv6 network",
+        "IPNet": "ip network",
+        "MacAddr": "mac addr",
+    }
+
+    return type_map.get(name)
 
 
 def get_nodes(cur_node: Node) -> List[str]:
-    # head = cur_node.head
-    # tail = cur_node.tail
-    # prefix = cur_node.prefix
-    # path = cur_node.head
-    # head: str, tail: str, prefix: str, path: str) -> List[Any]:
-    nodes: List[str] = []
-    child_types: List[str] = []
     children = os.listdir(cur_node.path)
-    nested_children = []
 
-    print(cur_node.head)
     for child in children:
         field_name = get_field_name(child)
         if os.path.isdir(cur_node.path + "/" + child + "/node.tag"):
-            print(
-                f"""{field_name} *map[string]{cur_node.prefix}{field_name} `json:"{child},omitempty"`"""
-            )
-            nested_children.append(
+            cur_node.children.append(
                 Node(
                     path=f"{cur_node.path}/{child}/node.tag/",
-                    head=f"\ntype {cur_node.prefix}{field_name} struct{{",
-                    tail="}",
-                    prefix=f"{cur_node.prefix}{field_name}",
+                    name=child,
+                    field_name=f"{cur_node.field_name}{field_name}",
+                    type="map",
                 )
             )
-            child_types.append(f"{cur_node.prefix}{field_name}")
         elif (
             os.path.isdir(cur_node.path + "/" + child)
             and len(glob(cur_node.path + "/" + child + "/*/")) > 0
         ):
-            print(
-                f"""{field_name} *{cur_node.prefix}{field_name} `json:"{child},omitempty"`"""
-            )
-            nested_children.append(
+            cur_node.children.append(
                 Node(
-                    path=f"{cur_node.path}/{child}/",
-                    head=f"\ntype {cur_node.prefix}{field_name} struct{{",
-                    tail="}",
-                    prefix=f"{cur_node.prefix}{field_name}",
+                    name=child,
+                    field_name=f"{cur_node.field_name}{field_name}",
+                    path=f"{cur_node.path}/{child}",
+                    type="obj",
                 )
             )
         elif os.path.isdir(cur_node.path + "/" + child):
             field_type = get_field_type(f"{cur_node.path}/{child}/", child)
-            print(f"""{field_name} {field_type} `json:"{child},omitempty"`""")
 
-    print(cur_node.tail)
-
-    for node in nested_children:
-        child_types += get_nodes(node)
-
-    return child_types
-
-
-def get_first_nodes(path: str):
-    nodes: List[str] = []
-    child_types: List[str] = []
-    children = [x.split("/")[-2] for x in glob(path + "*/")]
-    for child in children:
-        if len(glob(path + "/" + child + "/")) > 0:
-            field_name = get_field_name(child)
-            nodes.append(
-                f"""{field_name} *Config{field_name} `json:"{child},omitempty"`"""
+            cur_node.children.append(
+                Node(
+                    name=child,
+                    field_name=f"{cur_node.field_name}{field_name}",
+                    path=f"{cur_node.path}/{child}",
+                    type=field_type,
+                )
             )
-            child_types.append(f"Config{field_name}")
-            next_node = Node(
-                head=f"\ntype Config{field_name} struct{{",
-                tail="}",
-                prefix=f"Config{field_name}",
-                path=f"{path}/{child}/",
-            )
-            child_types += get_nodes(next_node)
 
-    print("\ntype Config struct {")
-    for node in nodes:
-        print(node)
-    print("}")
+    for node in cur_node.children:
+        get_nodes(node)
 
-    for child_type in child_types:
-        print_unmarshal_type(child_type)
+
+def get_field_config(node: Node) -> str:
+
+    if not node.children and node.type != "map" and node.type != "obj":
+        return f"""{get_field_name(node.name)} {node.type} `json:"{node.name},omitempty"`\n"""
+
+    if node.type == "map":
+        return f"""{get_field_name(node.name)} *map[string]Config{node.field_name} `json:"{node.name},omitempty"`\n"""
+
+    if node.type == "obj":
+        return f"""{get_field_name(node.name)} *Config{node.field_name} `json:"{node.name},omitempty"`\n"""
+
+    raise RuntimeError("Unknown node type and node has children")
+
+
+def get_config(node: Node) -> str:
+    config = f"""type Config{node.field_name} struct {{\n"""
+    for child in node.children:
+        config += get_field_config(child)
+    config += """}\n\n"""
+
+    for child in node.children:
+        if child.type in ["obj", "map"]:
+            config += get_config(child)
+
+    return config
+
+
+def get_unmarshal(node: Node) -> str:
+    um = ""
+
+    for child in node.children:
+        if child.type in ["obj", "map"]:
+            um += get_unmarshal_for_type(child)
+            um += get_unmarshal(child)
+
+    return um
+
+
+def get_field_cli(node: Node) -> str:
+    if not node.children and node.type != "map" and node.type != "obj":
+        res = f"""
+        {get_field_name(node.name)} CliField{node.field_name} `cmd:"" name:"{node.name}" aliases:"{get_field_name(node.name)}"`"""
+
+    if node.type == "map":
+        res = f"""
+        {get_field_name(node.name)} CliMap{node.field_name} `cmd:"" name:"{node.name}" aliases:"{get_field_name(node.name)}"`"""
+
+    if node.type == "obj":
+        res = f"""
+        {get_field_name(node.name)} Cli{node.field_name} `cmd:"" name:"{node.name}" aliases:"{get_field_name(node.name)}"`"""
+
+    return res
+
+
+def get_field_cli_types(node: Node) -> str:
+
+    res = ""
+    if not node.children and node.type != "map" and node.type != "obj":
+        res = f"""
+            type CliField{node.field_name} struct {{
+                {get_field_name(node.name)} struct {{ 
+                    {get_field_name(node.name)} {node.type} `arg:"" name:"{get_simple_type(node.type)}" aliases:"{get_field_name(node.name)}"` 
+                }} `arg:"" name:"{get_simple_type(node.type)}"`
+            }}
+            """
+
+    if node.type == "map":
+        res = f"""
+            type CliMap{node.field_name} struct {{
+                {get_field_name(node.name)} struct {{ 
+                    {get_field_name(node.name)} string `arg:"" name:"{get_simple_type(node.type)}"`
+                    Cmd{get_field_name(node.name)} Cli{node.field_name} `embed:""`
+                }} `arg:"" name:"{get_simple_type(node.type)}"`
+            }}
+            """
+
+    for child in node.children:
+        res += get_field_cli_types(child)
+
+    return res
+
+
+def get_cli(node: Node) -> str:
+    cli = f"""
+        type Cli{node.field_name} struct {{
+            DefaultCli{node.field_name} struct{{}} `cmd:"" hidden:"" default:"1"`"""
+    for child in node.children:
+        cli += get_field_cli(child)
+    cli += """}\n\n"""
+
+    for child in node.children:
+        if child.type in ["obj", "map"]:
+            cli += get_cli(child)
+
+    return cli
+
+
+def main():
+    path = sys.argv[1]
+    root_node = Node(field_name="", path=path, name="config", type="root")
+    get_nodes(root_node)
+    config = get_config(root_node)
+    um = get_unmarshal(root_node)
+    with open("./sdk/config.go", "w") as f:
+        f.write(sdkHeader)
+        f.write(config)
+        f.write(um)
+
+    cli = get_cli(root_node)
+    cli_types = get_field_cli_types(root_node)
+    with open("./sdk/cli.go", "w") as f:
+        f.write(cliHeader)
+        f.write(cli)
+        f.write(cli_types)
 
 
 if __name__ == "__main__":
-    print(header)
-    get_first_nodes("./")
+    main()

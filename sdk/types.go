@@ -140,4 +140,3 @@ func (e EdgeOSInt) UnmarshalJSON(b []byte) error {
 	}
 	return nil
 }
-
